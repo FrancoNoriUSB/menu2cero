@@ -1,0 +1,181 @@
+/*Documento de Estilos para la busqueda de 
+restaurantes y categorias de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+/*Estilos generales y del header*/
+
+ul{
+	margin: 0 auto;  
+	font-size:16px;
+	list-style:none;
+}
+
+label{
+	font-weight: normal;
+}
+
+header section{
+	margin-top: 1%;
+}
+
+/*Estilos para el contenido de la busqueda*/
+section{
+	margin-left: auto;
+	margin-right: auto;
+	width: 1100px;
+}
+
+.banner_sup, .banner_inf{
+	height: 150px;
+	margin-top: 1%;
+	border-style: solid;
+	border-color:#4D4843;
+}
+
+/*Estilos para el contenido de las categorias*/
+.restaurantes{
+	margin-top: 1%;
+	margin-bottom: 1%;
+}
+
+.restaurantes .filtrador{
+	background-color: #1BA488;
+	padding-top: 1%;
+	margin-bottom: 1%;
+	float: left;
+}
+
+.restaurantes .filtrador .categorias #titulo{
+	border-bottom: 2px solid #FFFFFF;
+	float:left;
+}
+
+.restaurantes .filtrador .categorias #titulo{
+	font-size: 18px;
+	color: #F2F7F6;
+}
+
+.restaurantes .filtrador .categorias .cats ul li a{
+	font-size: 16px;
+	color: #F2F7F6;
+}
+
+.restaurantes .filtrador .filtros #titulo{
+	font-size: 18px;
+	border-bottom: 2px solid #FFFFFF;
+	float:left;
+	margin-top: 1%;
+	color: #F2F7F6;
+}
+
+.restaurantes .filtrador .filtros #filtro ul li{
+	height: 16.5px;
+}
+
+.restaurantes .filtrador .filtros #filtro select{
+	width: 60%;
+	color: #4D4843;
+	display:inline-block;
+}
+
+.restaurantes .filtrador .filtros #filtro ul{
+	float: right;
+	margin-top: -39%;
+	color: #F2F7F6;
+}
+
+.restaurantes .filtrador .filtros #filtro #boton_filtro{
+	color: #4D4843;
+	margin-top: 4%;
+	width: 100%;
+}
+
+/*Estilos de los cuadros de los restaurantes*/
+
+.restaurantes .cuadros{
+	display:inline;
+}
+
+.restaurantes .restaurante{
+	padding-left: 0;
+	padding-right: 0;
+	float: left;
+	margin-bottom: 2%;
+}
+
+.restaurantes .restaurante #vacio{
+	font-size: 30px;
+	color: #4D4843;
+	margin-top: 38%;
+}
+
+.restaurantes .restaurante .imagen_v{
+	background-color:;
+	height: 183px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.restaurantes .restaurante .imagen_a{
+	background-color:;
+	height: 183px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.restaurantes .restaurante #titulo{
+	color: #4D4843;
+	text-align: center;
+	font-size: 16px;
+	height: 10px;
+	margin-bottom: 6%;
+}
+
+.restaurantes .restaurante .estrellas{
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	margin-bottom: 6%;
+}
+
+.restaurantes .restaurante #categoria{
+	font-size: 14px;
+	text-align: center;
+	color: #4D4843;
+	margin-bottom: 6%;
+}
+
+.restaurantes .restaurante #vistas{
+	font-size: 14px;
+	color: #4D4843;
+}
+
+
+/*Media Querys para hacer resize*/
+@media (max-width: 1199px) {
+	.restaurantes .filtrador .filtros #filtro select{
+		width: 50%;
+	}
+
+	.restaurantes .filtrador .filtros #filtro ul{
+		margin-top: -47.5%;
+	}
+
+}
+@media (max-width: 991px) {
+	.restaurantes .filtrador .filtros #filtro select{
+		width: 100%;
+	}
+
+	.restaurantes .filtrador .filtros #filtro ul{
+		margin-top: 10%;
+		width: 124%;
+	}
+
+}

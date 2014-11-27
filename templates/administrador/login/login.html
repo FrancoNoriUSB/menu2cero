@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block contenido %}
+
+<!-- Estilos de la pagina-->
+<link href="{{MEDIA_URL}}files/css/login.css"	 rel="stylesheet" type="text/css" />
+	<div class="container">
+		<div class="row">			
+			<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<br>
+			  		<form role="form" action="." method="POST">
+			  			<div class="form-group">
+							{%csrf_token%}
+							{{ login.as_p }}
+						</div>
+						<button type="submit" class="btn btn-success">Ingresar</button>
+					</form>
+					<br>
+					<a href="">Eres due&ntilde;o o gerente de un restaurante y deseas registrarte?</a>
+				</div>
+			<div class="col-md-4"></div>
+		</div>
+	</div>
+{% endblock contenido %}

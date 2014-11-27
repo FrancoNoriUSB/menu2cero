@@ -1,0 +1,256 @@
+/*Documento de Estilos para el home de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+
+/*Estilos propios del home*/
+
+header{
+	
+}
+
+header section{
+	display: block;
+}
+
+/*Estilos de bootstrap modificados*/
+
+header .carousel .left .glyphicon, 
+header .carousel .right .glyphicon{
+	margin-top: 150%;
+}
+
+.carousel-control.left,  .carousel-control.right{
+	background-image: linear-gradient(to right,transparent,transparent 100%);
+}
+
+/*Barra superior de navegacion*/
+#nav-sup {
+	text-align: center;
+	display:inline-block;
+	width:40%;
+	margin-left:65%;
+	position: relative;
+	z-index: 2;
+}
+
+#nav-sup ul li a{
+	font-size: 16px;
+}
+
+.slide{
+	margin-top: -3%;
+}
+
+
+/*Estilos del contenido del Home*/
+
+.contenido section{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/*Seccion de destacados*/
+.contenido .destacados{
+	margin-top: 1%;
+}
+
+.contenido .destacados .titulo{
+	height: 34px;
+	color: #FFFFFF;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #e3a52a;
+	border-color:#4D4843;
+	border-style: solid;
+	border-width: 2px;
+	border-left-width: 0;
+	margin-bottom: 1%;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	padding-left: 0px;
+}
+
+.contenido .destacados .titulo img{
+	margin-top: -2px;
+	height: 34px;
+	float: left;
+}
+
+.contenido .destacados .restaurante{
+	float: left;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+
+.contenido .destacados .restaurante a img{
+	height: 183px;
+}
+
+.contenido .destacados .restaurante a #titulo{
+	color: #4D4843;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.contenido .destacados .restaurante .estrellas{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.contenido .destacados .restaurante #categoria{
+	color: #4D4843;
+	font-size: 14px;
+	text-align: center;
+}
+
+.contenido .destacados #clickeable_destacados .publicidad_sup{
+	height: 150px;
+	margin-top: 1%;
+	border-style: solid;
+	border-color:#4D4843;
+}
+
+/*Seccion de agregados recientemente*/
+
+.contenido .agregados_reciente{
+	margin-top: 1%;
+}
+
+.contenido .agregados_reciente .titulo{
+	height: 34px;
+	color: #FFFFFF;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #3099dd;
+	border-color:#4D4843;
+	border-style: solid;
+	border-width: 2px;
+	border-left-width: 0;
+	margin-bottom: 1%;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	padding-left: 0px;
+}
+
+
+.contenido .agregados_reciente .titulo img{
+	margin-top: -2px;
+	height: 34px;
+	float: left;
+}
+
+.contenido .agregados_reciente .titulo p{
+	margin-top: 2px;
+}
+
+.contenido .agregados_reciente .restaurante{
+	float: left;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+
+.contenido .agregados_reciente .restaurante a img{
+	height: 183px;
+}
+
+.contenido .agregados_reciente .restaurante a #titulo{
+	color: #4D4843;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.contenido .agregados_reciente .restaurante .estrellas{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.contenido .agregados_reciente .restaurante #categoria{
+	color: #4D4843;
+	font-size: 14px;
+	text-align: center;
+}
+
+.contenido .agregados_reciente #clickeable_reciente .publicidad_med{
+	height: 150px;
+	margin-top: 1%;
+	border-style: solid;
+	border-color:#4D4843;
+}
+
+/*Seccion de categorias*/
+
+.contenido .categorias{
+	margin-top: 1%;
+}
+
+.contenido .categorias .titulo{
+	height: 34px;
+	color: #FFFFFF;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	background-color:#db4646;
+	border-color:#4D4843;
+	border-style: solid;
+	border-width: 2px;
+	border-left-width: 0;
+	margin-bottom: 1%;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	padding-left: 0px;
+}
+
+.contenido .categorias .titulo img{
+	margin-top: -2px;
+	float: left;
+	height: 34px;
+}
+
+.contenido .categorias .titulo p{
+	margin-top: 2px;
+}
+
+.contenido .categorias .categoria{
+	float: left;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.contenido .categorias .categoria a #titulo{
+	color: #4D4843;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.contenido .categorias .categoria a img{
+	height: 183px;
+}
+
+.contenido .categorias #clickeable_categorias .publicidad_inf{
+	height: 150px;
+	margin-top: 1%;
+	border-style: solid;
+	border-color:#4D4843;
+	margin-bottom: 1%;
+}

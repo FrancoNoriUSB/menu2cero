@@ -1,0 +1,1171 @@
+[
+{
+    "pk": 1, 
+    "model": "main.plan", 
+    "fields": {
+        "descripcion": "Men\u00fa virtual (editable), 3 imagenes, logo, caracteristicas, descripcion y detalles", 
+        "nombre": "Plata", 
+        "costo": "0.00"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.plan", 
+    "fields": {
+        "descripcion": "Men\u00fa virtual (editable), 7 im\u00e1genes, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "nombre": "Oro", 
+        "costo": "800.00"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.plan", 
+    "fields": {
+        "descripcion": "Men\u00fa virtual (editable), 14 im\u00e1genes, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "nombre": "Platino", 
+        "costo": "1500.00"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.plan", 
+    "fields": {
+        "descripcion": "Men\u00fa virtual (editable), 25 im\u00e1genes, secci\u00f3n recomendados, fotos men\u00fa, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "nombre": "Diamante", 
+        "costo": "2800.00"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Italiana", 
+        "imagen": "uploads/img/categorias/italiana.jpg"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Parrilla", 
+        "imagen": "uploads/img/categorias/carnes_1.jpg"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Japonesa", 
+        "imagen": "uploads/img/categorias/japonesa.jpg"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Espa\u00f1ola", 
+        "imagen": "uploads/img/categorias/espanola.jpg"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "China", 
+        "imagen": "uploads/img/categorias/china.jpg"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Mediterr\u00e1nea", 
+        "imagen": "uploads/img/categorias/mediterranea.jpg"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "\u00c1rabe", 
+        "imagen": "uploads/img/categorias/arabe.jpg"
+    }
+},
+{
+    "pk": 9, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Desayunos", 
+        "imagen": "uploads/img/categorias/desayunos.jpg"
+    }
+},
+{
+    "pk": 10, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Aves", 
+        "imagen": "uploads/img/categorias/aves.jpg"
+    }
+},
+{
+    "pk": 12, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Postres", 
+        "imagen": "uploads/img/categorias/postres.jpg"
+    }
+},
+{
+    "pk": 13, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Helado", 
+        "imagen": "uploads/img/categorias/heladeria.jpg"
+    }
+},
+{
+    "pk": 14, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Gourmet", 
+        "imagen": "uploads/img/categorias/gourmet.jpg"
+    }
+},
+{
+    "pk": 15, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Venezolana", 
+        "imagen": "uploads/img/categorias/nacional.jpg"
+    }
+},
+{
+    "pk": 16, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Mexicana", 
+        "imagen": "uploads/img/categorias/mexicana.jpg"
+    }
+},
+{
+    "pk": 17, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Pescados", 
+        "imagen": "uploads/img/categorias/pescados_mariscos.jpg"
+    }
+},
+{
+    "pk": 21, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Americana", 
+        "imagen": "uploads/img/categorias/americana.jpg"
+    }
+},
+{
+    "pk": 22, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Asi\u00e1tica", 
+        "imagen": "uploads/img/categorias/asiatica.jpg"
+    }
+},
+{
+    "pk": 23, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Bar", 
+        "imagen": "uploads/img/categorias/bar.jpg"
+    }
+},
+{
+    "pk": 24, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Carnes", 
+        "imagen": "uploads/img/categorias/carnes.jpg"
+    }
+},
+{
+    "pk": 25, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Casera", 
+        "imagen": "uploads/img/categorias/casera.jpg"
+    }
+},
+{
+    "pk": 26, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Tentempies", 
+        "imagen": "uploads/img/categorias/tentempie.jpg"
+    }
+},
+{
+    "pk": 27, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "R\u00e1pida", 
+        "imagen": "uploads/img/categorias/americana_1.jpg"
+    }
+},
+{
+    "pk": 28, 
+    "model": "main.categoria", 
+    "fields": {
+        "nombre": "Mariscos", 
+        "imagen": "uploads/img/categorias/pescados_mariscos.jpg"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Estacionamiento"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Reservaci\u00f3n"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Parquero"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Exterior"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Delivery"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Local Nocturno"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Wifi"
+    }
+},
+{
+    "pk": 8, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "Discapacitados"
+    }
+},
+{
+    "pk": 9, 
+    "model": "main.servicio", 
+    "fields": {
+        "nombre": "M\u00fasica"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.metodo", 
+    "fields": {
+        "nombre": "Efectivo"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.metodo", 
+    "fields": {
+        "nombre": "D\u00e9bito"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.metodo", 
+    "fields": {
+        "nombre": "Cr\u00e9dito"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.metodo", 
+    "fields": {
+        "nombre": "Cesta Ticket"
+    }
+},
+{
+    "pk": "123456", 
+    "model": "main.cliente", 
+    "fields": {
+        "telefono": "412-5678910", 
+        "cargo": "Gerente",
+        "user": 2
+    }
+},
+{
+    "pk": "4545114", 
+    "model": "main.cliente", 
+    "fields": {
+        "telefono": "546988741", 
+        "cargo": "Encargado",
+        "user": 3
+    }
+},
+{
+    "pk": "5874123", 
+    "model": "main.cliente", 
+    "fields": {
+        "telefono": "0424-4568412",
+        "cargo": "Gerente",
+        "user": 4
+    }
+},
+{
+    "pk": "6881230", 
+    "model": "main.cliente", 
+    "fields": {
+        "telefono": "0426-5896321", 
+        "cargo": "Encargado",
+        "user": 5
+    }
+},
+{
+    "pk": "888999111", 
+    "model": "main.cliente", 
+    "fields": {
+        "telefono": "756339192", 
+        "cargo": "Jefe",
+        "user": 6
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            2
+        ], 
+        "servicios": [
+            5, 
+            8, 
+            4, 
+            9, 
+            3, 
+            2, 
+            7
+        ], 
+        "tipo": "rest", 
+        "plan": 1, 
+        "logo": "uploads/img/logos/logo_carne_1.jpg", 
+        "descripcion": "Es un restaurante que te acerca a la real parrilla venezolana presentando diferentes cortes que le agregan gusto al paladar.", 
+        "nombre": "El Parrillon", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            4, 
+            2, 
+            1
+        ], 
+        "cliente": "123456", 
+        "abierto": false,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            3
+        ], 
+        "servicios": [
+            5, 
+            8, 
+            4, 
+            9, 
+            2
+        ], 
+        "tipo": "rest",
+        "plan": 2, 
+        "logo": "uploads/img/logos/logo_sushi.jpg", 
+        "descripcion": "Es un restaurante-bar de agradable ambiente para relajarte luego de un duro d\u00eda de trabajo, ofreci\u00e9ndote los mejores rolls y combos de la verdadera cocina japonesa.", 
+        "nombre": "Haraki Sushi Bar", 
+        "rif": "J-10355678-1",
+        "metodos_pago": [
+            3, 
+            1
+        ], 
+        "cliente": "5874123", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            1
+        ], 
+        "servicios": [
+            5, 
+            8, 
+            4, 
+            9, 
+            7
+        ], 
+        "tipo": "rest", 
+        "plan": 4, 
+        "logo": "uploads/img/logos/logo_italiana_1.jpg", 
+        "descripcion": "Restaurante con el verdadero gusto italiano, los mejores risotos y pastas son nuestro sello.", 
+        "nombre": "Mamma Italia", 
+        "rif": "J-87345678-6",
+        "metodos_pago": [
+            3, 
+            2
+        ], 
+        "cliente": "6881230", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            9
+        ], 
+        "servicios": [
+            8, 
+            1, 
+            4, 
+            3
+        ], 
+        "tipo": "rest",
+        "plan": 4, 
+        "logo": "uploads/img/logos/logo_restaurant_06.jpg", 
+        "descripcion": "Es un restaurante que te acerca a la real cachapa venezolana presentando diferentes quesos que le agregan gusto al paladar.", 
+        "nombre": "El Cachapon", 
+        "rif": "J-14345785-9",
+        "metodos_pago": [
+            4, 
+            1
+        ], 
+        "cliente": "4545114", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            27
+        ], 
+        "servicios": [
+            4
+        ], 
+        "tipo": "rest", 
+        "plan": 3, 
+        "logo": "uploads/img/logos/logo_restaurant_02.jpg", 
+        "descripcion": "Es un restaurante que te acerca al real perro caliente venezolana presentando diferentes salsas que le agregan gusto al paladar.", 
+        "nombre": "El Perrocalenton", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            4, 
+            1
+        ], 
+        "cliente": "4545114", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            23
+        ], 
+        "servicios": [
+            1, 
+            4, 
+            6, 
+            9, 
+            7
+        ], 
+        "tipo": "bar",
+        "plan": 4, 
+        "logo": "uploads/img/logos/logo_restaurant_04.jpg", 
+        "descripcion": "Es un bar universitario. Para estudiantes que deseen pasar una noche divertida con alguno que otro trago y plato de comida.", 
+        "nombre": "HardBar", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            3, 
+            2, 
+            1
+        ], 
+        "cliente": "123456", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            23
+        ], 
+        "servicios": [
+            1, 
+            6, 
+            9
+        ], 
+        "tipo": "bar",
+        "plan": 2, 
+        "logo": "uploads/img/logos/logo_restaurant_04_1.jpg", 
+        "descripcion": "Bar que trae los mejores grupos musicales del Estado Lara.", 
+        "nombre": "Bar Quisimeto", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            3, 
+            2
+        ], 
+        "cliente": "5874123", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 8, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            23
+        ], 
+        "servicios": [
+            8, 
+            1, 
+            6, 
+            9, 
+            3
+        ], 
+        "tipo": "bar", 
+        "plan": 1, 
+        "logo": "uploads/img/logos/logo_restaurant_04_2.jpg", 
+        "descripcion": "La franquicia Bar... trae los mejores grupos musicales de barlovento.",
+        "nombre": "Bar lovento", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            4, 
+            3, 
+            2, 
+            1
+        ], 
+        "cliente": "4545114", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 9, 
+    "model": "main.restaurante", 
+    "fields": {
+        "status": "Activo", 
+        "categoria": [
+            15
+        ], 
+        "servicios": [
+            5, 
+            8, 
+            1, 
+            4, 
+            9, 
+            3, 
+            2, 
+            7
+        ], 
+        "tipo": "rest",
+        "plan": 3, 
+        "logo": "uploads/img/logos/logo_restaurant_02_1.jpg", 
+        "descripcion": "Es un restaurante que te acerca a la real salchicha venezolana presentando diferentes salchichones que le agregan gusto al paladar.", 
+        "nombre": "El Salchichon", 
+        "rif": "J-12345678-9",
+        "metodos_pago": [
+            4, 
+            2, 
+            1
+        ], 
+        "cliente": "888999111", 
+        "abierto": true,
+        "visibilidad": "P\u00fablico"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Lunes"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Martes"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Mi\u00e9rcoles"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Jueves"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Viernes"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "S\u00e1bado"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 1, 
+        "desde": "2:00 pm", 
+        "dia": "Domingo"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Lunes"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Martes"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Mi\u00e9rcoles"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Jueves"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Viernes"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "S\u00e1bado"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.horario", 
+    "fields": {
+        "hasta": "9:00 pm", 
+        "restaurante": 6, 
+        "desde": "2:00 pm", 
+        "dia": "Domingo"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.direccion", 
+    "fields": {
+        "restaurante": 1, 
+        "zona": "La Candelaria", 
+        "ciudad": "Distrito Capital, Caracas", 
+        "coord": "10.504986, -66.905032", 
+        "direccion": "Av. M\u00e9xico, cruce con Cl. Rafael Domingo Sisco, Edificio Hotel Plaza Mayor, Piso P.B"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.direccion", 
+    "fields": {
+        "restaurante": 6, 
+        "zona": "Los Palos Grandes", 
+        "ciudad": "Distrito Capital, Caracas", 
+        "coord": "10.504986, -67.905032", 
+        "direccion": "Distrito Capital, Caracas, Tercera transversal de los Palos Grandes."
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.telefonorestaurante", 
+    "fields": {
+        "restaurante": 1, 
+        "display": true, 
+        "numero": "0212-2357584"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.telefonorestaurante", 
+    "fields": {
+        "restaurante": 1, 
+        "display": true, 
+        "numero": "0212-2357588"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.imagen", 
+    "fields": {
+        "descripcion": "imagen1", 
+        "restaurante": 1, 
+        "thumbnail": "uploads/img/rest/thumbnails/imagen_p_thumbnail.jpeg",
+        "imagen": "uploads/img/rest/imagen_p.jpg"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.menu", 
+    "fields": {
+        "nombre": "El Parrillon", 
+        "restaurante": 1
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Entradas"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Platos Fuertes"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Postres"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Sopas"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Pastas"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Rolls"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.tipo", 
+    "fields": {
+        "nombre": "Aves"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 1,
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "140.00", 
+        "descripcion": "Un corte extra fino de lomito con queso mozzarela pesto y aceite de oliva extra virgen.", 
+        "nombre": "Carpaccio de lomito"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 1, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "80.00", 
+        "descripcion": "Una raci\u00f3n de 6 arepitas fritas para acompa\u00f1ar tu parrilla", 
+        "nombre": "Arepitas"
+    }
+},
+{
+    "pk": 3, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 1, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "114.00", 
+        "descripcion": "Una raci\u00f3n de yuca frita con queso mozzarela para acompa\u00f1ar la comida.", 
+        "nombre": "Yuca Frita"
+    }
+},
+{
+    "pk": 4, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 1, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "86.00", 
+        "descripcion": "Una raci\u00f3n de 4 bollitos de harina de trigo.", 
+        "nombre": "Bollitos de trigo"
+    }
+},
+{
+    "pk": 5, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 1, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "78.00", 
+        "descripcion": "Una ensalada de lechuga con salsa Cesar trozos de pan duro y queso rallado.", 
+        "nombre": "Ensalada Cesar"
+    }
+},
+{
+    "pk": 6, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "260.00", 
+        "descripcion": "Parrilla de solomo, acompa\u00f1ado con salsa barbecue guasacaca y dos arepitas fritas.", 
+        "nombre": "Parrilla de solomo"
+    }
+},
+{
+    "pk": 7, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "242.00", 
+        "descripcion": "Parrilla de pollo sazonado acompa\u00f1ada con dos arepitas fritas, un vaso de guasacaca y queso rallado.\t", 
+        "nombre": "Parrilla de pollo"
+    }
+},
+{
+    "pk": 8, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "254.00", 
+        "descripcion": "Parrilla de pollo a la brasa, chorizo y solomo acompa\u00f1ado con guasacaca y dos arepitas fritas.\t", 
+        "nombre": "Parrilla mixta"
+    }
+},
+{
+    "pk": 9, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "451.00", 
+        "descripcion": "Una parrilla mixta, de chorizo pollo y solomo perfecta para dos personas acompa\u00f1ado con ensalada o arepitas fritas.", 
+        "nombre": "Parrilla para 2 personas"
+    }
+},
+{
+    "pk": 10, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "288.00", 
+        "descripcion": "Un pollo a la brasa ba\u00f1ado en salsa de ajo acompa\u00f1ado con yuca frita.", 
+        "nombre": "Pollo a la brasa"
+    }
+},
+{
+    "pk": 11, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 2, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "645.00", 
+        "descripcion": "Punta trasera peque\u00f1a, perfecta para 3 personas acompa\u00f1ado con una ensalada cesar y 4 hallaquitas", 
+        "nombre": "Punta trasera"
+    }
+},
+{
+    "pk": 12, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 3, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "60.00", 
+        "descripcion": "Exquisito pedazo de torta tres leches concrema chantilly.", 
+        "nombre": "Tres leches"
+    }
+},
+{
+    "pk": 13, 
+    "model": "main.plato", 
+    "fields": {
+        "imagen": "media/files/img/ico.png", 
+        "tipo": 3, 
+        "menu": 1, 
+        "disponibilidad": true, 
+        "precio": "45.00", 
+        "descripcion": "Sabroso pedazo de torta de chocolate de dos pisos con glaseado de chocolate y chispas de chocolate.", 
+        "nombre": "Torta de chocolate"
+    }
+},
+{
+    "pk": 12, 
+    "model": "main.voto", 
+    "fields": {
+        "restaurante": 2, 
+        "valor": "0.9"
+    }
+},
+{
+    "pk": 13, 
+    "model": "main.voto", 
+    "fields": {
+        "restaurante": 2, 
+        "valor": "0.9"
+    }
+},
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "franco", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-04-16T06:30:18.183Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$caObSVaZxS75$KNzbjOaVYT5hz187YFipc2VTOl48mLt0g3mto9d2BoY=", 
+        "email": "francong2@gmail.com", 
+        "date_joined": "2014-04-16T06:00:28.877Z"
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "pedroperez", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-16T06:31:02.726Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$XETve3jUaZjF$aOFBbdQKzuMvn5CPz15Lq8WtZ82NfglPDN90X64IaZU=", 
+        "email": "", 
+        "date_joined": "2014-04-16T06:31:02.726Z"
+    }
+},
+{
+    "pk": 3, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "hondakawasaki", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-17T02:28:09.905Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$XC8DMp0hL7kC$JjwC4VyfmldekyZxmlPM+evqjCjPREEvSFzZLJLVB3o=", 
+        "email": "", 
+        "date_joined": "2014-04-17T02:28:09.905Z"
+    }
+},
+{
+    "pk": 4, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "RobertoPerez", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-17T02:41:01.103Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$DPi6K8MsKqmH$uma2dmKV91VDbBYFHeNlWBIsiyyOufhQ//znkJV+AkI=", 
+        "email": "", 
+        "date_joined": "2014-04-17T02:41:01.103Z"
+    }
+},
+{
+    "pk": 5, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "francogiuseppe", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-17T02:41:14.920Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$0aSyWvriqHRQ$nmcE2uwrMlQJTqaU1Jm6joscc2pd2sfdgLABxO2Tjok=", 
+        "email": "", 
+        "date_joined": "2014-04-17T02:41:14.920Z"
+    }
+},
+{
+    "pk": 6, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "ortencio23", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-17T02:44:58.440Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$ZSccMUrjqLxV$ioR3wNkOfedkXgjoBaxxslfpzRGqOi3lXr4owJ/xwrs=", 
+        "email": "", 
+        "date_joined": "2014-04-17T02:44:58.440Z"
+    }
+}   
+]

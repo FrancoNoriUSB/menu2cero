@@ -1,0 +1,130 @@
+/*Documento de Estilos para el home de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+
+/*Estilos de bootstrap modificados*/
+
+.table>tbody>tr>td{
+	padding: 6px;
+}
+
+/*Estilos propios del restaurante del admin de usuario*/
+
+.container .datos_basicos{
+	font-size: 16px;
+}
+
+.container .datos_basicos p{
+	margin: 0 0 6px;
+}
+
+/*Estilos del panel de informacion principal*/
+.container .panel-group .info_principal .titulo{
+	background-color: #DB4646;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+.container .panel-group .info_principal .panel-heading{
+	padding: 1px 15px;
+}
+
+.container .panel-group .info_principal .titulo .panel-title a{
+	text-align: center;
+	color: #F2F7F6;
+}
+.container .panel-group .info_principal .titulo .panel-title p strong{
+	float: left;
+	color: #F2F7F6;
+}
+
+.container .panel-group .info_principal .titulo .panel-title p span{
+	float: right;
+	font-size: 16px;
+}
+
+
+.container .panel-group .info_principal .titulo .panel-title a:hover{
+	text-decoration: none;
+}
+
+.container .panel-group .info_principal{
+	border-color: #DB4646;
+	border-style: solid;
+	border-width: 12px;
+}
+
+/*Estilos del panel de otra informacion, imagenes y menus*/
+.container .panel-group .otra_info .titulo, 
+.container .panel-group .imagenes .titulo,
+.container .panel-group .menus .titulo{
+	background-color: #1BA488;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+.container .panel-group .otra_info .panel-heading, 
+.container .panel-group .imagenes .panel-heading,
+.container .panel-group .menus .panel-heading{
+	padding: 1px 15px;
+}
+
+.container .panel-group .otra_info .titulo .panel-title a,
+.container .panel-group .imagenes .titulo .panel-title a,
+.container .panel-group .menus .titulo .panel-title a{
+	text-align: center;
+	color: #F2F7F6;
+}
+
+.container .panel-group .otra_info .titulo .panel-title p strong,
+.container .panel-group .imagenes .titulo .panel-title p strong,
+.container .panel-group .menus .titulo .panel-title p strong{
+	float: left;
+	color: #F2F7F6;
+}
+
+.container .panel-group .otra_info .titulo .panel-title p span,
+.container .panel-group .imagenes .titulo .panel-title p span,
+.container .panel-group .menus .titulo .panel-title p span{
+	float: right;
+	font-size: 16px;
+}
+
+.container .panel-group .otra_info .titulo .panel-title a:hover,
+.container .panel-group .imagenes .titulo .panel-title a:hover,
+.container .panel-group .menus .titulo .panel-title a:hover{
+	text-decoration: none;
+}
+
+.container .panel-group .otra_info,
+.container .panel-group .imagenes,
+.container .panel-group .menus{
+	border-color: #1BA488;
+	border-style: solid;
+	border-width: 12px;
+}
+
+/*Estilos del panel de imagenes*/
+.imagenes .panel-collapse .panel-body .form-group .row .logo-actual{
+
+}
+
+.imagenes .panel-collapse .panel-body .form-group .row .logo-actual img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*Estilo del mapa*/
+.container .mapa{
+	width: 300px;
+	height: 250px;
+}
+#collapse_principal > div > form > div > div.table-responsive > table > tbody > tr > td > div{
+	text-align: center;
+}

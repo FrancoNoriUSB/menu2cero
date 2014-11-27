@@ -1,0 +1,32 @@
+/*Documento de Estilos para el login de usuario de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+
+/*Bootstrap Modificado*/
+.contenido .container .row .col-md-4 form button{
+	background-image: none;
+	border-color: #1BA488;
+	background-color: #1BA488;
+}
+
+.btn-success:hover, .btn-success:focus {
+	background-color: #1BA488;
+	background-position: 0 -15px;
+}
+
+/*Estilos de la aplicacion*/
+
+/*Etiquetas de Django modificadas*/
+
+body > div > div > div > div:nth-child(2) > form > div > p:nth-child(3) > span{
+	display: none;
+}
+
+/*Estilos del contenido*/
+

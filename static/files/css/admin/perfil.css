@@ -1,0 +1,112 @@
+/*Documento de Estilos para el home de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+
+/*Estilos propios del perfil del usuario admin*/
+
+/*Estilos de bootstrap modificados*/
+body{
+	line-height: 1;
+}
+
+.row{
+	margin-left: -30px;
+}
+
+/*Area de cada restaurante*/
+.container-fluid .restaurante .logo_rest .cambiar_logo{
+	margin-top: -13.5%;
+	position: relative;
+}
+
+.container-fluid .restaurante .info{
+	border-style: solid;
+	border-color: #1BA488;
+	border-width: 8px;
+}
+
+body > div > div > div > div.panel-body > div > div.logo_rest.col-lg-2.col-md-2.col-sm-3 > img{
+	margin: auto;
+}
+
+.container-fluid .restaurante .info .row a{
+	text-align: center;
+	color:#4D4843;
+}
+
+.container-fluid .restaurante .info .row a:hover{
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.container-fluid .restaurante .info .botones div a img{
+	margin-left: 20%;
+}
+
+.container-fluid .restaurante .info .botones div a p{
+	color:#4D4843;
+}
+
+.container-fluid .restaurante .info .botones div a:hover{	
+	text-decoration: none;
+}
+.container-fluid .restaurante .plan img{
+
+}
+
+#id_logo{
+	background-image: "/media/files/img/cambio_logo.png";
+}
+
+/*Estilos de nuevo restaurante*/
+.container-fluid .nuevo_rest {
+	border-style: solid;
+	border-color: #1BA488;
+	border-width: 3px;
+	margin-left: -15px;
+}
+.container-fluid .nuevo_rest .agregar{
+	border-style: solid;
+	border-color: #1BA488;
+	border-width: 3px;
+	margin: 0.5%;
+	padding-bottom: 4%;
+	padding-left: 4%;
+	padding-top: 4%;
+}
+
+body > div > div > div > div.panel-body > div.nuevo_rest.row > div.titulo.col-lg-8.col-md-8 > h3 > a > strong{
+	color: #1BA488;
+}
+
+body > div > div > div > div.panel-body > div.nuevo_rest.row > div.titulo.col-lg-8.col-md-8 > h3 > a:hover{
+	text-decoration: none;
+}
+
+.container-fluid .nuevo_rest .agregar span{
+	font-size: 90px;
+	font-weight:lighter;
+	color: #1BA488;
+}
+
+.container-fluid .nuevo_rest .titulo h3{
+	margin-top: 12%;
+	color: #1BA488;
+	font-weight: bold;
+}
+
+/*Media Querys para hacer resize*/
+@media (max-width: 768px) {
+	.container-fluid .restaurante .logo_rest .cambiar_logo{
+		margin-top: -3.5%;
+	}
+	.row{
+		margin-left: -15px;
+	}
+}

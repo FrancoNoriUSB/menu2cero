@@ -1,0 +1,267 @@
+<!-- Archivo donde estan los bloques del perfil de usuario de restaurantes -->
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block contenido %}
+
+<!--Estilos-->
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/admin/perfil.css">
+<div class="container-fluid">
+	<br>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Datos de usuario</h3>
+		</div>
+  		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr class="titulos">
+							<td>
+								<strong>Nombre de usuario:</strong>
+							</td>
+							<td>
+								{{cliente.user.username}}
+							</td>
+							<td>
+								<strong>Rif:</strong>
+							</td>
+							<td>
+								{{cliente.rif}}
+							</td>
+						</tr>
+					</thead>
+					<tr>
+						<td>
+							<strong>Tel&eacute;fono:</strong>
+						</td>
+						<td>
+							{{cliente.telefono}}
+						</td>
+						<td>
+							<strong>Correo:</strong>
+						</td>
+						<td>
+							{{cliente.user.email}}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Cargo:</strong>
+						</td>
+						<td>
+							{{cliente.cargo}}
+						</td>
+						<td>
+							<strong>Estatus pagos:</strong>
+						</td>
+						<td>
+							{%if vencidos%}
+								{%for vencido in vencidos%}
+									Pago vencido del restaurante {{vencido.1}} <br> con fecha: {{vencido.0}}. <br>
+									<a href="" class="btn btn-success">Pagar</a>
+								{%endfor%}
+							{%else%}
+								Ud. no posee ning&uacute;n pago pendiente.
+							{%endif%}
+						</td>
+					</tr>
+		  		</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Restaurantes agregados -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Restaurantes</h3>
+		</div>
+		<div class="panel-body">
+			{%for restaurante in restaurantes%}
+				<div class="restaurante row">
+					<div class="logo_rest col-lg-2 col-md-2 col-sm-3">
+						<img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="">
+						<form action="." method="POST" id="eliminar" enctype="multipart/form-data">
+							{%csrf_token%}
+							{%render_field LogosForm.logo type="image" src="/media/files/img/cambio_logo.png" class="cambiar_logo img-responsive" %}
+						</form>
+					</div>
+					<div class="info col-lg-8 col-md-8 col-sm-10">
+						<div class="row">
+							<p class="col-md-12 nombre">Nombre del Restaurante:
+								{%if restaurante.nombre%}
+									<a href="/administrador/editar/{{restaurante.id}}"><strong>{{restaurante.nombre}}</strong></a>
+								{%else%}
+									<strong>-Sin Nombre-</strong>
+								{%endif%}
+							</p>
+						</div>
+						<div class="row">
+							<p class="col-md-3">Visitas:<strong>0</strong></p>
+							<p class="col-md-3 ">Votos:<strong>0</strong></p>
+							<p class="col-md-3 ">Puntuaci&oacute;n:<strong>0</strong></p>
+						</div>
+						<div class="row">
+							<p class="col-md-12 estatus">Estatus pagos: <strong></strong></p>
+						</div>
+						<div class="row botones">
+							<div class="editar col-lg-2 col-md-1">
+								<a href="/administrador/editar/{{restaurante.id}}">
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/editar.png" alt="" >
+									<p >Editar</p>
+								</a>
+							</div>
+							<div class="vista col-lg-2 col-md-1">
+								<a href="/perfil/restaurante={{restaurante.id}}/" target="_blank">
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/previa.png" alt="">
+									<p>Ver Restaurante</p>
+								</a>
+							</div>
+							<div class="imprimir col-lg-2 col-md-1">
+								<a href="#">
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/imprimir.png" alt="" >
+									<p>Imprimir Men&uacute;</p>
+								</a>
+							</div>
+							<div class="publico col-lg-2 col-md-1">
+								<a href="/administrador/visibilidad_restaurante/{{restaurante.id}}">
+								{%if restaurante.visibilidad == 'Privado'%}
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/privado.png" alt="" >
+									<p>{{restaurante.visibilidad}}</p>
+								{%else%}
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/publicar.png" alt="" >
+									<p>{{restaurante.visibilidad}}</p>
+								{%endif%}
+								</a>
+							</div>
+							<div class="status col-lg-2 col-md-1">
+								<a href="/administrador/abrir_cerrar/{{restaurante.id}}" id="abierto">
+									{%if restaurante.abierto == True%}
+										<img class="img-responsive" src="{{STATIC_URL}}files/img/abierto.png" alt="" >
+										<p>Abierto</p>
+									{%else%}
+										<img class="img-responsive" src="{{STATIC_URL}}files/img/cerrado.png" alt="" >
+										<p>Cerrado</p>
+									{%endif%}
+								</a>
+							</div>
+							<div class="eliminar col-lg-2 col-md-1">
+								<a class="eliminar_bot">
+									<img class="img-responsive" src="{{STATIC_URL}}files/img/eliminar.png" alt="" >
+									<p>Eliminar</p>
+									<form action="." method="POST" id="eliminar">
+										{%csrf_token%}
+										{%render_field EliminarForm.eliminar value=restaurante.id%}
+									</form>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="plan col-lg-2 col-md-2 col-sm-3">
+						<img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre|lower}}.png" alt="{{STATIC_URL}}files/img/{{restaurante.plan.nombre}}.png" title="{{restaurante.plan.nombre}}">
+					</div>
+				</div>
+				<br>
+			{%endfor%}
+			<div class="nuevo_rest row">
+				<div class="agregar col-lg-2 col-md-4">
+					<a href="/administrador/agregar/"><span class="glyphicon glyphicon-plus"></span></a>
+				</div>
+				<div class="titulo col-lg-8 col-md-8">
+					<h3><a href="/administrador/agregar/"><strong>Nuevo Restaurante</strong></a></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Panel de cuenta</h3>
+		</div>
+		<div class="panel-body">
+			<div class="configuracion row">
+				<div class="titulo col-md-12">
+
+					<div class="col-lg-12">
+						<div id="clickeable_cuenta" class="collapse in">
+							<div class="col-lg-10 formulario_cuenta">
+								<form class="form-inline" role="form" action="" method="POST">
+									{%csrf_token%}
+									<div class="form-group">
+										{{RegistroForm.nombre_de_usuario.label}}
+										<br>
+										{%render_field RegistroForm.nombre_de_usuario class="form-control" placeholder="-nombre de usuario-" %}
+										<strong>Nota: El nombre de usuario es el identificador del cliente, no tiene relaci&oacute;n con el nombre del restaurante.</strong>
+									</div>
+									<br>
+									<br>
+									<div class="form-group">
+										{{RegistroForm.email.label}}
+										<br>
+										{%render_field RegistroForm.email class="form-control" placeholder="nombre@correo.com" %}
+										{%if RegistroForm.email.errors%}
+											<div class="alert alert-danger" role="alert">{{RegistroForm.email.errors|striptags}}</div>
+										{%endif%}
+									</div>
+									<div class="form-group">
+										{{RegistroForm.cargo.label}}
+										<br>
+										{%render_field RegistroForm.cargo class="form-control" placeholder="-cargo-"%}
+										{%if RegistroForm.cargo.errors%}
+											<div class="alert alert-danger" role="alert">{{RegistroForm.cargo.errors|striptags}}</div>
+										{%endif%}
+									</div>
+									<div class="form-group">
+										{{RegistroForm.rif.label}}
+										<br>
+										{%render_field RegistroForm.rif class="form-control" placeholder="#-########-#" %}
+									</div>
+									<br>
+									<br>
+									<input type="submit" value="Guardar" class="btn btn-primary">
+								</form>
+							</div>
+							<br>
+							<div class="col-lg-6 formulario_contrasena">
+								<h5><strong>Cambiar contrase&ntilde;a</strong></h5>
+									<form role="form" action="/administrador/modificar_contra/" method="post" enctype="multipart/form-data">
+									    {% csrf_token %}
+										<div class="form-group">
+									        {%render_field modificarContrasenaForm.old_password.label %}
+									        {%render_field modificarContrasenaForm.old_password class="form-control"%}
+										</div>
+										<div class="form-group">
+									        {%render_field modificarContrasenaForm.new_password1.label%}
+									        {%render_field modificarContrasenaForm.new_password1 class="form-control"%}
+										</div>
+										<div class="form-group">
+									        {%render_field modificarContrasenaForm.new_password2.label%}
+									        {%render_field modificarContrasenaForm.new_password2 class="form-control"%}
+										</div>
+										<br>
+										<input type="submit" value="Guardar" class="btn btn-primary">
+									</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock contenido%}
+{%block js%}
+<script>
+/*Funcion que hace el submit para cerrar el restaurante*/
+$( document ).ready(function(){
+	$( ".eliminar_bot" ).click(function(){
+		var form = $(this).children('form:first');
+		var bar = $("input[id='id_eliminar']",form).val();
+		if (confirm("Esta seguro de querer eliminar el restaurante?")==true){
+			window.location.replace("/administrador/eliminar/"+bar);
+		}else{
+			//window.location.replace("/administrador/perfil/");
+		}
+	});
+});
+</script>
+{%endblock js%}

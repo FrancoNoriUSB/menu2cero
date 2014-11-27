@@ -1,0 +1,156 @@
+<!-- Archivo donde estan los bloques del home -->
+{% extends "base.html" %}
+<!-- Registro -->
+{% block registro %}
+	<form action="." method="POST" name="registro">
+		{%csrf_token%}
+		{{ registro.as_p }}
+		<input type="submit" value="Registrar" />
+	</form>
+{% endblock registro %}
+
+<!-- Header del home-->
+{% block header_home %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/home.css">
+    
+    <!--Scripts-->
+    <script src="{{STATIC_URL}}files/js/raty_jquery.js"></script>
+    <script src="{{STATIC_URL}}files/js/jquery.raty.js"></script>
+    <script src="{{STATIC_URL}}files/js/raty_labs.js" type="text/javascript"></script>
+
+    <div class="container">
+        <div class="row">
+            <nav id="nav-sup">
+                <ul>
+                    <li id="nav-categorias">
+                        <a href="/restaurantes/">Categorías</a>
+                    </li>
+                    <li id="nav-recetas">
+                        <a href="">Recetas</a>
+                    </li>
+                    <li id="nav-contacto">
+                        <a href="">Contáctanos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Slide -->
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="{{STATIC_URL}}files/img/slider1.jpg" />
+                    <div class="carousel-caption">  
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="glyphicon"><img src="{{STATIC_URL}}files/img/der.png" alt=""></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="glyphicon"><img src="{{STATIC_URL}}files/img/izq.png" alt=""></span>
+            </a>
+        </div>
+    </div>
+{% endblock header_home %}
+
+<!-- Contenido del home -->
+{% block contenido %}
+    <section>
+    {{restaurantes}}
+
+    <!--Espacio para restaurantes destacados que tienen el plan Azul -->
+    <div class="destacados row">
+        <div class="titulo col-lg-12" id="titulo_destacados" onmouseover="javascript:document.getElementById('titulo_destacados').style.cursor='pointer'" data-toggle="collapse" data-target="#clickeable_destacados">
+            <img class="img-responsive" src="{{STATIC_URL}}files/img/ico_amarillo.png" alt="">
+            <p>Destacados</p>
+        </div>
+        <div id="clickeable_destacados" class="collapse in col-lg-12 col-md-12 col-sm-12">
+            {% for restaurante in restaurantes_dest%}
+            <div class="restaurante col-lg-2 col-md-3 col-sm-4" >
+                <a href="/perfil/restaurante={{restaurante.id}}/">
+                    <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="{% cycle 'imagen_a' 'imagen_r' %}">
+                    <p id="titulo">{{restaurante.nombre}}</p>
+                </a>
+                <div id="{{restaurante.nombre|cut:" "}}estrellasdes" class="estrellas">
+                    <div id="punt" value="{{puntos}}"></div>
+                        <script type="text/javascript">
+                        var myVar = document.getElementById("punt").value;
+                        myVar=3;
+                            $('#{{restaurante.nombre|cut:" "}}estrellasdes').raty({score:myVar});
+                        </script>
+                </div>
+                <p id="categoria">{{restaurante.categoria.nombre}} V: 90000</p>
+            </div>
+            {% endfor %}
+            <!-- Espacio superior de banner publicitario -->
+            <div class="publicidad_sup col-lg-12 col-md-12 col-sm-12">
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Espacio para restaurantes que fueron agregados recientemente -->
+    <div class="agregados_reciente row">
+        <div class="titulo col-lg-12 col-md-12 col-sm-12" id="titulo_reciente" onmouseover="javascript:document.getElementById('titulo_reciente').style.cursor='pointer'" data-toggle="collapse" data-target="#clickeable_reciente">
+            <img class="img-responsive" src="{{STATIC_URL}}files/img/ico_azul.png" alt="">
+            <p>Agregados Recientemente</p>
+        </div>
+        <div id="clickeable_reciente" class="collapse in col-lg-12 col-md-12 col-sm-12">
+            {% for restaurante in restaurantes_rec%}
+                <div class="restaurante col-lg-2 col-md-3 col-sm-4">
+                    <a href="/perfil/restaurante={{restaurante.id}}/">
+                        <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="{% cycle 'imagen_a' 'imagen_r' %}">
+                        <p id="titulo">{{restaurante.nombre}}</p>
+                    </a>
+                    <div id="{{restaurante.nombre|cut:" "}}estrellas" class="estrellas">
+                        <div id="punt" value="{{puntos}}"></div>
+                            <script type="text/javascript">
+                            var myVar = document.getElementById("punt").value;
+                            myVar=3;
+                                $('#{{restaurante.nombre|cut:" "}}estrellas').raty({score:myVar});
+                            </script>
+                    </div>
+                    <p id="categoria">{{restaurante.categoria.nombre}} V: 90000</p>
+                </div>
+            {% endfor %}
+
+            <!-- Espacio inferior de banner publicitario -->
+            <div class="publicidad_med col-lg-12 col-md-12 col-sm-12">
+                <img class="img-responsive" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Espacio para las categorias -->
+    <div class="categorias row">
+        <div class="titulo col-lg-12 col-md-12 col-sm-12" id="titulo_categorias" onmouseover="javascript:document.getElementById('titulo_categorias').style.cursor='pointer'" data-toggle="collapse" data-target="#clickeable_categorias" >
+            <img class="img-responsive" src="{{STATIC_URL}}files/img/ico_rojo.png" alt="">
+            <p>Categorías</p>
+        </div>
+        <div id="clickeable_categorias" class="collapse in col-lg-12 col-md-12 col-sm-12">
+            {% for categoria in categorias%}
+                <div class="categoria col-lg-2 col-md-3 col-sm-4">
+                    <a href="/restaurantes/{{categoria.nombre}}/">
+                        <img class="img-responsive" src="{{MEDIA_URL}}{{categoria.imagen}}" alt="" class="{% cycle 'imagen_a' 'imagen_r' %}">
+                        <p id="titulo">{{categoria.nombre}}</p>
+                    </a>
+                </div>
+            {% endfor %}
+
+            <!-- Espacio inferior de banner publicitario -->
+            <div class="publicidad_inf col-lg-12 col-md-12 col-sm-12">
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock contenido %}

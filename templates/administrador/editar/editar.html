@@ -1,0 +1,498 @@
+<!-- Archivo donde estan los bloques del perfil de usuario de restaurantes -->
+{% extends "base.html" %}
+{% block contenido %}
+{% load widget_tweaks %}
+
+<!--Estilos-->
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/admin/restaurante.css">
+<div class="datos_basicos row">
+    <div class="row">
+        <div class="logo-rest col-lg-2">
+            <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="">
+        </div>
+        <div class="info col-lg-8">
+            <p class="nombre">Nombre del Restaurante: <strong>{{restaurante.nombre}}</strong></p>
+            <p class="visitas">Visitas: <strong></strong></p>
+            <p class="votos">Votos: <strong>{{votos.count}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Puntuacion: <strong>{{puntuacion}}</strong></p>
+            <p class="plan">Plan asociado: <strong>{{restaurante.plan.nombre}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">&iquest;Qu&eacute; son los planes?</a></p>
+            <p class="estatus">
+                Estatus del plan: 
+                <strong>
+                    {%if vencidos%}
+                        Su plan se encuentra vencido, por lo tanto debe hacer el pago del mismo.
+                    {%else%}
+                        Activo.
+                    {%endif%}
+                </strong>
+            </p>
+            <p class="estatus_pago">
+                Estatus pago: 
+                <strong>
+                    {%if vencidos%}
+                        Ud. presenta un pago vencido con fecha: {{vencidos.0.0}}&nbsp;
+                        <a href="" class="btn btn-success">Pagar</a>
+                    {%else%}
+                        Activo.
+                    {%endif%}
+                </strong>
+            </p>
+        </div>
+        <div class="plan col-lg-2">
+            <img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre}}.png" alt="">
+        </div>
+    </div>
+</div>
+<br>
+<div class="panel-group" id="accordion">
+    <div class="info_principal panel row">
+        <div class="titulo panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_principal">
+                    <p>
+                        <strong>-obligatoria-</strong>
+                        Informaci&oacute;n Principal
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </p>
+                </a>
+            </h4>
+        </div>
+
+        <!-- Cuerpo de la informacion principal -->
+        <div id="collapse_principal" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <form role="form" action="/administrador/restaurante_info_basica/{{restaurante.id}}" method="POST">
+                    <div class="form-group">
+                        {%csrf_token%}
+                        <div class="">
+                            Nombre del restaurante:
+                            {% render_field PrincipalForm.nombre class="form-control"%}
+                        </div>
+                        <br>
+                        Categor&iacute;as (m&aacute;ximo 3):
+                        <br>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                {%for pk, choice in PrincipalForm.categoria.field.widget.choices%}
+                                    <td>
+                                        <input class="input"
+                                                {% for categoria in categorias %}
+                                                    {% if categoria == pk|safe %}
+                                                        checked="checked"
+                                                    {% endif %}
+                                                {% endfor %} type="checkbox" id="id_categoria_{{ forloop.counter0 }}" value="{{pk}}" name="categoria" class="options" />
+                                        <label>
+                                            {{choice}}
+                                        </label>
+                                    </td>
+                                    {% if not forloop.last and forloop.counter == 9 or forloop.counter == 18 %}
+                                        </tr>
+                                        <tr>
+                                    {% endif %}
+                                {%endfor%}
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        Horario/Dias
+                                    </td>
+                                    <td>
+                                        Lunes
+                                    </td>
+                                    <td>
+                                        Martes
+                                    </td>
+                                    <td>
+                                        Mi&eacute;rcoles
+                                    </td>
+                                    <td>
+                                        Jueves
+                                    </td>
+                                    <td>
+                                        Viernes
+                                    </td>
+                                    <td>
+                                        S&aacute;bado
+                                    </td>
+                                    <td>
+                                        Domingo
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Desde:
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.lunes_desde|add_class:"form-control"}}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.martes_desde|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.miercoles_desde|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.jueves_desde|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.viernes_desde|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.sabado_desde|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.domingo_desde|add_class:"form-control" }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Hasta:
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.lunes_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.martes_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.miercoles_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.jueves_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.viernes_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.sabado_hasta|add_class:"form-control" }}
+                                    </td>
+                                    <td>
+                                        {{ HorariosForm.domingo_hasta|add_class:"form-control" }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                Direcci&oacute;n del restaurante:
+                                {{ DireccionForm.direccion }}
+                            </div>
+                            <div class="col-lg-4">
+                                Ciudad:
+                                {{ DireccionForm.ciudad }}
+                                Zona:
+                                {{ DireccionForm.zona }}
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Mapa de google maps -->
+                                Coordenadas:
+                                {{ DireccionForm.coord }}
+                                <div class="mapa" id="map">
+                                    <input type="text" id="lat" value='{{lat}}'>
+                                    <input type="text" id="lng" value='{{lng}}'>
+                                </div>
+                                (Clickee en el mapa la ubicaci&oacute;n de su local)
+                            </div>
+                        </div>
+                        <br>
+                            Tel&eacute;fonos del restaurante:
+                            {{TelefonoRestauranteForm.management_form}}
+                            {%for form in TelefonoRestauranteForm%}
+                                {%render_field form.id%}
+                                {%render_field form.numero placeholder="Teléfono"%}
+                                {%render_field form.display.help_text%}
+                                {%render_field form.display%}
+                            {%endfor%}
+                        <br>
+                        <div class="lg-col-4">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Otra informacion -->
+    <div class="otra_info panel row">
+        <div class="titulo panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_otra">
+                    <p>
+                        <strong>-opcional-</strong>
+                        Otra Informaci&oacute;n
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </p>
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_otra" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form role="form" action="/administrador/restaurante_otra_info/{{restaurante.id}}" method="POST">
+                    <div class="form-group">
+                        {%csrf_token%}
+                        Descripci&oacute;n del restaurante (m&aacute;ximo 400 caracteres):
+                        {{ DescripcionForm.descripcion_rest }}
+                        <br>
+                        Servicios del restaurante:
+                        <br>
+                        {%for pk, choice in DescripcionForm.servicios.field.widget.choices%}
+                            <label align="center">
+                                {{ choice }}
+                                <br>
+                                <img src="{{STATIC_URL}}files/img/{{choice|lower}}.png" width="46px" height="46px">
+                                <br>
+                                <input 
+                                    {% for servicio in servicios %}
+                                        {% if servicio == pk|safe %}
+                                            checked="checked"
+                                        {% endif %}
+                                    {% endfor %} type="checkbox" id="id_servicios_{{ forloop.counter0 }}" value="{{ pk }}" name="servicios" />
+                            
+                            </label>
+                        {%endfor%}
+                        <br>
+                        M&eacute;todos de pago:
+                        <br>
+                        {%for pk, choice in DescripcionForm.metodos_de_pago.field.widget.choices%}
+                            <label align="center">
+                                {{ choice }}
+                                <br>
+                                <img src="{{STATIC_URL}}files/img/{{choice|lower}}.png" width="45px" height="26px">
+                                <br>
+                                <input 
+                                {% for metodo in metodos %}
+                                    {% if metodo == pk|safe %}
+                                        checked="checked"
+                                    {% endif %}
+                                {% endfor %} type="checkbox" id="id_metodos_de_pago_{{ forloop.counter0 }}" name="metodos_de_pago" value="{{ pk }}" />
+                            </label>
+                        {%endfor%}
+                        <br>
+                        Redes Sociales:
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">Facebook: {{ RedesForm.facebook }}</div>
+                            <div class="col-lg-4 col-md-6">Twitter: {{ RedesForm.twitter }}</div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Imagenes del restaurante -->
+    <div class="imagenes panel row">
+        <div class="titulo panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_imgs">
+                    <p>
+                        <strong>-opcional-</strong>
+                        Im&aacute;genes
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </p>
+                    <p></p>
+                    <p></p>
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_imgs" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form role="form" action="/administrador/restaurante_imagenes/{{restaurante.id}}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        {%csrf_token%}
+                        Logos:
+                        <div class="row">
+                            <div class="col-lg-2 logo-actual">
+                                <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="">
+                            </div>
+                            <div class="col-lg-10">
+                                Logo del restaurante:
+                                {{ logoRestForm.logo }}
+                                <p align="left">
+                                    De no poseer logo, puede seleccionar uno de nuestra colecci&oacute;n. 
+                                    <a class="col-lg-offset-1" href="">Quiero un logo para mi restaurante!</a>
+                                </p>
+                                <div class="row">
+                                    {%for pk, choice in LogosForm.logos.field.widget.choices%}
+                                    <div class="col-lg-1">
+                                        <label align="center">
+                                        <img src="{{STATIC_URL}}files/img/{{pk}}.jpg" width="79px" height="79px">
+                                        {{ choice }}
+                                        <br>
+                                            <input 
+                                                {% if logo == pk|safe %}
+                                                    checked="checked"
+                                                {% endif %} id="id_logos_{{ forloop.counter0 }}" type="radio" name="logos" value="{{ pk }}" />
+                                        </label>
+                                    </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        Im&aacute;genes restaurante:
+                        <div class="row">
+                            {{ImagenForm.management_form}}
+                            {%for form in ImagenForm%}
+                                <div class="col-lg-8">
+                                    {{form}}
+                                </div>
+                                <div class="col-lg-4">
+                                    {%if form.thumbnail.value != None%}
+                                        Miniatura:
+                                        <img width="200px" height="200px" src="{{MEDIA_URL}}{{form.thumbnail.value}}" alt="" class="img-responsive">
+                                    {%endif%}
+                                </div>
+                                <br>
+                            {%endfor%}
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="menus panel row">
+        <div class="titulo panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_menu">
+                    <p>
+                        <strong>-opcional-</strong>
+                        Men&uacute;
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </p>
+                </a>
+            </h4>
+        </div>
+        <div id="collapse_menu" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form role="form" action="" method="POST" enctype="multipart/form-data">
+                    <div class="container-fluid">
+                        {%for form in platosForm%}
+                            {%ifchanged form.tipo.value%}
+                                
+                            {%endifchanged%}
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    Tipo de plato:
+                                    {{form.tipo}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    T&iacute;tulo:
+                                    {{form.nombre}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    Descripci&oacute;n:
+                                    {{form.descripcion}}
+                                </div>
+                                <div class="col-lg-2">
+                                    Precio:
+                                    {{form.precio}}
+                                </div>
+                                <div class="col-lg-6">
+                                    Im&aacute;gen: (S&oacute;lo para usuarios con cuentas Diamante)
+                                    {{form.imagen}}
+                                </div>
+                            </div>
+                            <br>
+                        {%endfor%}
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
+
+<!-- Bloque de Javascript -->
+{% block js %}
+<!-- Mapa de google maps -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
+<script >
+var map;
+function initialize(){
+
+    /*Inicializacion de variables y toma de argumentos de latitud y longitud*/
+    var lat = parseFloat(document.getElementById('lat').value.replace(/,/g,'.') );
+    var lng = parseFloat(document.getElementById('lng').value.replace(/,/g,'.') );
+    var markers = [];
+    var coord = document.getElementById('id_coord');
+
+
+    /*Inicializacion del mapa*/
+    var mapOptions = {
+        zoom: 13,
+        center: new google.maps.LatLng(lat, lng)
+    };
+
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    var marker = new google.maps.Marker({
+        position: map.getCenter(),
+        map: map
+    });
+    markers.push(marker);
+
+    /*Funciones para agregar el marcador y eliminar el anterior*/
+    google.maps.event.addListener(map, 'click', function(event){
+        clearMarkers();
+        markers = [];
+        placeMarker(event.latLng);
+        coord.value = event.latLng.k + ', ' + event.latLng.B;
+    });
+
+    function clearMarkers() {
+        setAllMap(null);
+    }
+
+    function setAllMap(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function placeMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location, 
+            map: map
+        });
+        markers.push(marker);
+    }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<!-- Codigo de iCheck -->
+<script>
+$(document).ready(function(){
+  $('.input').each(function(){
+    var self = $(this),
+      label = self.next(),
+      label_text = label.text();
+
+    label.remove();
+    self.iCheck({
+      checkboxClass: 'icheckbox_line-green',
+      insert: '<div class="icheck_line-icon"></div>' + label_text
+    });
+  });
+});
+</script>
+{% endblock js %}
