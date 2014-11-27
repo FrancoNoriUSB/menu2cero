@@ -13,7 +13,6 @@ class RestauranteAdmin(admin.TabularInline):
 # 	search_fields = ['nombre']
 # 	inlines = [RestauranteAdmin]
 
-admin.site.register(Administrador)
 admin.site.register(Categoria)
 admin.site.register(Cliente)
 admin.site.register(Comensal)

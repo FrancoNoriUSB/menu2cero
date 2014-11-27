@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 #Modelos de la base de datos de Menu 2.0
 
+
 #Clase para los planes que tendran los restaurantes
 class Plan(models.Model):
 
@@ -20,6 +21,7 @@ class Plan(models.Model):
 	def __unicode__(self):
 		return u"Plan: %s. Costo: %s" %(self.nombre, self.costo)
 
+
 #Clase para las categorias de los restaurantes
 class Categoria(models.Model):
 
@@ -34,6 +36,7 @@ class Categoria(models.Model):
 	def __unicode__(self):
 		return u"%s" %(self.nombre)
     
+
 #Clase para los servicios de los restaurantes
 class Servicio(models.Model):
 	
@@ -46,6 +49,7 @@ class Servicio(models.Model):
 
 	def __unicode__(self):
 		return u"%s" %(self.nombre)
+
 
 #Clase para los metodos de pago que utilizan los restaurantes
 class Metodo(models.Model):
@@ -61,23 +65,6 @@ class Metodo(models.Model):
 	def __unicode__(self):
 		return u"%s" %(self.nombre)
 
-#Clase para los usuarios que administraran la app
-class Administrador(models.Model):
-
-	nombre = models.CharField(max_length=30)
-	correo = models.EmailField(max_length=75, primary_key=True)
-	nivel = models.DecimalField(max_digits=2, decimal_places=0)
-
-	#Claves foraneas y de otras tablas
-	user = models.OneToOneField(User)
-
-	class Meta:
-		ordering = ('nombre',)
-		verbose_name = _('Administrador')
-		verbose_name_plural = _('Administradores')
-
-	def __unicode__(self):
-		return u"Admin: %s" %(self.nombre)
 
 #Clase del cliente
 class Cliente(models.Model):
@@ -96,6 +83,7 @@ class Cliente(models.Model):
 
 	def __unicode__(self):
 	    return u"%s. Nombre: %s" %(self.rif, self.user.username)
+
 
 #Clase del restaurante
 class Restaurante(models.Model):
@@ -128,6 +116,7 @@ class Restaurante(models.Model):
 	def __unicode__(self):
 		return u"Nombre: %s. Dueno: %s" %(self.nombre, self.cliente)
 
+
 #Clase para la direccion del restaurante
 class Direccion(models.Model):
 
@@ -147,6 +136,7 @@ class Direccion(models.Model):
 	def __unicode__(self):
 		return u"Ciudad:  %s" %(self.ciudad)
 
+
 #Clase para las redes sociales del restaurante
 class Red_social(models.Model):
 
@@ -164,6 +154,7 @@ class Red_social(models.Model):
 	def __unicode__(self):
 		return u"fb: %s. tw: %s" %( self.facebook, self.twitter)
 
+
 #Clase abstracta de telefonos que tienen los restaurantes o clientes
 class Telefono(models.Model):
 
@@ -178,6 +169,7 @@ class Telefono(models.Model):
 	def __unicode__(self):
 		return u"Telefono: %s" %(self.numero)
 
+
 #Clase concreta del telefono de los restaurantes
 class TelefonoRestaurante(Telefono):
 
@@ -188,6 +180,7 @@ class TelefonoRestaurante(Telefono):
 
 	class Meta(Telefono.Meta):
 		abstract = False
+
 
 #Clase de las imagenes de los restaurantes
 class Imagen(models.Model):
@@ -245,6 +238,7 @@ class Imagen(models.Model):
 	def __unicode__(self):
 		return u"Imagen Restaurante: %s" %(self.restaurante)
 
+
 #Clase del comensal
 class Comensal(models.Model):
 
@@ -262,7 +256,8 @@ class Comensal(models.Model):
 	def __unicode__(self):
 		return u"Restaurante: %s. Ip: %s" %(self.restaurante, self.ip)
 
-# #Clase para los distintos horarios que habre un restaurante
+
+#Clase para los distintos horarios que habre un restaurante
 class Horario(models.Model):
 
 	dia = models.CharField(max_length=10)
@@ -280,6 +275,7 @@ class Horario(models.Model):
 	def __unicode__(self):
 		return u"%s: %s %s %s" %(self.restaurante.nombre, self.dia, self.desde, self.hasta)
 
+
 #Clase para los menus de los restaurantes
 class Menu(models.Model):
 
@@ -296,6 +292,7 @@ class Menu(models.Model):
 	def __unicode__(self):
 		return u"%s" %(self.restaurante)
 
+
 #Modelo para los tipos de platos
 class Tipo(models.Model):
 
@@ -308,6 +305,7 @@ class Tipo(models.Model):
 
 	def __unicode__(self):
 		return u"%s" %(self.nombre)
+
 
 #Clase para los platos de los menus
 class Plato(models.Model):
@@ -330,6 +328,7 @@ class Plato(models.Model):
 	def __unicode__(self):
 		return u"Plato: %s. Precio: %s. %s" %(self.nombre, self.precio, self.menu)
 
+
 #Clase para los pagos de los clientes
 class Pago(models.Model):
 	
@@ -351,6 +350,7 @@ class Pago(models.Model):
 
 	def __unicode__(self):
 		return u"Cliente: %s. Fecha: %s. Monto: %s" %(self.cliente, self.fecha, self.monto)
+
 
 #Clase para los votos que emiten los usuarios hacia los restaurantes
 class Voto(models.Model):
