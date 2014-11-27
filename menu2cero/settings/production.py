@@ -27,7 +27,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = (
-    'django_admin_bootstrapped',
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -138,3 +138,10 @@ MEDIA_URL = '/media/'
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, '../static/fixtures'),
 )
+
+# For Sidebar Menu (List of apps and models) (RECOMMENDED)
+from django.conf import global_settings
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+)
+BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
