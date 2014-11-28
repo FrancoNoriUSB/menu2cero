@@ -57,10 +57,10 @@ def index(request):
 		
 	else:
 		#Query para los restaurantes destacados
-		restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul').order_by('?')[:12]
+		restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público',status='Activo').order_by('?')[:12]
 		
 		#Query para los restaurantes recientes
-		restaurantes_rec = Restaurante.objects.all().order_by('id')
+		restaurantes_rec = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id')
 		restaurantes_rec = restaurantes_rec.reverse()[:6]
 		
 		#Query para las categorias
@@ -153,7 +153,7 @@ def restaurantes_view(request, palabra):
 		
 			#Caso para el cual no se encontro ningun restaurante
 			if restaurantes == []:
-				restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Inactivo').order_by('id').reverse()
+				restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
 
 	#Caso para el cual la palabra tiene contenido
 	elif palabra:
@@ -172,7 +172,7 @@ def restaurantes_view(request, palabra):
 
 	else:
 		#Caso en el que no se introduce ninguna categoria especifica
-		restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Inactivo').order_by('id').reverse()
+		restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
 
 	filtro = FiltroForm(request.POST)
 
@@ -400,14 +400,14 @@ def buscador_view(palabra):
 
 	error = ''
 	try:
-		restaurantes = Restaurante.objects.filter(nombre__icontains=palabra)
+		restaurantes = Restaurante.objects.filter(nombre__icontains=palabra, visibilidad='Público',status='Activo')
 	except:
 		error = 'No se encontraron coincidencias'
 
 	#Caso para los restaurantes de una categoria especifica
 	if not restaurantes:
 		try:
-			restaurantes = Restaurante.objects.filter(categoria__nombre__icontains=palabra)
+			restaurantes = Restaurante.objects.filter(categoria__nombre__icontains=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'No se encontraron coincidencias'
 
@@ -416,21 +416,21 @@ def buscador_view(palabra):
 		try:
 			#NOTA: Falta que funcione
 			print 'Platos'
-			restaurantes = Restaurantes.objects.filter(menu__plato__nombre__icontains=palabra)
+			restaurantes = Restaurantes.objects.filter(menu__plato__nombre__icontains=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'No se encontraron coincidencias'
 
 	#Caso para los restaurantes con ciudades especificas		
 	if not restaurantes:
 		try:
-			restaurantes = Restaurante.objects.filter(direccion__ciudad__icontains=palabra)
+			restaurantes = Restaurante.objects.filter(direccion__ciudad__icontains=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'No se encontraron coincidencias'
 
 	#Caso para los restaurantes con descripciones especificas
 	if not restaurantes:
 		try:
-			restaurantes = Restaurante.objects.filter(descripcion__icontains=palabra)
+			restaurantes = Restaurante.objects.filter(descripcion__icontains=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'No se encontraron coincidencias'
 

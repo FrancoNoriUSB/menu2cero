@@ -49,7 +49,6 @@ header .carousel .right .glyphicon{
 
 
 /*Estilos del contenido del Home*/
-
 .contenido section{
 	margin-right: auto;
 	margin-left: auto;
@@ -91,7 +90,6 @@ header .carousel .right .glyphicon{
 	padding-right: 0px;
 }
 
-
 .contenido .destacados .restaurante a img{
 	height: 183px;
 }
@@ -120,10 +118,10 @@ header .carousel .right .glyphicon{
 	margin-top: 1%;
 	border-style: solid;
 	border-color:#4D4843;
+	display: none;
 }
 
 /*Seccion de agregados recientemente*/
-
 .contenido .agregados_reciente{
 	margin-top: 1%;
 }
@@ -193,10 +191,10 @@ header .carousel .right .glyphicon{
 	margin-top: 1%;
 	border-style: solid;
 	border-color:#4D4843;
+	display: none;
 }
 
 /*Seccion de categorias*/
-
 .contenido .categorias{
 	margin-top: 1%;
 }
@@ -253,4 +251,5 @@ header .carousel .right .glyphicon{
 	border-style: solid;
 	border-color:#4D4843;
 	margin-bottom: 1%;
+	display: none;
 }
