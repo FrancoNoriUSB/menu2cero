@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'bootstrapform',
     'ajax_select',
-    'pageviews',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,7 +49,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "pageviews.middleware.PageViewsMiddleware",
 )
 
 # List of callables that know how to import templates from various sources.
