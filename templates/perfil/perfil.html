@@ -31,12 +31,12 @@
 
 	<!-- Seccion de logo e imagenes -->
 	<div class="row imagenes">
-
+		
 		<div class="logo col-lg-2 col-md-2 col-sm-2 col-xs-4">
 			<!--Barra del logo-->
-			<img class="img-responsive logo-rest" src="{%if 'uploads/' in logo.url %}{{MEDIA_URL}}{{logo}}{%else%}{{STATIC_URL}}{{logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
+			<img class="img-responsive logo-rest" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
 		</div>
-
+		
 		<div class="info_rest col-lg-10 col-md-10 col-sm-10 col-xs-11 col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-xs-offset-1">
 
 			<!--Titulo del restaurante. Titulo y categoria-->
@@ -114,11 +114,11 @@
 			<div class="row direccion">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="text-left">
-						Dirección:<br/>{{direccion}}
+						Dirección:<br/>{{restaurante.direccion}}, {{restaurante.direccion.zona.nombre}}, {{restaurante.direccion.ciudad.nombre}}
 					</p>
 				</div>
 			</div>
-
+			<br>
 			<!--Telefonos y horario-->
 			<div class="row telfs_hora">
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 telefonos">
@@ -159,7 +159,7 @@
 			<div class="row descripcion">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="text-left">
-						Descripción:<br/>{{descripcion}}
+						Descripción:<br/>{{restaurante.descripcion}}
 					</p>
 				</div>
 			</div>

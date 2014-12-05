@@ -71,7 +71,7 @@
 	</div>
 
 	<!-- Restaurantes agregados -->
-	<div class="panel panel-default">
+	<div class="">
 		<div class="panel-heading">
 			<h3 class="panel-title">Restaurantes</h3>
 		</div>
@@ -158,6 +158,9 @@
 					</div>
 					<div class="plan col-lg-2 col-md-2 col-sm-3">
 						<img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre|lower}}.png" alt="{{STATIC_URL}}files/img/{{restaurante.plan.nombre}}.png" title="{{restaurante.plan.nombre}}">
+						<p class="text-center">
+							<a href="/administrador/plan/{{restaurante.id}}">Plan {{restaurante.plan.nombre}}</a>
+						</p>
 					</div>
 				</div>
 				<br>
@@ -175,45 +178,56 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Panel de cuenta</h3>
+			<h3 id="#panel" class="panel-title">Panel de cuenta</h3>
 		</div>
 		<div class="panel-body">
 			<div class="configuracion row">
 				<div class="titulo col-md-12">
-
 					<div class="col-lg-12">
 						<div id="clickeable_cuenta" class="collapse in">
 							<div class="col-lg-10 formulario_cuenta">
+								{%if  guardado%}
+									<div class="alert alert-success" role="alert">
+									<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									{{guardado}}
+									</div>
+
+								{%endif%}
 								<form class="form-inline" role="form" action="" method="POST">
 									{%csrf_token%}
 									<div class="form-group">
-										{{RegistroForm.nombre_de_usuario.label}}
+										{{EditUserForm.username.label}}
 										<br>
-										{%render_field RegistroForm.nombre_de_usuario class="form-control" placeholder="-nombre de usuario-" %}
+										{%render_field EditUserForm.username id="disabledInput" class="form-control" placeholder="-nombre de usuario-" %}
 										<strong>Nota: El nombre de usuario es el identificador del cliente, no tiene relaci&oacute;n con el nombre del restaurante.</strong>
 									</div>
 									<br>
 									<br>
-									<div class="form-group">
-										{{RegistroForm.email.label}}
+									<div class="form-group" >
+										{{EditUserForm.email.label}}
 										<br>
-										{%render_field RegistroForm.email class="form-control" placeholder="nombre@correo.com" %}
-										{%if RegistroForm.email.errors%}
-											<div class="alert alert-danger" role="alert">{{RegistroForm.email.errors|striptags}}</div>
+										{%render_field EditUserForm.email class="form-control" placeholder="nombre@correo.com" %}
+										{%if EditUserForm.email.errors%}
+											<div class="alert alert-danger" role="alert">{{UserForm.email.errors|striptags}}</div>
 										{%endif%}
 									</div>
 									<div class="form-group">
-										{{RegistroForm.cargo.label}}
+										{{ClienteForm.cargo.label}}
 										<br>
-										{%render_field RegistroForm.cargo class="form-control" placeholder="-cargo-"%}
-										{%if RegistroForm.cargo.errors%}
-											<div class="alert alert-danger" role="alert">{{RegistroForm.cargo.errors|striptags}}</div>
+										{%render_field ClienteForm.cargo class="form-control" placeholder="-cargo-"%}
+										{%if ClienteForm.cargo.errors%}
+											<div class="alert alert-danger" role="alert">{{ClienteForm.cargo.errors|striptags}}</div>
 										{%endif%}
 									</div>
 									<div class="form-group">
-										{{RegistroForm.rif.label}}
+										{{ClienteForm.rif.label}}
 										<br>
-										{%render_field RegistroForm.rif class="form-control" placeholder="#-########-#" %}
+										{%render_field ClienteForm.rif id="disabledInput" class="form-control" placeholder="#-########-#" %}
+									</div>
+									<div class="form-group">
+										{{ClienteForm.telefono.label}}
+										<br>
+										{%render_field ClienteForm.telefono class="form-control" placeholder="(0212) 123-45-67" %}
 									</div>
 									<br>
 									<br>
@@ -241,6 +255,7 @@
 										<input type="submit" value="Guardar" class="btn btn-primary">
 									</form>
 							</div>
+							{# {% autoescape off %}{{boton}}{% endautoescape %} #}
 						</div>
 					</div>
 				</div>
@@ -258,8 +273,6 @@ $( document ).ready(function(){
 		var bar = $("input[id='id_eliminar']",form).val();
 		if (confirm("Esta seguro de querer eliminar el restaurante?")==true){
 			window.location.replace("/administrador/eliminar/"+bar);
-		}else{
-			//window.location.replace("/administrador/perfil/");
 		}
 	});
 });

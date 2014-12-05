@@ -6,19 +6,48 @@ from django.forms.extras.widgets import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
-#Formulario de registro sumple de usuario
-class RegistroForm(ModelForm):
-	nombre_de_usuario = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'readonly':'readonly'}))
-	rif = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'readonly':'readonly'}))
-	cargo = forms.CharField(max_length=30)
-	telefono = forms.CharField(max_length=20, required=False)
+#Formulario de registro simple de usuario
+class UserForm(ModelForm):
+	confirm_password = forms.CharField(widget=forms.PasswordInput(), label='Confirme Contraseña')
 
 	class Meta:
 		model = User
-		fields = ('email',)
+		fields = ('email', 'username', 'password',)
 		widgets = {
-	    'email': forms.EmailInput(),
-	}
+			'email': forms.EmailInput(),
+			'password': forms.PasswordInput(),
+		}
+		labels = {
+			'email': 'Correo Electrónico',
+			'password': 'Contraseña',
+		}
+
+#Formulario de datos de cliente
+class ClienteForm(forms.ModelForm):
+
+	class Meta:
+		model = Cliente
+		fields = ('rif', 'cargo','telefono')
+		widgets = {
+			'cargo': forms.Select(),
+		}
+		labels = {
+			'telefono': 'Teléfono',
+		}
+
+	def __init__(self, *args, **kwargs):
+		super(ClienteForm, self).__init__(*args, **kwargs)
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			self.fields['rif'].widget.attrs['readonly'] = True
+
+	def clean_username(self):
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			return instance.rif
+		else:
+			return self.cleaned_data['rif']
+
 
 #Formulario de modificacion de contrasena
 class modificarContrasenaForm(PasswordChangeForm):
@@ -52,9 +81,9 @@ class FiltroForm(forms.Form):
 
 	Categorias = forms.ModelChoiceField(queryset=Categoria.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Categorías -', required=False, to_field_name="nombre")
 
-	Ciudad = forms.ModelChoiceField(queryset=Direccion.objects.all().values_list('ciudad', flat=True).distinct().order_by('ciudad'), empty_label='- Ciudad -', required=False, to_field_name="ciudad")
+	Ciudad = forms.ModelChoiceField(queryset=Ciudad.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Ciudad -', required=False, to_field_name="nombre")
 
-	Zona = forms.ModelChoiceField(queryset=Direccion.objects.all().values_list('zona', flat=True).distinct().order_by('zona'), empty_label='- Zona -', required=False, to_field_name="zona")
+	Zona = forms.ModelChoiceField(queryset=Zona.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Zona -', required=False, to_field_name="nombre")
 
 	Tipo = forms.ChoiceField(choices=choices_tipo, required=False)
 

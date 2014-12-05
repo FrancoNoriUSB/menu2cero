@@ -1,11 +1,7 @@
 <!-- Archivo que contiene la plantilla de busqueda de restaurantes -->
 {% extends "base.html" %}
 
-<!-- Contenido de la pagina de busqueda de restaurantes -->
-{% block contenido %}
-{% load widget_tweaks %}
-{% load cycle from future %}
-
+{% block header %}
 <!-- Estilos del Slide y de la pagina-->
 <link href="{{STATIC_URL}}files/css/restaurantes.css" rel="stylesheet" type="text/css" />
 
@@ -13,71 +9,82 @@
 <script src="{{STATIC_URL}}files/js/raty_jquery.js"></script>
 <script src="{{STATIC_URL}}files/js/jquery.raty.js"></script>
 <script src="{{STATIC_URL}}files/js/raty_labs.js" type="text/javascript"></script>
-		<div class="banner_sup row">
-		</div>
-		<div class="restaurantes row">
-			<div class="filtrador col-lg-4 col-md-4 col-sm-3 col-xs-6">
-				<div class="categorias row">
-					<a href="/restaurantes/"><p id="titulo" class="col-lg-12 col-md-12 col-sm-12">&nbsp;&nbsp;&nbsp;&nbsp;Categorías</p></a>
-					<div class="cats">
-						<ul class="col-lg-6 col-md-6">
-							{%for categoria in categorias_izq%}
-								<li>
-									<a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a>
-								</li>
-							{%endfor%}
-						</ul>
-						<ul class="col-lg-6 col-md-6">
-							{%for categoria in categorias_der%}
-								<li><a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a></li>
-							{%endfor%}
-						</ul>
-					</div>
-				</div>
-				<br>
-				<div class="filtros row">
-					<p id="titulo" class="col-lg-12 col-md-12 col-sm-12">&nbsp;&nbsp;&nbsp;&nbsp;Filtros</p>
-					<form role="form" class="=col-lg-12" method="POST" id="filtro" name="filtro" action=".">
-                        {%csrf_token%}
-						<div class="form-group col-lg-12">
-                			{%render_field filtro.Categorias class="form-control"%}
-                			{%render_field filtro.Ciudad class="form-control"%}
-                			{%render_field filtro.Zona class="form-control"%}
-                			{%render_field filtro.Tipo class="form-control"%}
-                			{%render_field filtro.Servicios class=""%}
-	                        <div class="boton_filtro">
-	                            <input class="btn btn-default" id="boton_filtro" type="submit" alt="Buscar" value="Filtrar" >
-                        	</div>
-                        </div>
-                	</form>
-				</div>
-			</div>
-			<div class="cuadros col-lg-8 col-md-8 col-sm-9 col-xs-10">
-				<div class="row">
-					{% for restaurante in restaurantes%}
-					<div class="restaurante col-lg-3 col-md-4 col-sm-4">
-						<a href="/perfil/restaurante={{restaurante.id}}/">
-							<img src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="img-responsive {% filter force_escape %}{% cycle 'imagen_a' 'imagen_v' %}{% endfilter %}">
-							<p id="titulo">{{restaurante.nombre}}</p>
-						</a>
-						<div id="{{restaurante.nombre|cut:" "}}estrellas" class="estrellas">
-							<div id="punt" value="{{puntos}}"></div>
-								<script type="text/javascript">
-								var myVar = document.getElementById("punt").value;
-								myVar=3;
-									$('#{{restaurante.nombre|cut:" "}}estrellas').raty({score:myVar});
-								</script>
-						</div>
-						<p id="categoria">C: {{restaurante.categoria.nombre}} V: 90000</p>
-					</div>
-					{%empty%}
-					<div class="restaurante class-lg-3">
-						<p id="vacio">Lo sentimos, no hay restaurantes en esta categoría :(!</p>
-					</div>
-					{% endfor %}
-				</div>
+<script type="text/javascript" src="{{STATIC_URL}}files/js/funciones.js"></script>
+
+{% endblock header %}
+
+<!-- Contenido de la pagina de busqueda de restaurantes -->
+{% block contenido %}
+{% load widget_tweaks %}
+{% load cycle from future %}
+
+<div class="banner_sup row">
+</div>
+<div class="restaurantes row">
+	<div class="filtrador col-lg-4 col-md-4 col-sm-3 col-xs-6">
+		<div class="categorias row">
+			<a href="/restaurantes/">
+				<p id="titulo" class="col-lg-12 col-md-12 col-sm-12">&nbsp;&nbsp;&nbsp;&nbsp;Categorías</p>
+			</a>
+			<div class="cats">
+				<ul class="col-lg-6 col-md-6">
+					{%for categoria in categorias_izq%}
+						<li>
+							<a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a>
+						</li>
+					{%endfor%}
+				</ul>
+				<ul class="col-lg-6 col-md-6">
+					{%for categoria in categorias_der%}
+						<li><a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a></li>
+					{%endfor%}
+				</ul>
 			</div>
 		</div>
-		<div class="banner_inf row">
+		<br>
+		<div class="filtros row">
+			<p id="titulo" class="col-lg-12 col-md-12 col-sm-12">&nbsp;&nbsp;&nbsp;&nbsp;Filtros</p>
+			<form role="form" class="=col-lg-12" method="POST" id="filtro" name="filtro" action=".">
+                {%csrf_token%}
+				<div class="form-group col-lg-12">
+        			{%render_field filtro.Categorias class="form-control"%}
+        			{%render_field filtro.Ciudad class="form-control"%}
+        			{%render_field filtro.Zona class="form-control"%}
+        			{%render_field filtro.Tipo class="form-control"%}
+        			{%render_field filtro.Servicios class=""%}
+                    <div class="boton_filtro">
+                        <input class="btn btn-default" id="boton_filtro" type="submit" alt="Buscar" value="Filtrar" >
+                	</div>
+                </div>
+        	</form>
 		</div>
+	</div>
+	<div class="cuadros col-lg-8 col-md-8 col-sm-9 col-xs-10">
+		<div class="row">
+			{% for restaurante in restaurantes%}
+			<div class="restaurante col-lg-3 col-md-4 col-sm-4">
+				<a href="/perfil/{{restaurante.id}}/{{restaurante.nombre|slugify}}/">
+					<img src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="img-responsive {% filter force_escape %}{% cycle 'imagen_a' 'imagen_v' %}{% endfilter %}">
+					<p id="titulo">{{restaurante.nombre}}</p>
+				</a>
+				<div id="{{restaurante.nombre|cut:" "}}estrellas" class="estrellas">
+					<div id="punt" value="{{puntos}}"></div>
+						<script type="text/javascript">
+						var myVar = document.getElementById("punt").value;
+						myVar=3;
+							$('#{{restaurante.nombre|cut:" "}}estrellas').raty({score:myVar});
+						</script>
+				</div>
+				<p class="votos text-center"><span class="glyphicon glyphicon-eye-open"></span> 90000</p>
+			</div>
+			{%empty%}
+			<div class="restaurante class-lg-3">
+				<p id="vacio">Lo sentimos, no hay restaurantes en esta categoría :(!</p>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div class="banner_inf row">
+</div>
 {% endblock contenido %}

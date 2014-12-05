@@ -70,10 +70,6 @@ header > div.container > div > form{
 	display: none;
 }
 
-header > div.container > div > div.registro{
-	display:none;
-}
-
 header > div.container > div > div > div > div > ul > li > a.link-restaurantes{
 	margin-top: 4%;
 }

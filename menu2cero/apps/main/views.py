@@ -17,63 +17,43 @@ from datetime import datetime, date
 
 #Vista del Home
 def index(request):
-	correo = ""
-	registro = RegistroForm(request.POST)
-	buscador = BuscadorForm(request.POST)
-	#Se veririca que se haya hecho un request a POST
-	if request.method == "POST" and (registro.is_valid() or buscador.is_valid()):
-		palabra = ''
-		registro = RegistroForm(request.POST)
-		buscador = BuscadorForm(request.POST)
-		#Se verifica que los datos del formulario sean correctos y que no exista el cliente
-		if registro.is_valid():
-			correo = registro.cleaned_data['correo']
-			existe = Cliente.objects.filter(correo=correo)
+	userF = UserForm()
+	clienteF = ClienteForm()
+	buscadorF = BuscadorForm()
 
-			if not existe:
-				#Se guarda el formulario
-				registro.save()
-				#Se crea el contexto a enviar
-				info = "Cliente registrado con éxito!"
-				ctx = {'info': info, 'buscador': buscador, 'registro': registro}
-				return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
-			else:
-				#Se realizan las operaciones para el caso en el 
-				#que el cliente ya existe
-				info = "Cliente ya existente!\n Registre un correo distinto!"
-				ctx = {'info': info, 'registro': registro, 'buscador': buscador}
-				return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
+	#Se veririca que se haya hecho un request a POST
+	if request.POST:
+		palabra = ''
+		userF = UserForm(request.POST)
+		clienteF = ClienteForm(request.POST)
+		buscadorF = BuscadorForm(request.POST)
+		#Se verifica que los datos del formulario sean correctos y que no exista el cliente
+		if userF.is_valid() and clienteF.is_valid():
+			return redirect('registro', formulario=userF)
 
 		#Caso para el buscador
-		elif buscador.is_valid():
-
-			filtro = FiltroForm(request.POST)
-			palabra = "buscar_"+buscador.cleaned_data['palabra']
+		elif buscadorF.is_valid():
+			palabra = buscadorF.cleaned_data['palabra']
 			return redirect('restaurantes', palabra=palabra)
 
-		# else:
-		# 	ctx = {'registro': registro, 'buscador': buscador}
-		# 	return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
-		
 	else:
 		#Query para los restaurantes destacados
-		restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público',status='Activo').order_by('?')[:12]
+		restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
 		
 		#Query para los restaurantes recientes
-		restaurantes_rec = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id')
+		restaurantes_rec = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
 		restaurantes_rec = restaurantes_rec.reverse()[:6]
 		
 		#Query para las categorias
 		categorias = Categoria.objects.all()[:30]
 
-		buscador = BuscadorForm(request.POST)
-		registro = RegistroForm(request.POST)
 		ctx = {
-			'registro': registro, 
-			'buscador': buscador, 
+			'UserForm': userF, 
+			'ClienteForm': clienteF,
+			'buscador': buscadorF, 
 			'restaurantes_dest': restaurantes_dest,
-			 'restaurantes_rec': restaurantes_rec, 
-			 'categorias': categorias
+			'restaurantes_rec': restaurantes_rec, 
+			'categorias': categorias
 		 }
 		return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
 
@@ -81,17 +61,19 @@ def index(request):
 #Vista de los restaurantes y el filtrador
 def restaurantes_view(request, palabra):
 
-	filtro = FiltroForm()
-	buscador = BuscadorForm()
+	i=0
 	error = ''
-	servicios = []
-	categorias = Categoria.objects.all().order_by('nombre')[:22]
+	filtro = FiltroForm()
+	userF = UserForm()
+	clienteF = ClienteForm()
+	buscador = BuscadorForm()
 	categorias_izq = []
 	categorias_der = []
 	restaurantes = []
+	servicios = []
+	categorias = Categoria.objects.all().order_by('nombre')[:22]
 
 	# Categorias que se imprimen arriba del formulario filtrador
-	i=0
 	for cat in categorias:
 		i+=1
 		if i >= 12:
@@ -101,56 +83,76 @@ def restaurantes_view(request, palabra):
 
 	#Informacion de los restaurantes
 	if request.POST:
-
 		filtro = FiltroForm(request.POST)
-		buscador = BuscadorForm(request.POST)
+		buscadorF = BuscadorForm(request.POST)
+		userF = UserForm(request.POST)
+		clienteF = ClienteForm(request.POST)
 
+		#Caso para el filtro de restaurantes
 		if filtro.is_valid():
+			cat = filtro.cleaned_data['Categorias']
+			ciudad = filtro.cleaned_data['Ciudad']
+			zona = filtro.cleaned_data['Zona']
+			tipo = filtro.cleaned_data['Tipo']
+			servicios = filtro.cleaned_data['Servicios']
 
-			#Caso para el buscador
-			if buscador.is_valid():
-				palabra = buscador.cleaned_data['palabra']
-				restaurantes = buscador_view(palabra)
-			else:
-				cat = filtro.cleaned_data['Categorias']
-				ciudad = filtro.cleaned_data['Ciudad']
-				zona = filtro.cleaned_data['Zona']
-				tipo = filtro.cleaned_data['Tipo']
-				servicios = filtro.cleaned_data['Servicios']
+			#Verificar que no todos los campos esten vacios
+			if cat != None or ciudad != None or zona != None or tipo != '' or servicios!=[]:
 
+				#Verificacion de arreglo vacio
 				if not servicios:
 					servicios = None
 
+				#Verificacion de string vacio
 				if tipo == '':
 					tipo = None
 
-				cat = Categoria.objects.get(nombre=cat)
+				#Extraccion del objeto de categoria
+				try:
+					cat = Categoria.objects.get(nombre=cat)
+				except:
+					cat = ''
 
+				#Campos a buscar
 				fields_list = []
 				fields_list.append('categoria')
-				fields_list.append('direccion')
-				fields_list.append('direccion')
+				fields_list.append('direccion__ciudad')
+				fields_list.append('direccion__zona')
 				fields_list.append('tipo')
 				fields_list.append('servicios')
 
+				#Comparadores para buscar
 				types_list=[]
 				types_list.append('id__exact')
-				types_list.append('ciudad__exact')
-				types_list.append('zona__exact')
+				types_list.append('nombre__exact')
+				types_list.append('nombre__exact')
 				types_list.append('exact')
 				types_list.append('nombre__in')
 
+				#Valores a buscar
 				values_list=[]
-				values_list.append(cat.id)
+				if cat == '':
+					values_list.append(None)
+				else:
+					values_list.append(cat.id)
 				values_list.append(ciudad)
 				values_list.append(zona)
 				values_list.append(tipo)
 				values_list.append(servicios)
 
 				operator = 'and'
-			
+
 				restaurantes = dynamic_query(Restaurante, fields_list, types_list, values_list, operator)
-		
+
+			#Caso registro de cliente
+			elif userF.is_valid() and clienteF.is_valid():
+				return redirect('registro', formulario=userF)
+
+			#Caso busqueda de palabra
+			elif buscadorF.is_valid():
+				palabra = buscadorF.cleaned_data['palabra']
+				restaurantes = buscador_view(palabra)
+
 			#Caso para el cual no se encontro ningun restaurante
 			if restaurantes == []:
 				restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
@@ -158,18 +160,15 @@ def restaurantes_view(request, palabra):
 	#Caso para el cual la palabra tiene contenido
 	elif palabra:
 
-		#Caso en el que la palabra tiene el predicado de busqueda
 		if palabra.startswith('buscar_'):
-			palabra = palabra.lstrip('buscar_')
+			palabra = palabra.strip('buscar_')
 			restaurantes = buscador_view(palabra)
-		else:	
 			#Caso en que se le dio click a una categoria
 			try:
 				#Caso en el que la categoria no esta vacia
-				restaurantes = Restaurante.objects.filter(categoria__nombre=palabra)
+				restaurantes = Restaurante.objects.filter(categoria__nombre=palabra, visibilidad='Público',status='Activo')
 			except:
 				error = 'Error'
-
 	else:
 		#Caso en el que no se introduce ninguna categoria especifica
 		restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
@@ -177,6 +176,8 @@ def restaurantes_view(request, palabra):
 	filtro = FiltroForm(request.POST)
 
 	ctx = {
+		'UserForm': userF,
+		'ClienteForm': clienteF,
 		'buscador': buscador, 
 		'filtro':filtro, 
 		'restaurantes': restaurantes, 
@@ -188,7 +189,7 @@ def restaurantes_view(request, palabra):
 
 
 #Vista del perfil de cada restaurante
-def perfil_view(request, id_rest):
+def perfil_view(request, id_rest, restaurante):
 
 	#Query para obtener los datos del restaurante.
 	imagenes = []
@@ -202,26 +203,20 @@ def perfil_view(request, id_rest):
 	lng = 0
 
 	#Formularios basicos
-	buscador = BuscadorForm(request.POST)
-	registro = RegistroForm(request.POST)
+	buscadorF = BuscadorForm()
+	userF = UserForm()
+	clienteF = ClienteForm()
 
 	#Caso en el que el usuario realizo una busqueda
-	if request.method == "POST":
+	if request.POST:
+		buscadorF = BuscadorForm(request.POST)
 
 		#Caso para el buscador
-		if buscador.is_valid():
-
-			filtro = FiltroForm(request.POST)
+		if buscadorF.is_valid():
 			palabra = "buscar_"+buscador.cleaned_data['palabra']
 			return redirect('restaurantes', palabra=palabra)
 
 	restaurante = get_object_or_404(Restaurante, id=id_rest)
-	logo = restaurante.logo
-	categorias = restaurante.categoria
-	descripcion = restaurante.descripcion
-	disponible = restaurante.abierto
-	metodos_rest = restaurante.metodos_pago.all()
-	servicios_rest = restaurante.servicios.all()
 
 	#Preparacion del horario para mostrar
 	horarios = Horario.objects.filter(restaurante=restaurante)
@@ -231,27 +226,23 @@ def perfil_view(request, id_rest):
 
 	horario = horario_restaurante(dias)
 
+	#Imagenes del restaurante
 	try:
 		imagenes = Imagen.objects.filter(restaurante=restaurante)
 	except:
 		error = 'Este rest no posee imagenes'
-	try:
-		#Direccion del restaurante y otros datos.
-		direccion = Direccion.objects.get(restaurante=restaurante)
-		coord = str(direccion.coord).split(',')
-		lat = coord[0]
-		lng = coord[1]
-		direccion = direccion.direccion + '. ' + direccion.zona + ', ' + direccion.ciudad
-	except:
-		error = 'Este rest no posee direccion'
+
+	#Direccion del restaurante y otros datos.
+	direccion = restaurante.direccion
+	coord = str(direccion.coord).split(',')
+	lat = coord[0]
+	lng = coord[1]
+	direccion = direccion.direccion + '. ' + direccion.zona.nombre + ', ' + direccion.ciudad.nombre
+
 	try:
 		telefonos = TelefonoRestaurante.objects.filter(restaurante=restaurante)
 	except:
-		error = 'Este rest no posee telefonos'
-
-	#Informacion del plan que utiliza.
-	cliente = restaurante.cliente
-	plan = restaurante.plan
+		telefonos = 'Este rest no posee telefonos'
 
 	#Rango de la cantidad de imagenes.
 	rango_img =[]
@@ -263,9 +254,6 @@ def perfil_view(request, id_rest):
 
 	#Servicios que existen
 	servicios = Servicio.objects.all()
-
-	#Status en el que se encuentra el restaurante
-	disponible = restaurante.abierto
 
 	#Seccion del menu y sus platos
 	try:
@@ -302,7 +290,6 @@ def perfil_view(request, id_rest):
 		arreglo.append((tipo, contador[i], tipo.id))
 		i = i+1
 
-
 	#Votos para los restaurantes
 	votos = Voto.objects.filter(restaurante=restaurante)
 	puntos = 0
@@ -310,6 +297,7 @@ def perfil_view(request, id_rest):
 	for voto in votos:
 		puntos = puntos + voto.valor
 
+	#Calculo de puntos
 	cantidad = len(votos)
 	try:
 		puntos = puntos/cantidad
@@ -317,26 +305,24 @@ def perfil_view(request, id_rest):
 		error = 'Division por cero!'
 
 	ctx = {
-		'registro': registro, 
-		'buscador': buscador, 
+		'UserForm': userF,
+		'ClienteForm': clienteF,
+		'buscador': buscadorF,
 		'restaurante': restaurante,
-		'categorias': categorias,  
-		'rango_img': rango_img, 
-		'logo': logo, 
-		'puntos': puntos, 
-		'direccion': direccion, 
-		'descripcion': descripcion, 
-		'horario':horario, 
-		'votos': cantidad, 
-		'lat': lat, 
+		'categorias': restaurante.categoria,
+		'rango_img': rango_img,
+		'puntos': puntos,
+		'horario':horario,
+		'votos':cantidad,
+		'lat': lat,
 		'lng': lng,
-		'plan': plan, 
-		'servicios_rest': servicios_rest, 
+		'plan': restaurante.plan, 
+		'servicios_rest': restaurante.servicios.all, 
 		'servicios': servicios, 
-		'metodos_rest': metodos_rest, 
+		'metodos_rest': restaurante.metodos_pago.all, 
 		'metodos': metodos, 
 		'telefonos': telefonos,
-		'disponible': disponible, 
+		'disponible': restaurante.abierto, 
 		'platos': platos, 
 		'arreglo': arreglo
 	}
@@ -423,7 +409,7 @@ def buscador_view(palabra):
 	#Caso para los restaurantes con ciudades especificas		
 	if not restaurantes:
 		try:
-			restaurantes = Restaurante.objects.filter(direccion__ciudad__icontains=palabra, visibilidad='Público',status='Activo')
+			restaurantes = Restaurante.objects.filter(direccion__ciudad__nombre__icontains=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'No se encontraron coincidencias'
 
@@ -467,6 +453,7 @@ def dynamic_query(model, fields, types, values, operator):
                 q = None
         if q:
             # We have a Q object, return the QuerySet
+            print q
             return model.objects.filter(q)
     else:
         # Return an empty result

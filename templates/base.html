@@ -1,4 +1,5 @@
 {% load bootstrap %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -20,24 +21,31 @@
         <!-- Latest compiled and minified JavaScript
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         -->
+
         <!--Bootstrap Local-->
         <!--CSS -->
         <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css">
 
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap-theme.min.css">
-
         <!--Estilos-->
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/base.css">
+
+        <!-- jQuery -->
+        <script src="{{STATIC_URL}}files/js/jquery-1.11.1.min.js"></script>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- iCheck -->
+        <script src="{{STATIC_URL}}iCheck-master/icheck.js"></script>
     </head>
     <body>
     
         <!-- Header de la página -->
         <header>
-            <div class="header-home">
+            <div class="header">
                 <!-- Header del home -->
-                {% block header_home %}
-                {% endblock header_home %}
+                {% block header %}
+                {% endblock header %}
             </div>
 
             <!-- Botonera inferior del header -->
@@ -58,7 +66,6 @@
                             </a>
                         </div>
                     </div>
-
 
                     <!-- Botones y buscador -->
                     <div class="col-lg-9 col-md-9 col-sm-12">
@@ -102,7 +109,13 @@
                                                 <a href="/">Inicio</a>
                                             </li>
                                             <li>
-                                                <a href="#">Agregar Restaurante</a>
+                                                {%if user.is_authenticated%}
+                                                    <a href="/administrador/agregar/">Agregar Restaurante</a>
+                                                {%else%}
+                                                    <a href="#" type="button" class="" data-toggle="modal" data-target="#myModal">
+                                                      Agregar Restaurante
+                                                    </a>
+                                                {%endif%}
                                             </li>
                                             <li>
                                                 <a href="/restaurantes/">Restaurantes</a>
@@ -141,26 +154,61 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Registro de usuario -->
-                    {% block registro %}
-                        <div class="registro">
-                            <form method="POST" class="navbar-form navbar-left buscador" name="buscador" action=".">
-                                <div class="form-group">
-                                    {%csrf_token%}
-                                    {{registro.as_p}}
-                                </div>
-                                <button class="btn boton_buscador" id="">
-                                    <img src="{{STATIC_URL}}files/img/buscar.png" alt="Buscar">
-                                </button>
-                            </form>
-                        </div>
-                    {% endblock registro %}       
+                    </div>      
                 </div>
             </div>
         </header>
         <div class="contenido container">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Registro de usuario: </h4>
+                        </div>
+                        <div class="modal-body">    
+                            <form role="form" method="POST" action="/registro/">
+                                <div class="form-group">
+                                    {%csrf_token%}
+                                    <div class="form-group">
+                                        {{ClienteForm.rif.label}}
+                                        {% render_field ClienteForm.rif class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ClienteForm.cargo.label}}
+                                        {% render_field ClienteForm.cargo class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ClienteForm.telefono.label}}
+                                    {% render_field ClienteForm.telefono class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{UserForm.email.label}}
+                                        {% render_field UserForm.email class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{UserForm.username.label}}
+                                        {% render_field UserForm.username class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{UserForm.password.label}}
+                                        {% render_field UserForm.password class="form-control" %}
+                                    </div>
+                                    <div class="form-group">
+                                        {{UserForm.confirm_password.label}}
+                                        {% render_field UserForm.confirm_password class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Seccion interna de la página -->
             {% block contenido %}
             {% endblock contenido %}
@@ -168,7 +216,6 @@
 
         <!-- Footer de la página -->
         <footer>
-
             <nav class="navbar navbar-static-bottom navbar-default" role="navigation">
                 <div class="container-fluid">
                     <div class="navfooter">
@@ -204,19 +251,16 @@
     </body>
 
 <!-- Seccion donde se carga el JS -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
- <!-- Modernizr -->
-<script src="{{STATIC_URL}}files/js/modernizr.custom.80055.js"></script>
+  ga('create', 'UA-57378322-1', 'auto');
+  ga('send', 'pageview');
 
-<!-- jQuery -->
-<script src="http://code.jquery.com/jquery.js"></script>
-
-<!-- Bootstrap JavaScript -->
-<script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
-
-<!-- iCheck -->
-<script src="{{STATIC_URL}}iCheck-master/icheck.js"></script>
-
+</script>
 {%block js%}
 
 {%endblock js%}

@@ -36,6 +36,7 @@ section{
 	margin-top: 1%;
 	border-style: solid;
 	border-color:#4D4843;
+	display: none;
 }
 
 /*Estilos para el contenido de las categorias*/
@@ -97,7 +98,6 @@ section{
 }
 
 /*Estilos de los cuadros de los restaurantes*/
-
 .restaurantes .cuadros{
 	display:inline;
 }
@@ -140,20 +140,14 @@ section{
 .restaurantes .restaurante .estrellas{
 	margin-left: auto;
 	margin-right: auto;
-	width: 50%;
-	margin-bottom: 6%;
+	width: 50% !important;
+	margin-bottom: 3%;
 }
 
-.restaurantes .restaurante #categoria{
-	font-size: 14px;
-	text-align: center;
+.restaurantes .restaurante .votos{
 	color: #4D4843;
-	margin-bottom: 6%;
-}
-
-.restaurantes .restaurante #vistas{
-	font-size: 14px;
-	color: #4D4843;
+	margin-bottom: 8%;
+	font-size: medium;
 }
 
 

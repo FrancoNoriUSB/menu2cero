@@ -13,9 +13,37 @@ class LoginForm(forms.ModelForm):
 		model = User
 		fields = ('username','password')
 		widgets = {
-            'password': forms.PasswordInput(attrs={'class':"form-control", 'placeholder':"Contraseña"}),
-            'username': forms.TextInput(attrs={'class':"form-control", 'placeholder':"Usuario"}),
-        }
+			'password': forms.PasswordInput(attrs={'class':"form-control", 'placeholder':"Contraseña"}),
+			'username': forms.TextInput(attrs={'class':"form-control", 'placeholder':"Usuario"}),
+		}
+
+
+#Formulario de registro simple de usuario
+class EditUserForm(ModelForm):
+
+	class Meta:
+		model = User
+		fields = ('email', 'username',)
+		widgets = {
+			'email': forms.EmailInput(),
+		}
+		labels = {
+			'email': 'Correo Electrónico',
+		}
+
+	def __init__(self, *args, **kwargs):
+		super(EditUserForm, self).__init__(*args, **kwargs)
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			self.fields['username'].widget.attrs['readonly'] = True
+
+	def clean_username(self):
+		instance = getattr(self, 'instance', None)
+		if instance and instance.pk:
+			return instance.username
+		else:
+			return self.cleaned_data['username']
+
 
 #Formularios del perfil del usuario de los restaurantes
 
@@ -70,11 +98,16 @@ class DireccionForm(forms.ModelForm):
 
 	class Meta:
 		model = Direccion
-		fields = ('direccion', 'ciudad', 'zona', 'coord')
+		fields = (
+			'direccion', 
+			'ciudad', 
+			'zona', 
+			'coord'
+		)
 		widgets = {
 			'direccion': forms.Textarea(attrs={'class':"form-control", 'cols':'20', 'placeholder': 'Calle, avenida, vía, etc.'}),
-			'ciudad': forms.TextInput(attrs={'class':"form-control", 'placeholder': 'Ciudad'}),
-			'zona': forms.TextInput(attrs={'class':"form-control", 'placeholder':'Zona'}),
+			'ciudad': forms.Select(attrs={'class':"form-control", 'placeholder': 'Ciudad'}),
+			'zona': forms.Select(attrs={'class':"form-control", 'placeholder':'Zona'}),
 			'coord': forms.TextInput(attrs={'style':"display:none"})
 		}
 
@@ -83,6 +116,10 @@ class TelefonoRestauranteForm(forms.ModelForm):
 
 	class Meta:
 		model = TelefonoRestaurante
+		fields = (
+			'numero',
+			'display'
+		)
 		widgets = {
 		'restaurante': forms.HiddenInput(),
 		'numero': forms.TextInput(attrs={'class':'form-control'}),

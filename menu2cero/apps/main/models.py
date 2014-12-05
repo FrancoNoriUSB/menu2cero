@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 #Modelos de la base de datos de Menu 2.0
 
-
 #Clase para los planes que tendran los restaurantes
 class Plan(models.Model):
 
@@ -35,7 +34,7 @@ class Categoria(models.Model):
 
 	def __unicode__(self):
 		return u"%s" %(self.nombre)
-    
+	
 
 #Clase para los servicios de los restaurantes
 class Servicio(models.Model):
@@ -53,7 +52,12 @@ class Servicio(models.Model):
 
 #Clase para los metodos de pago que utilizan los restaurantes
 class Metodo(models.Model):
-	pagos = (('Efectivo', 'Efectivo'), ('Debito', u'Débito'), ('Credito', u'Crédito'), ('Cesta Ticket', 'Cesta Ticket'),)
+	pagos = (
+		('Efectivo', 'Efectivo'), 
+		('Debito', u'Débito'), 
+		('Credito', u'Crédito'), 
+		('Cesta Ticket', 'Cesta Ticket'),
+		)
 	
 	nombre = models.CharField(max_length=12, choices=pagos)
 	
@@ -69,8 +73,14 @@ class Metodo(models.Model):
 #Clase del cliente
 class Cliente(models.Model):
 
+	cargos = (
+		('Gerente','Gerente'),
+		('Encargado', 'Encargado'),
+		('Dueno', u'Dueño'),
+		)
+
 	rif = models.CharField(max_length=13, primary_key=True)
-	cargo = models.CharField(max_length=20)
+	cargo = models.CharField(max_length=20, choices=cargos)
 	telefono = models.CharField(max_length=20)
 
 	#Claves foraneas y de otras tablas
@@ -82,14 +92,14 @@ class Cliente(models.Model):
 		verbose_name_plural = _('Clientes')
 
 	def __unicode__(self):
-	    return u"%s. Nombre: %s" %(self.rif, self.user.username)
+		return u"%s. Nombre: %s" %(self.rif, self.user.username)
 
 
 #Clase del restaurante
 class Restaurante(models.Model):
 	
 	tipos = (('rest', 'Restaurante'), ('bar', 'Bar'), ('hel', 'Heladería'), ('pan', 'Panadería'), (u'café', 'Cafetería'),)
-	statuses = (('Activo', 'Activo'), ('Inactivo', 'Inactivo'), ('Eliminado', 'Eliminado'), (u'Público','Publico'), ('Privado','Privado'))
+	statuses = (('Activo', 'Activo'), ('Inactivo', 'Inactivo'), ('Eliminado', 'Eliminado'),)
 	visible = ((u'Público','Público'), ('Privado','Privado'),)
 
 	rif = models.CharField(max_length=13)
@@ -100,7 +110,7 @@ class Restaurante(models.Model):
 	tipo = models.CharField(max_length=4, choices=tipos)
 	abierto = models.BooleanField(default=True, help_text='Desmarcar si su restaurante se encuentra cerrado')
 	visibilidad = models.CharField(max_length=10, null=True, choices=visible)
-
+	
 	#Claves foraneas y de otras tablas
 	cliente = models.ForeignKey(Cliente)	
 	categoria = models.ManyToManyField(Categoria)
@@ -117,15 +127,46 @@ class Restaurante(models.Model):
 		return u"Nombre: %s. Dueno: %s" %(self.nombre, self.cliente)
 
 
+#Clase para las ciudades de los restaurantes
+class Ciudad(models.Model):
+
+	nombre = models.CharField(max_length=30)
+
+	class Meta:
+		ordering = ('nombre',)
+		verbose_name = "Ciudad"
+		verbose_name_plural = "Ciudades"
+
+	def __unicode__(self):
+		return u"%s" %(self.nombre)
+
+
+#Clase para las zonas de las ciudades
+class Zona(models.Model):
+
+	nombre = models.CharField(max_length=50)
+
+	#Claves foraneas y de otras tablas
+	ciudad = models.ForeignKey(Ciudad)
+
+	class Meta:
+		ordering = ('nombre',)
+		verbose_name = "Zona"
+		verbose_name_plural = "Zonas"
+
+	def __unicode__(self):
+		return u"%s" %(self.nombre)
+	
+
 #Clase para la direccion del restaurante
 class Direccion(models.Model):
 
 	coord = models.CharField(max_length=50)
 	direccion = models.CharField(max_length=100)
-	ciudad = models.CharField(max_length=30)
-	zona = models.CharField(max_length=50)
 
 	#Claves foraneas y de otras tablas
+	ciudad = models.ForeignKey(Ciudad)
+	zona = models.ForeignKey(Zona)
 	restaurante = models.OneToOneField(Restaurante)
 
 	class Meta:
@@ -134,7 +175,7 @@ class Direccion(models.Model):
 		verbose_name_plural = _('Direcciones')
 
 	def __unicode__(self):
-		return u"Ciudad:  %s" %(self.ciudad)
+		return u"%s" %(self.direccion)
 
 
 #Clase para las redes sociales del restaurante
@@ -207,7 +248,7 @@ class Imagen(models.Model):
 		# Set our max thumbnail size in a tuple (max width, max height)
 		THUMBNAIL_SIZE = (200,200)
 
-        # Open original photo which we want to thumbnail using PIL's Image
+		# Open original photo which we want to thumbnail using PIL's Image
 		imagen = Image.open(StringIO(self.imagen.read()))
 		image_type = imagen.format.lower()
 
@@ -333,15 +374,15 @@ class Plato(models.Model):
 class Pago(models.Model):
 	
 	tipos = ( ('men', 'mensual'), ('tri', 'trimestral'), ('sem', 'semestral'), ('anu', 'anual'),)
-	fecha = models.DateField(auto_now_add=True)
 	monto = models.DecimalField(max_digits=10, decimal_places=2)
+	fecha = models.DateField(auto_now_add=True)
 	vigencia = models.DateField(auto_now_add=False)
 	tipo = models.CharField(choices=tipos, max_length=3)
 	numero = models.DecimalField(max_digits=20, decimal_places=2)
 
 	#Claves foraneas y de otras tablas
-	cliente = models.ForeignKey('Cliente')
-	restaurante = models.ForeignKey('Restaurante')
+	cliente = models.ForeignKey(Cliente)
+	restaurante = models.ForeignKey(Restaurante)
 
 	class Meta:
 		ordering = ('fecha',)

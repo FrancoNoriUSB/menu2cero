@@ -1,5 +1,8 @@
 from django.contrib import admin
 from models import *
+from ajax_select import make_ajax_form
+from ajax_select.admin import AjaxSelectAdmin
+
 
 #Clase para agregar al admin la tabla de rest
 class RestauranteAdmin(admin.TabularInline):
@@ -14,6 +17,7 @@ class RestauranteAdmin(admin.TabularInline):
 # 	inlines = [RestauranteAdmin]
 
 admin.site.register(Categoria)
+admin.site.register(Ciudad)
 admin.site.register(Cliente)
 admin.site.register(Comensal)
 admin.site.register(Direccion)
@@ -29,3 +33,10 @@ admin.site.register(Restaurante)
 admin.site.register(Servicio)
 admin.site.register(TelefonoRestaurante)
 admin.site.register(Voto)
+admin.site.register(Zona)
+
+# class ZonaAdmin(AjaxSelectAdmin):
+#     # create an ajax form class using the factory function
+#     #                     model,fieldlist,   [form superclass]
+#     form = make_ajax_form(Label,{'owner':'person'})
+# admin.site.register(Label,LabelAdmin)

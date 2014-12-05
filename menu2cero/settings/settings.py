@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'menu2cero.apps.administrador',
     'widget_tweaks',
     'bootstrapform',
+    'ajax_select',
+    'pageviews',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,9 +50,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "pageviews.middleware.PageViewsMiddleware",
 )
-
-
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -66,7 +67,7 @@ ROOT_URLCONF = 'menu2cero.urls'
 
 WSGI_APPLICATION = 'menu2cero.wsgi.application'
 
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = '/administrador/login/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -146,4 +147,11 @@ from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
+
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
+
+# define the lookup channels in use on the site
+AJAX_LOOKUP_CHANNELS = {
+    # define a custom lookup channel
+    'Zona'   : ('../main.lookups', 'ZonaLookup')
+}

@@ -413,7 +413,7 @@
             3, 
             1
         ], 
-        "cliente": "5874123", 
+        "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
     }
@@ -443,7 +443,7 @@
             3, 
             2
         ], 
-        "cliente": "6881230", 
+        "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
     }
@@ -472,7 +472,7 @@
             4, 
             1
         ], 
-        "cliente": "4545114", 
+        "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
     }
@@ -498,44 +498,13 @@
             4, 
             1
         ], 
-        "cliente": "4545114", 
-        "abierto": true,
-        "visibilidad": "P\u00fablico"
-    }
-},
-{
-    "pk": 6, 
-    "model": "main.restaurante", 
-    "fields": {
-        "status": "Activo", 
-        "categoria": [
-            23
-        ], 
-        "servicios": [
-            1, 
-            4, 
-            6, 
-            9, 
-            7
-        ], 
-        "tipo": "bar",
-        "plan": 4, 
-        "logo": "uploads/img/logos/logo_restaurant_04.jpg", 
-        "descripcion": "Es un bar universitario. Para estudiantes que deseen pasar una noche divertida con alguno que otro trago y plato de comida.", 
-        "nombre": "HardBar", 
-        "rif": "J-12345678-9",
-        "metodos_pago": [
-            3, 
-            2, 
-            1
-        ], 
         "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
     }
 },
 {
-    "pk": 7, 
+    "pk": 6, 
     "model": "main.restaurante", 
     "fields": {
         "status": "Activo", 
@@ -557,73 +526,7 @@
             3, 
             2
         ], 
-        "cliente": "5874123", 
-        "abierto": true,
-        "visibilidad": "P\u00fablico"
-    }
-},
-{
-    "pk": 8, 
-    "model": "main.restaurante", 
-    "fields": {
-        "status": "Activo", 
-        "categoria": [
-            23
-        ], 
-        "servicios": [
-            8, 
-            1, 
-            6, 
-            9, 
-            3
-        ], 
-        "tipo": "bar", 
-        "plan": 1, 
-        "logo": "uploads/img/logos/logo_restaurant_04_2.jpg", 
-        "descripcion": "La franquicia Bar... trae los mejores grupos musicales de barlovento.",
-        "nombre": "Bar lovento", 
-        "rif": "J-12345678-9",
-        "metodos_pago": [
-            4, 
-            3, 
-            2, 
-            1
-        ], 
-        "cliente": "4545114", 
-        "abierto": true,
-        "visibilidad": "P\u00fablico"
-    }
-},
-{
-    "pk": 9, 
-    "model": "main.restaurante", 
-    "fields": {
-        "status": "Activo", 
-        "categoria": [
-            15
-        ], 
-        "servicios": [
-            5, 
-            8, 
-            1, 
-            4, 
-            9, 
-            3, 
-            2, 
-            7
-        ], 
-        "tipo": "rest",
-        "plan": 3, 
-        "logo": "uploads/img/logos/logo_restaurant_02_1.jpg", 
-        "descripcion": "Es un restaurante que te acerca a la real salchicha venezolana presentando diferentes salchichones que le agregan gusto al paladar.", 
-        "nombre": "El Salchichon", 
-        "rif": "J-12345678-9",
-        "metodos_pago": [
-            4, 
-            2, 
-            1
-        ], 
-        "cliente": "888999111", 
+        "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
     }
@@ -769,25 +672,26 @@
     }
 },
 {
-    "pk": 1, 
-    "model": "main.direccion", 
+    "pk":1,
+    "model": "main.ciudad",
     "fields": {
-        "restaurante": 1, 
-        "zona": "La Candelaria", 
-        "ciudad": "Distrito Capital, Caracas", 
-        "coord": "10.504986, -66.905032", 
-        "direccion": "Av. M\u00e9xico, cruce con Cl. Rafael Domingo Sisco, Edificio Hotel Plaza Mayor, Piso P.B"
+        "nombre": "Caracas"
     }
 },
 {
-    "pk": 2, 
-    "model": "main.direccion", 
+    "pk":1,
+    "model": "main.zona",
     "fields": {
-        "restaurante": 6, 
-        "zona": "Los Palos Grandes", 
-        "ciudad": "Distrito Capital, Caracas", 
-        "coord": "10.504986, -67.905032", 
-        "direccion": "Distrito Capital, Caracas, Tercera transversal de los Palos Grandes."
+        "nombre": "La Candelaria",
+        "ciudad": 1
+    }
+},
+{
+    "pk":2,
+    "model": "main.zona",
+    "fields": {
+        "nombre": "Los Palos Grandes",
+        "ciudad": 1
     }
 },
 {
@@ -797,6 +701,28 @@
         "restaurante": 1, 
         "display": true, 
         "numero": "0212-2357584"
+    }
+},
+{
+    "pk": 1, 
+    "model": "main.direccion", 
+    "fields": {
+        "restaurante": 1, 
+        "zona": 1, 
+         "ciudad": 1, 
+        "coord": "10.504986, -66.905032", 
+        "direccion": "Av. M\u00e9xico, cruce con Cl. Rafael Domingo Sisco, Edificio Hotel Plaza Mayor, Piso P.B"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.direccion", 
+    "fields": {
+        "restaurante": 6, 
+        "zona": 2, 
+        "ciudad": 1, 
+        "coord": "10.504986, -67.905032", 
+        "direccion": "Distrito Capital, Caracas, Tercera transversal de los Palos Grandes."
     }
 },
 {
@@ -1058,6 +984,24 @@
     "fields": {
         "restaurante": 2, 
         "valor": "0.9"
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "pedroperez", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2014-04-16T06:31:02.726Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$12000$XETve3jUaZjF$aOFBbdQKzuMvn5CPz15Lq8WtZ82NfglPDN90X64IaZU=", 
+        "email": "", 
+        "date_joined": "2014-04-16T06:31:02.726Z"
     }
 }
 ]

@@ -12,6 +12,7 @@ url(r'^administrador/abrir_cerrar/(?P<id_rest>.*)$', 'abrir_cerrar_restaurante',
 url(r'^administrador/visibilidad_restaurante/(?P<id_rest>.*)$', 'visibilidad_restaurante', name='visibilidad_restaurante'),
 url(r'^administrador/eliminar/(?P<id_rest>.*)$', 'eliminar_restaurante', name='eliminar_restaurante'),
 url(r'^administrador/cerrar_sesion/$', 'cerrar_sesion', name='cerrar_sesion'),
+url(r'^administrador/plan/(?P<id_rest>.*)$', 'admin_plan_view', name='admin_plan'),
 
 #Urls para verificar los formularios del restaurante
 url(r'^administrador/restaurante_info_basica/(?P<id_rest>.*)$', 'restaurante_info_basica', name='restaurante_info_basica'),	
