@@ -400,7 +400,7 @@ def contactos_view(request):
 		# Envio de correo de contacto
 		if contactF.is_valid():
 			envio = contact_email(request, contactF)
-			contactoF = ContactoAgenteForm()
+			contactoF = ContactForm()
 
 	ctx = {
 		'UserCreationForm': userF,

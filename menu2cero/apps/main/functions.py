@@ -20,5 +20,5 @@ def contact_email(request, form):
     message = 'Correo de contacto del usuario: '+ str(name) +'. Con correo: ' + str(emailF.cleaned_data['correo']) +'<br>'
     message += 'Mensaje: '+ str(emailF.cleaned_data['mensaje']) + '<br>'
     message += 'Telefono de contacto: '+ str(telephone)
-    send_mail('[Menu2Cero] Correo contacto', message, 'Usuario Menu2Cero <'+str(emailF.cleaned_data['correo'])+'>', emails, fail_silently=False)
+    send_mail('[Menu2Cero] Correo contacto', message, 'info@menu2cero.com', emails, html_message=message, fail_silently=False)
     return True
