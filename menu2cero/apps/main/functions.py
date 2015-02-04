@@ -1,6 +1,7 @@
 from django.core.mail.message import EmailMessage
 from django.db.models import Count
 from django.db.models import Q
+from django.core.mail import send_mail
 
 #Set de funciones varias a utilizar en el frontend
 
@@ -12,23 +13,12 @@ def contact_email(request, form):
 
     #Informacion del usuario
     name = emailF.cleaned_data['nombre']
-    emails.append("info@menu2cero.com")
     telephone = emailF.cleaned_data['telefono']
-
-    #Verificacion de si posee telefono
-    if telephone == '':
-        telephone = 'No posee telefono de contacto.'
+    emails.append("info@menu2cero.com")
 
     #Mensaje a enviar
     message = 'Correo de contacto del usuario: '+ str(name) +'. Con correo: ' + str(emailF.cleaned_data['correo']) +'<br>'
     message += 'Mensaje: '+ str(emailF.cleaned_data['mensaje']) + '<br>'
     message += 'Telefono de contacto: '+ str(telephone)
-
-    email = EmailMessage()
-    email.subject = '[Menu2Cero] Correo contacto'
-    email.body = message
-    email.from_email = 'Usuario Menu2Cero <'+str(emailF.cleaned_data['correo'])+'>'
-    email.to = emails
-    email.content_subtype = "html"
-    enviado=email.send()
+    send_mail('[Menu2Cero] Correo contacto', message, 'Usuario Menu2Cero <'+str(emailF.cleaned_data['correo'])+'>', emails, fail_silently=False)
     return True
