@@ -1,6 +1,5 @@
 from json.encoder import JSONEncoder
 import requests
-
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.poolmanager import PoolManager
 import ssl

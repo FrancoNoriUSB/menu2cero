@@ -11,10 +11,10 @@ class LoginForm(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('username','password')
+		fields = ('email','password')
 		widgets = {
 			'password': forms.PasswordInput(attrs={'class':"form-control", 'placeholder':"Contraseña"}),
-			'username': forms.TextInput(attrs={'class':"form-control", 'placeholder':"Usuario"}),
+			'email': forms.EmailInput(attrs={'class':"form-control", 'placeholder':"Correo"}),
 		}
 
 
@@ -23,7 +23,7 @@ class EditUserForm(ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('email', 'username',)
+		fields = ('email', 'nombre',)
 		widgets = {
 			'email': forms.EmailInput(),
 		}
@@ -35,7 +35,7 @@ class EditUserForm(ModelForm):
 		super(EditUserForm, self).__init__(*args, **kwargs)
 		instance = getattr(self, 'instance', None)
 		if instance and instance.pk:
-			self.fields['username'].widget.attrs['readonly'] = True
+			self.fields['email'].widget.attrs['readonly'] = True
 
 	def clean_username(self):
 		instance = getattr(self, 'instance', None)
@@ -200,7 +200,7 @@ class PlatosForm(forms.ModelForm):
 #Formulario para los tipos de platos
 class TipoPlatoForm(forms.Form):
 
-	nombre = forms.ModelChoiceField(queryset=Tipo.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='--Tipo--', required=True)
+	nombre = forms.ModelChoiceField(queryset=Tipo.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Tipo -', required=True)
 
 #Formulario de eliminacion de restaurante
 class EliminarForm(forms.Form):

@@ -82,6 +82,41 @@ header > div.container > div > div > div > div > ul > li > p.perfil{
 	height: 29px;
 }
 
+/*Registro y login*/
+#myModal > div > div > div.modal-body > h5,
+#myModal > div > div > div.modal-body > div > h5{
+	color: #1BA488;
+}
+
+#id_password, #id_password1, #id_email, #id_nombre{
+	width: 50%;
+	float: left;
+	text-align: center;
+}
+
+#id_cargo > option:nth-child(1){
+	color: #555;
+}
+
+#myModal > div > div > div.modal-body > form > div > div > p > a{
+	color: red;
+}
+
+#myModal > div > div > div.modal-body > form > div > div > button,
+#myModal > div > div > div.modal-body > div > form > div > div > button,
+#myModal > div > div > div.modal-body > form > div > div > p > a,
+#id_cargo, 
+#id_telefono, 
+#id_password2{
+	width: 49%;
+	margin-left: 5px;
+	text-align: center;
+}
+
+#myModal > div > div > div.modal-body > form > div > div > button{
+	float: right;
+}
+
 /*Navegador del footer*/
 #nav-foot ul li a, footer section p{
 	font-size: 14px;
@@ -115,31 +150,6 @@ body > footer > nav{
 	margin-bottom: 0px !important;
 }
 
-/*body > footer{
-	max-height: 525px;
-	background-color: #4D4843;
-	z-index: 5;
-}
-
-body > footer > nav > div{	
-}
-
-footer .navbar .container-fluid .navbar-toggle{
-	position: absolute;
-}
-
-footer .navbar .container-fluid .navfooter .nav{
-	margin-left: 15%;
-}
-
-.nav>li>a:hover{
-	background-color: transparent;
-}
-
-body > footer > nav > div > p{
-	color: #F2F7F6;
-}*/
-
 /*Varios*/
 header a, footer a,
 body > footer > nav > div > div.container > p{
@@ -165,8 +175,6 @@ header nav ul li{
 header nav ul li a{
     text-align:justify;
 }
-
-
 
 /*Bootstrap modificado*/
 .btn-primary{
@@ -246,5 +254,21 @@ header .btn{
 
 .navbar-inverse .navbar-nav .open .dropdown-menu>li>a{
 	color:#FFFFFF;
+}
+
+.modal-dialog{
+	width: 45%;
+}
+
+.modal-header .close{
+	margin-top: -15px;
+}
+
+#myModal > div > div{
+	padding-top: 15px;
+	padding-bottom: 25px;
+	padding-left: 50px;
+	padding-right: 50px;
+	background-color: #F2F7F6;
 }
 /*Fin Bootstrap modificado*/

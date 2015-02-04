@@ -37,8 +37,7 @@ INSTALLED_APPS = (
     'menu2cero.apps.main',
     'menu2cero.apps.administrador',
     'widget_tweaks',
-    'bootstrapform',
-    'ajax_select',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -137,7 +136,7 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, '../media'))
 MEDIA_URL = '/media/'
 
 FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, '../static/fixtures'),
+    # os.path.join(BASE_DIR, '../static/fixtures'),
 )
 
 # For Sidebar Menu (List of apps and models) (RECOMMENDED)
@@ -148,8 +147,11 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
 
-# define the lookup channels in use on the site
-AJAX_LOOKUP_CHANNELS = {
-    # define a custom lookup channel
-    'Zona'   : ('../main.lookups', 'ZonaLookup')
-}
+AUTH_USER_MODEL = 'main.User'
+
+#Configuracion de envio de correos
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'menu2cero'
+EMAIL_HOST_PASSWORD = '@M3nu2c3r0'
+DEFAULT_FROM_EMAIL = 'info@menu2cero.com'
+SERVER_EMAIL = 'info@menu2cero.com'

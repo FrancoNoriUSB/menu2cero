@@ -1,0 +1,26 @@
+/*Documento de Estilos para la seccion de contactos de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+
+
+/*Formulario*/
+body > div > div.row.contenido > div > h5{
+	color: #1BA488;
+}
+
+#id_nombre, 
+#id_correo, 
+#id_telefono, 
+#id_mensaje,
+body > div > div.row.contenido > div > form > div > div > button{
+	width: 100%;
+	float: left;
+	margin-left: 0px;
+	text-align: center;
+}

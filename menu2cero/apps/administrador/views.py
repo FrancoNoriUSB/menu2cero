@@ -26,49 +26,29 @@ import os, sys
 mp = mercadopago.MP("2041234873847333", "dcFLGjyBjtk5dOfN4rC16s45a3mECeaA")
 
 #Vista para el ingreso de los usuarios.
-def admin_login_view(request):
+def loginUser(request):
 
-    username = ''
+    email = ''
     password = ''
-    
-    #Formularios basicos
-    buscadorF = BuscadorForm()
-    loginF = LoginForm()
 
     if request.user.is_authenticated() and request.user:
-        
         return HttpResponseRedirect('/administrador/perfil')
-
-    if request.method == "POST":
-
-        #Caso para el buscador
-        if buscadorF.is_valid():
-
-            filtro = FiltroForm(request.POST)
-            palabra = "buscar_"+buscador.cleaned_data['palabra']
-            return redirect('restaurantes', palabra=palabra)
-
-        loginF = LoginForm(request.POST)
-        username = request.POST['username']
+    else:
+        email = request.POST['email']
         password = request.POST['password']
-        usuario = authenticate(username=username, password=password)
-
+        usuario = authenticate(email=email, password=password)
         if usuario:
-                # Caso del usuario activo
-                if usuario.is_active:
-                    login(request, usuario)
-                    return HttpResponseRedirect('/administrador/perfil')
-                else:
-                    return "Tu cuenta esta bloqueada"
+            # Caso del usuario activo
+            if usuario.is_active:
+                login(request, usuario)
+                return HttpResponseRedirect('/administrador/perfil/')
+            else:
+                return "Tu cuenta esta bloqueada"
         else:
             # Usuario invalido o no existe!
-            print "Invalid login details: {0}, {1}".format(username, password)
+            print "Invalid login details: {0}, {1}".format(email, password)
 
-    ctx = {
-        'buscador':buscadorF, 
-        'login': loginF
-    }
-    return render_to_response('administrador/login/login.html', ctx, context_instance=RequestContext(request))
+    return HttpResponseRedirect('/')
 
 #Vista del perfil del usuario logueado
 @login_required
@@ -81,14 +61,12 @@ def admin_perfil_view(request):
     logosF = LogosForm()
     clienteF = ClienteForm(instance=cliente, initial={
         'cargo':cliente.cargo,
-        'rif':cliente.rif,
         'telefono':cliente.telefono
         })
-    clienteF.fields['rif'].widget.attrs['readonly'] = True
 
     euserF = EditUserForm(instance=cliente.user, initial={
         'email':cliente.user.email,
-        'username':cliente.user.username,
+        'username':cliente.user.nombre,
         })
     modificarF = modificarContrasenaForm(user=cliente.user)
     restaurantes = []
@@ -305,16 +283,18 @@ def admin_editar_restaurante_view(request, id_rest):
 
     #Inicializacion del formulario de imagenes de resturante
     imagenes = Imagen.objects.filter(restaurante=restaurante)
-    imagenFormSet = inlineformset_factory(Restaurante, Imagen, form =  ImagenForm, extra = 1, can_delete=False)
+    imagenFormSet = inlineformset_factory(Restaurante, Imagen, form=ImagenForm, extra = 1, can_delete=False)
     imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
 
     #Inicializacion de los formularios del menu
     platos = Plato.objects.filter(menu__restaurante=restaurante)
     platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, extra = 1, can_delete=False)
+
     try:
         menu = Menu.objects.get(restaurante=restaurante)
     except:
         menu = Menu()
+
     platosF = platosFormSet(instance=menu, queryset=Plato.objects.filter(menu__restaurante=restaurante))
 
     ctx = {
@@ -582,6 +562,7 @@ def cerrar_sesion(request):
     return HttpResponseRedirect('/')
 
 #View para cambiar o asignar un plan
+@login_required
 def admin_plan_view(request, id_rest):
     restaurante = get_object_or_404(Restaurante, cliente__user_id=request.user.id, id=id_rest)
 

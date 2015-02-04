@@ -1,52 +1,73 @@
 # -*- coding: utf-8 -*-
-from django.forms import ModelForm, Textarea
 from django import forms
 from models import *
+from django.contrib import admin
 from django.forms.extras.widgets import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.admin import UserAdmin
 
-#Formulario de registro simple de usuario
-class UserForm(ModelForm):
-	confirm_password = forms.CharField(widget=forms.PasswordInput(), label='Confirme Contraseña')
+# Define el formulario para la creacion de los usuarios
+class UserCreationForm(forms.ModelForm):
+    """A form for creating new users. Includes all the required
+    fields, plus a repeated password."""
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
 
-	class Meta:
-		model = User
-		fields = ('email', 'username', 'password',)
-		widgets = {
-			'email': forms.EmailInput(),
-			'password': forms.PasswordInput(),
-		}
-		labels = {
-			'email': 'Correo Electrónico',
-			'password': 'Contraseña',
-		}
+    class Meta:
+        model = User
+        fields = ('email', 'nombre')
+ 
+    def clean_password2(self):
+        # Check that the two password entries match
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden")
+        return password2
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+
+# Formulario para cambiar el usuario
+class UserChangeForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'nombre')
+
+    def clean_password(self):
+        # Regardless of what the user provides, return the initial value.
+        # This is done here, rather than on the field, because the
+        # field does not have access to the initial value
+        return self.initial["password"]
+
 
 #Formulario de datos de cliente
 class ClienteForm(forms.ModelForm):
 
 	class Meta:
 		model = Cliente
-		fields = ('rif', 'cargo','telefono')
+		fields = ('cargo','telefono')
 		widgets = {
-			'cargo': forms.Select(),
+			'cargo': forms.Select(attrs={'placeholder':'Cargo'}),
+			'telefono': forms.TextInput(attrs={'placeholder':'Teléfono'}),
 		}
 		labels = {
 			'telefono': 'Teléfono',
 		}
-
-	def __init__(self, *args, **kwargs):
-		super(ClienteForm, self).__init__(*args, **kwargs)
-		instance = getattr(self, 'instance', None)
-		if instance and instance.pk:
-			self.fields['rif'].widget.attrs['readonly'] = True
-
-	def clean_username(self):
-		instance = getattr(self, 'instance', None)
-		if instance and instance.pk:
-			return instance.rif
-		else:
-			return self.cleaned_data['rif']
 
 
 #Formulario de modificacion de contrasena
@@ -57,19 +78,21 @@ class modificarContrasenaForm(PasswordChangeForm):
 		
 		}
 
+
 #Formulario de busqueda del header
 class BuscadorForm(forms.Form):
 	palabra = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"restaurante, categoría, plato, lugar, etc",'class':"form-control"}), required=True)
+
 
 #Formulario de filtro de categorias y restaurantes
 class FiltroForm(forms.Form):
 
 	choices_tipo = (('','- Tipo -'), 
-		('rest', 'Restaurante'), 
-		('bar', 'Bar'), 
-		('hel', 'Heladería'), 
-		('pan', 'Panaderia'), 
-		('cafe', 'Cafetería'),)
+		('Restaurante', 'Restaurante'),
+		('Bar', 'Bar'),
+		(u'Heladería', u'Heladería'),
+		('Panadería', u'Panadería'),
+		(u'café', 'Cafetería'),)
 	choices_servicios = (
 		('Wifi', 'Wifi'), 
 		('Exterior', 'Exterior'), 
@@ -90,12 +113,10 @@ class FiltroForm(forms.Form):
 	Servicios = forms.MultipleChoiceField(choices=choices_servicios, widget=forms.CheckboxSelectMultiple, required=False)
 
 
-#Formulario para la creacion de usuario
-class CuentaForm(ModelForm):
+#Formulario de contactanos
+class ContactForm(forms.Form):
 
-	class Meta:
-		model = User
-		fields = ('username', 'email')
-
-		cargo = forms.CharField(max_length=20)
-		rif = forms.CharField(max_length=13)
+	nombre = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"Nombre",'class':"form-control"}), required=True)
+	correo = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':"Correo",'class':"form-control"}), required=True)
+	telefono = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"Teléfono",'class':"form-control"}), required=True)
+	mensaje = forms.CharField(widget=forms.Textarea(attrs={'placeholder':"Mensaje",'class':"form-control"}), required=True)

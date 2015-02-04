@@ -1,15 +1,80 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import gettext as _
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 #Modelos de la base de datos de Menu 2.0
+
+#Manejador de la clase user
+class UserManager(BaseUserManager):
+	def create_user(self, nombre, email, password):
+		if not email:
+			raise ValueError("Por favor ingrese un correo válido.")
+
+		user = self.model(
+			email = self.normalize_email(email),
+			nombre = nombre,
+			)
+		user.set_password(password)
+		user.save()
+		return user
+
+	def create_superuser(self, nombre, email, password):
+		user = self.model(
+			email = self.normalize_email(email),
+			nombre = nombre,
+		)
+		user.set_password(password)
+		user.is_staff = True
+		user.save()
+		return user
+
+
+# Definicion del usuario
+class User(AbstractBaseUser):
+
+	nombre = models.CharField(max_length=40)
+	email = models.EmailField(unique=True)
+	is_staff = models.BooleanField(default=False)
+	is_active = models.BooleanField(default=True)
+
+	USERNAME_FIELD = "email"
+	REQUIRED_FIELDS = ['nombre', 'password',]
+
+	objects = UserManager()
+
+	def get_full_name(self):
+		return self.email
+
+	def get_short_name(self):
+		return self.email
+
+	def __str__(self):
+		return self.email
+
+	def has_perm(self, obj=None):
+		return self.is_staff
+
+	def has_module_perms(self, package):
+		return self.is_staff
+
 
 #Clase para los planes que tendran los restaurantes
 class Plan(models.Model):
 
+	posicionamientos = (
+		('Bajo','Bajo'),
+		('Medio','Medio'),
+		('Alto','Alto'),
+	)
+
 	nombre = models.CharField(max_length=30)
 	descripcion = models.CharField(max_length=300)
+	max_imagenes = models.IntegerField(max_length=3)
+	estadisticas = models.BooleanField(default=False)
+	posicionamiento = models.CharField(max_length=10, choices=posicionamientos, default='N/A')
+	boletin = models.BooleanField(default=False)
+	impresion = models.BooleanField(default=False)
 	costo = models.DecimalField(max_digits=10, decimal_places=2)
 
 	class Meta:
@@ -57,7 +122,7 @@ class Metodo(models.Model):
 		('Debito', u'Débito'), 
 		('Credito', u'Crédito'), 
 		('Cesta Ticket', 'Cesta Ticket'),
-		)
+	)
 	
 	nombre = models.CharField(max_length=12, choices=pagos)
 	
@@ -74,12 +139,12 @@ class Metodo(models.Model):
 class Cliente(models.Model):
 
 	cargos = (
+		('', '- Cargo -'),
 		('Gerente','Gerente'),
 		('Encargado', 'Encargado'),
-		('Dueno', u'Dueño'),
-		)
+		(u'Dueño', u'Dueño'),
+	)
 
-	rif = models.CharField(max_length=13, primary_key=True)
 	cargo = models.CharField(max_length=20, choices=cargos)
 	telefono = models.CharField(max_length=20)
 
@@ -87,20 +152,35 @@ class Cliente(models.Model):
 	user = models.OneToOneField(User)
 
 	class Meta:
-		ordering = ('rif',)
+		ordering = ('user',)
 		verbose_name = _('Cliente')
 		verbose_name_plural = _('Clientes')
 
 	def __unicode__(self):
-		return u"%s. Nombre: %s" %(self.rif, self.user.username)
+		return u"Nombre: %s" %(self.user.username)
 
 
 #Clase del restaurante
 class Restaurante(models.Model):
 	
-	tipos = (('rest', 'Restaurante'), ('bar', 'Bar'), ('hel', 'Heladería'), ('pan', 'Panadería'), (u'café', 'Cafetería'),)
-	statuses = (('Activo', 'Activo'), ('Inactivo', 'Inactivo'), ('Eliminado', 'Eliminado'),)
-	visible = ((u'Público','Público'), ('Privado','Privado'),)
+	tipos = (
+		('Restaurante', 'Restaurante'),
+		('Bar', 'Bar'),
+		(u'Heladería', u'Heladería'),
+		('Panadería', u'Panadería'),
+		(u'café', 'Cafetería'),
+	)
+
+	statuses = (
+		('Activo', 'Activo'),
+		('Inactivo', 'Inactivo'),
+		('Eliminado', 'Eliminado'),
+	)
+
+	visible = (
+		(u'Público','Público'),
+		('Privado','Privado'),
+	)
 
 	rif = models.CharField(max_length=13)
 	nombre = models.CharField(max_length=50, help_text='Introduzca el nombre de su restaurante.')
@@ -181,8 +261,9 @@ class Direccion(models.Model):
 #Clase para las redes sociales del restaurante
 class Red_social(models.Model):
 
-	facebook = models.CharField(max_length=50, null=True)
+	facebook = models.CharField(max_length=100, null=True)
 	twitter = models.CharField(max_length=50, null=True)
+	instagram = models.CharField(max_length=50, null=True)
 
 	#Claves foraneas y de otras tablas
 	restaurante = models.OneToOneField(Restaurante)
@@ -373,7 +454,13 @@ class Plato(models.Model):
 #Clase para los pagos de los clientes
 class Pago(models.Model):
 	
-	tipos = ( ('men', 'mensual'), ('tri', 'trimestral'), ('sem', 'semestral'), ('anu', 'anual'),)
+	tipos = ( 
+		('mensual', 'mensual'),
+		('trimestral', 'trimestral'),
+		('semanal', 'semestral'),
+		('anual', 'anual'),
+	)
+
 	monto = models.DecimalField(max_digits=10, decimal_places=2)
 	fecha = models.DateField(auto_now_add=True)
 	vigencia = models.DateField(auto_now_add=False)

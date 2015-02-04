@@ -44,14 +44,14 @@
 		<br>
 		<div class="filtros row">
 			<p id="titulo" class="col-lg-12 col-md-12 col-sm-12">&nbsp;&nbsp;&nbsp;&nbsp;Filtros</p>
-			<form role="form" class="=col-lg-12" method="POST" id="filtro" name="filtro" action=".">
+			<form role="form" class="=col-lg-12" method="GET" id="filtro" name="filtro" action=".">
                 {%csrf_token%}
 				<div class="form-group col-lg-12">
         			{%render_field filtro.Categorias class="form-control"%}
         			{%render_field filtro.Ciudad class="form-control"%}
         			{%render_field filtro.Zona class="form-control"%}
         			{%render_field filtro.Tipo class="form-control"%}
-        			{%render_field filtro.Servicios class=""%}
+        			{%render_field filtro.Servicios %}
                     <div class="boton_filtro">
                         <input class="btn btn-default" id="boton_filtro" type="submit" alt="Buscar" value="Filtrar" >
                 	</div>
@@ -79,7 +79,7 @@
 			</div>
 			{%empty%}
 			<div class="restaurante class-lg-3">
-				<p id="vacio">Lo sentimos, no hay restaurantes en esta categoría :(!</p>
+				<p id="vacio">Lo sentimos, no pudimos encontrar lo que buscas :(!</p>
 			</div>
 			{% endfor %}
 		</div>

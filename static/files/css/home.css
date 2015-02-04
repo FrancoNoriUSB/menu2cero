@@ -92,6 +92,8 @@ header .carousel .right .glyphicon{
 
 .contenido .destacados .restaurante a img{
 	height: 183px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .contenido .destacados .restaurante a #titulo{
@@ -165,6 +167,8 @@ header .carousel .right .glyphicon{
 
 .contenido .agregados_reciente .restaurante a img{
 	height: 183px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .contenido .agregados_reciente .restaurante a #titulo{
@@ -243,6 +247,8 @@ header .carousel .right .glyphicon{
 
 .contenido .categorias .categoria a img{
 	height: 183px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .contenido .categorias #clickeable_categorias .publicidad_inf{

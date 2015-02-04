@@ -3,8 +3,13 @@
     "pk": 1, 
     "model": "main.plan", 
     "fields": {
-        "descripcion": "Men\u00fa virtual (editable), 3 imagenes, logo, caracteristicas, descripcion y detalles", 
+        "descripcion": "Men\u00fa virtual (editable), 5 imagenes, logo, caracteristicas, descripcion y detalles", 
         "nombre": "Plata", 
+        "max_imagenes": 5,
+        "estadisticas": false,
+        "posicionamiento": "Bajo",
+        "impresion":false,
+        "boletin":false, 
         "costo": "0.00"
     }
 },
@@ -12,8 +17,13 @@
     "pk": 2, 
     "model": "main.plan", 
     "fields": {
-        "descripcion": "Men\u00fa virtual (editable), 7 im\u00e1genes, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "descripcion": "Men\u00fa virtual (editable), 15 im\u00e1genes, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
         "nombre": "Oro", 
+        "max_imagenes": 15,
+        "estadisticas": true,
+        "posicionamiento": "Bajo",
+        "impresion":false,
+        "boletin":false, 
         "costo": "800.00"
     }
 },
@@ -21,8 +31,13 @@
     "pk": 3, 
     "model": "main.plan", 
     "fields": {
-        "descripcion": "Men\u00fa virtual (editable), 14 im\u00e1genes, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
-        "nombre": "Platino", 
+        "descripcion": "Men\u00fa virtual (editable), 30 im\u00e1genes, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "nombre": "Platino",
+        "max_imagenes": 30,
+        "estadisticas": true,
+        "posicionamiento": "Medio",
+        "impresion":false,
+        "boletin":true, 
         "costo": "1500.00"
     }
 },
@@ -30,8 +45,13 @@
     "pk": 4, 
     "model": "main.plan", 
     "fields": {
-        "descripcion": "Men\u00fa virtual (editable), 25 im\u00e1genes, secci\u00f3n recomendados, fotos men\u00fa, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
+        "descripcion": "Men\u00fa virtual (editable), m\u00e1s de 45 im\u00e1genes, secci\u00f3n recomendados, fotos men\u00fa, newsletter semanal, posicionamiento, estadisticas de perfil, logo, caracter\u00edsticas, descripcion y detalles", 
         "nombre": "Diamante", 
+        "max_imagenes":50,
+        "estadisticas":true,
+        "posicionamiento": "Alto",
+        "impresion":true,
+        "boletin":true,
         "costo": "2800.00"
     }
 },
@@ -984,24 +1004,6 @@
     "fields": {
         "restaurante": 2, 
         "valor": "0.9"
-    }
-},
-{
-    "pk": 2, 
-    "model": "auth.user", 
-    "fields": {
-        "username": "pedroperez", 
-        "first_name": "", 
-        "last_name": "", 
-        "is_active": true, 
-        "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2014-04-16T06:31:02.726Z", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$12000$XETve3jUaZjF$aOFBbdQKzuMvn5CPz15Lq8WtZ82NfglPDN90X64IaZU=", 
-        "email": "", 
-        "date_joined": "2014-04-16T06:31:02.726Z"
     }
 }
 ]

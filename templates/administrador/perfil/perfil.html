@@ -22,12 +22,6 @@
 							<td>
 								{{cliente.user.username}}
 							</td>
-							<td>
-								<strong>Rif:</strong>
-							</td>
-							<td>
-								{{cliente.rif}}
-							</td>
 						</tr>
 					</thead>
 					<tr>
@@ -220,11 +214,6 @@
 										{%endif%}
 									</div>
 									<div class="form-group">
-										{{ClienteForm.rif.label}}
-										<br>
-										{%render_field ClienteForm.rif id="disabledInput" class="form-control" placeholder="#-########-#" %}
-									</div>
-									<div class="form-group">
 										{{ClienteForm.telefono.label}}
 										<br>
 										{%render_field ClienteForm.telefono class="form-control" placeholder="(0212) 123-45-67" %}
@@ -237,25 +226,24 @@
 							<br>
 							<div class="col-lg-6 formulario_contrasena">
 								<h5><strong>Cambiar contrase&ntilde;a</strong></h5>
-									<form role="form" action="/administrador/modificar_contra/" method="post" enctype="multipart/form-data">
-									    {% csrf_token %}
-										<div class="form-group">
-									        {%render_field modificarContrasenaForm.old_password.label %}
-									        {%render_field modificarContrasenaForm.old_password class="form-control"%}
-										</div>
-										<div class="form-group">
-									        {%render_field modificarContrasenaForm.new_password1.label%}
-									        {%render_field modificarContrasenaForm.new_password1 class="form-control"%}
-										</div>
-										<div class="form-group">
-									        {%render_field modificarContrasenaForm.new_password2.label%}
-									        {%render_field modificarContrasenaForm.new_password2 class="form-control"%}
-										</div>
-										<br>
-										<input type="submit" value="Guardar" class="btn btn-primary">
-									</form>
+								<form role="form" action="/administrador/modificar_contra/" method="post" enctype="multipart/form-data">
+								    {% csrf_token %}
+									<div class="form-group">
+								        {%render_field modificarContrasenaForm.old_password.label %}
+								        {%render_field modificarContrasenaForm.old_password class="form-control"%}
+									</div>
+									<div class="form-group">
+								        {%render_field modificarContrasenaForm.new_password1.label%}
+								        {%render_field modificarContrasenaForm.new_password1 class="form-control"%}
+									</div>
+									<div class="form-group">
+								        {%render_field modificarContrasenaForm.new_password2.label%}
+								        {%render_field modificarContrasenaForm.new_password2 class="form-control"%}
+									</div>
+									<br>
+									<input type="submit" value="Guardar" class="btn btn-primary">
+								</form>
 							</div>
-							{# {% autoescape off %}{{boton}}{% endautoescape %} #}
 						</div>
 					</div>
 				</div>

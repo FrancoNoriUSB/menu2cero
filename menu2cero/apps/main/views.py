@@ -1,61 +1,70 @@
 # -*- coding: utf-8 -*-
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template.loader import get_template
+from django.contrib.auth.models import User
 from django.template import Context
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
-from models import *
-from forms import *
+from menu2cero.apps.administrador.forms import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from django.db.models import Q
 from datetime import datetime, date
+from models import *
+from forms import *
+from functions import *
 
 
 #Vista del Home
 def index(request):
-	userF = UserForm()
+	userF = UserCreationForm()
 	clienteF = ClienteForm()
 	buscadorF = BuscadorForm()
+	loginF = LoginForm()
 
 	#Se veririca que se haya hecho un request a POST
 	if request.POST:
 		palabra = ''
-		userF = UserForm(request.POST)
+		userF = UserCreationForm(request.POST)
 		clienteF = ClienteForm(request.POST)
 		buscadorF = BuscadorForm(request.POST)
-		#Se verifica que los datos del formulario sean correctos y que no exista el cliente
-		if userF.is_valid() and clienteF.is_valid():
-			return redirect('registro', formulario=userF)
 
 		#Caso para el buscador
-		elif buscadorF.is_valid():
+		if buscadorF.is_valid():
 			palabra = buscadorF.cleaned_data['palabra']
 			return redirect('restaurantes', palabra=palabra)
 
-	else:
-		#Query para los restaurantes destacados
-		restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
-		
-		#Query para los restaurantes recientes
-		restaurantes_rec = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
-		restaurantes_rec = restaurantes_rec.reverse()[:6]
-		
-		#Query para las categorias
-		categorias = Categoria.objects.all()[:30]
+		# Creando un nuevo usuario
+		if userF.is_valid() and clienteF.is_valid():
+			cliente = clienteF.save(commit=False)
+			usuario = userF.save()
+			cliente.user = usuario
+			cliente.save()
+			return HttpResponseRedirect('/')
 
-		ctx = {
-			'UserForm': userF, 
-			'ClienteForm': clienteF,
-			'buscador': buscadorF, 
-			'restaurantes_dest': restaurantes_dest,
-			'restaurantes_rec': restaurantes_rec, 
-			'categorias': categorias
-		 }
-		return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
+	#Query para los restaurantes destacados
+	restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
+	
+	#Query para los restaurantes recientes
+	restaurantes_rec = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
+	restaurantes_rec = restaurantes_rec.reverse()[:6]
+	
+	#Query para las categorias
+	categorias = Categoria.objects.all()[:30]
+
+	ctx = {
+		'UserCreationForm': userF, 
+		'ClienteForm': clienteF,
+		'buscador': buscadorF, 
+		'restaurantes_dest': restaurantes_dest,
+		'restaurantes_rec': restaurantes_rec, 
+		'categorias': categorias,
+    	'loginForm': loginF
+	 }
+	return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista de los restaurantes y el filtrador
@@ -64,9 +73,10 @@ def restaurantes_view(request, palabra):
 	i=0
 	error = ''
 	filtro = FiltroForm()
-	userF = UserForm()
+	userF = UserCreationForm()
 	clienteF = ClienteForm()
 	buscador = BuscadorForm()
+	loginF = LoginForm()
 	categorias_izq = []
 	categorias_der = []
 	restaurantes = []
@@ -82,11 +92,9 @@ def restaurantes_view(request, palabra):
 			categorias_izq.append(cat)
 
 	#Informacion de los restaurantes
-	if request.POST:
-		filtro = FiltroForm(request.POST)
-		buscadorF = BuscadorForm(request.POST)
-		userF = UserForm(request.POST)
-		clienteF = ClienteForm(request.POST)
+	if request.GET:
+		filtro = FiltroForm(request.GET)
+		buscadorF = BuscadorForm(request.GET)
 
 		#Caso para el filtro de restaurantes
 		if filtro.is_valid():
@@ -157,33 +165,58 @@ def restaurantes_view(request, palabra):
 			if restaurantes == []:
 				restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
 
+	elif request.POST:
+		userF = UserCreationForm(request.POST)
+		clienteF = ClienteForm(request.POST)
+
+		# Creando un nuevo usuario
+		if userF.is_valid() and clienteF.is_valid():
+			cliente = clienteF.save(commit=False)
+			usuario = userF.save()
+			cliente.user = usuario
+			cliente.save()
+			return HttpResponseRedirect('/')
+
 	#Caso para el cual la palabra tiene contenido
 	elif palabra:
 
-		if palabra.startswith('buscar_'):
-			palabra = palabra.strip('buscar_')
-			restaurantes = buscador_view(palabra)
-			#Caso en que se le dio click a una categoria
-			try:
-				#Caso en el que la categoria no esta vacia
-				restaurantes = Restaurante.objects.filter(categoria__nombre=palabra, visibilidad='Público',status='Activo')
-			except:
-				error = 'Error'
+		restaurantes = buscador_view(palabra)
+		#Caso en que se le dio click a una categoria
+		try:
+			#Caso en el que la categoria no esta vacia
+			restaurantes = Restaurante.objects.filter(categoria__nombre=palabra, visibilidad='Público',status='Activo')
+		except:
+			error = 'Error'
 	else:
 		#Caso en el que no se introduce ninguna categoria especifica
 		restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
 
-	filtro = FiltroForm(request.POST)
+	#Busqueda de propiedades en el pais actual
+	paginator = Paginator(restaurantes, 24)
+	page = request.GET.get('page')
+
+	try:
+		restaurantes = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		restaurantes = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		restaurantes = paginator.page(paginator.num_pages)
+
+
+	filtro = FiltroForm(request.GET)
 
 	ctx = {
-		'UserForm': userF,
+		'UserCreationForm': userF,
 		'ClienteForm': clienteF,
 		'buscador': buscador, 
 		'filtro':filtro, 
 		'restaurantes': restaurantes, 
 		'categorias_der':categorias_der, 
 		'categorias_izq': categorias_izq, 
-		'servicios':servicios
+		'servicios':servicios,
+        'loginForm': loginF
 	}
 	return render_to_response('restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
 
@@ -204,17 +237,28 @@ def perfil_view(request, id_rest, restaurante):
 
 	#Formularios basicos
 	buscadorF = BuscadorForm()
-	userF = UserForm()
+	userF = UserCreationForm()
 	clienteF = ClienteForm()
+	loginF = LoginForm()
 
 	#Caso en el que el usuario realizo una busqueda
 	if request.POST:
 		buscadorF = BuscadorForm(request.POST)
+		userF = UserCreationForm(request.POST)
+		clienteF = ClienteForm(request.POST)
 
 		#Caso para el buscador
 		if buscadorF.is_valid():
 			palabra = "buscar_"+buscador.cleaned_data['palabra']
 			return redirect('restaurantes', palabra=palabra)
+
+		# Creando un nuevo usuario
+		if userF.is_valid() and clienteF.is_valid():
+			cliente = clienteF.save(commit=False)
+			usuario = userF.save()
+			cliente.user = usuario
+			cliente.save()
+			return HttpResponseRedirect('/')
 
 	restaurante = get_object_or_404(Restaurante, id=id_rest)
 
@@ -305,9 +349,10 @@ def perfil_view(request, id_rest, restaurante):
 		error = 'Division por cero!'
 
 	ctx = {
-		'UserForm': userF,
+		'UserCreationForm': userF,
 		'ClienteForm': clienteF,
 		'buscador': buscadorF,
+        'loginForm': loginF,
 		'restaurante': restaurante,
 		'categorias': restaurante.categoria,
 		'rango_img': rango_img,
@@ -327,6 +372,45 @@ def perfil_view(request, id_rest, restaurante):
 		'arreglo': arreglo
 	}
 	return render_to_response('perfil/perfil.html', ctx, context_instance=RequestContext(request))
+
+
+#Vista para contactar a la compania
+def contactos_view(request):
+
+	#Formularios basicos
+	buscadorF = BuscadorForm()
+	userF = UserCreationForm()
+	clienteF = ClienteForm()
+	loginF = LoginForm()
+	contactF = ContactForm()
+
+	if request.POST:
+		userF = UserCreationForm(request.POST)
+		clienteF = ClienteForm(request.POST)
+		contactF = ContactForm(request.POST)
+
+		# Creando un nuevo usuario
+		if userF.is_valid() and clienteF.is_valid():
+			cliente = clienteF.save(commit=False)
+			usuario = userF.save()
+			cliente.user = usuario
+			cliente.save()
+			return HttpResponseRedirect('/')
+
+		# Envio de correo de contacto
+		if contactF.is_valid():
+			envio = contact_email(request, contactF)
+			contactoF = ContactoAgenteForm()
+
+	ctx = {
+		'UserCreationForm': userF,
+		'ClienteForm': clienteF,
+		'buscador': buscadorF,
+        'loginForm': loginF,
+        'ContactForm': contactF,
+	}
+
+	return render_to_response('contactos/contactos.html', ctx, context_instance=RequestContext(request))
 
 
 #Creador de horario para mostrar en el perfil
