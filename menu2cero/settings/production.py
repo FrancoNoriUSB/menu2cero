@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'menu2cero.apps.main',
     'menu2cero.apps.administrador',
     'widget_tweaks',
-    'bootstrapform',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
