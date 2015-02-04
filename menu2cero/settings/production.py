@@ -136,7 +136,7 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, '../media'))
 MEDIA_URL = '/media/'
 
 FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, '../static/fixtures'),
+    #os.path.join(BASE_DIR, '../static/fixtures'),
 )
 
 # For Sidebar Menu (List of apps and models) (RECOMMENDED)
@@ -144,4 +144,14 @@ from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
+
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
+
+AUTH_USER_MODEL = 'main.User'
+
+#Configuracion de envio de correos
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'menu2cero'
+EMAIL_HOST_PASSWORD = '@M3nu2c3r0'
+DEFAULT_FROM_EMAIL = 'info@menu2cero.com'
+SERVER_EMAIL = 'info@menu2cero.com'
