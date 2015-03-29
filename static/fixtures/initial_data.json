@@ -336,43 +336,7 @@
     "fields": {
         "telefono": "412-5678910", 
         "cargo": "Gerente",
-        "user": 2
-    }
-},
-{
-    "pk": "4545114", 
-    "model": "main.cliente", 
-    "fields": {
-        "telefono": "546988741", 
-        "cargo": "Encargado",
-        "user": 3
-    }
-},
-{
-    "pk": "5874123", 
-    "model": "main.cliente", 
-    "fields": {
-        "telefono": "0424-4568412",
-        "cargo": "Gerente",
-        "user": 4
-    }
-},
-{
-    "pk": "6881230", 
-    "model": "main.cliente", 
-    "fields": {
-        "telefono": "0426-5896321", 
-        "cargo": "Encargado",
-        "user": 5
-    }
-},
-{
-    "pk": "888999111", 
-    "model": "main.cliente", 
-    "fields": {
-        "telefono": "756339192", 
-        "cargo": "Jefe",
-        "user": 6
+        "user": 1
     }
 },
 {
