@@ -1,0 +1,257 @@
+/*Documento de Estilos para la base de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+	Aguamarina: #1BA488
+	Blanco: #F2F7F6
+	Azul: #3099DD
+	Gris: #4D4843
+	Rojo: #DB4646
+*/
+/* Fuentes */
+@font-face{
+	font-family: "Helvetica";
+	src: url(fonts/HelveticaLt.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Helvetica Bold";
+    src: url(fonts/HelveticaBd.ttf) format("truetype");
+}
+
+/*Estilos de la plantilla de la base*/
+body{
+	font-family:"Helvetica";
+	background-color:#F2F7F6;
+}
+
+/*Header */
+header{	
+	background-color:#1BA488;
+	z-index: 5;
+}
+
+header section{
+	margin-left: auto;
+    margin-right: auto;
+}
+
+header .header-home{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+header > div.container > div > div.navbar-header > div{
+	margin-top: -8px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+header > div.container > div > div > div.collapse.navbar-collapse.navHeaderCollapse > div{
+	margin-top: 5px;
+}
+
+#id_palabra{
+	font-size: 16px;
+	font-family: Helvetica;
+	color: #A9A9A9;
+	border-radius: 5px 0px 0px 5px;
+	border-color: white;
+	border: none;
+}
+
+header > div.container > div > div > div.collapse.navbar-collapse.navHeaderCollapse > div > form > div > div > div > button{
+	width: 34px;
+	height: 34px;
+	padding: 0;
+}
+
+header > div.container > div > form{
+	display: none;
+}
+
+header > div.container > div > div > div > div > ul > li > a.link-restaurantes{
+	margin-top: 4%;
+}
+
+header > div.container > div > div > div > div > ul > li > p.perfil{
+	margin-top: 15%;
+}
+
+#tw, #fb{
+	height: 29px;
+}
+
+/*Registro y login*/
+#myModal > div > div > div.modal-body > h5,
+#myModal > div > div > div.modal-body > div > h5{
+	color: #1BA488;
+}
+
+#id_cargo > option:nth-child(1){
+	color: #555;
+}
+
+#myModal > div > div > div.modal-body > form > div > div > p > a{
+	color: red;
+}
+
+#myModal > div > div > div.modal-body > form > div > div > button{
+	float: right;
+}
+
+/*Navegador del footer*/
+#nav-foot ul li a, footer section p{
+	font-size: 14px;
+	color: #F2F7F6;
+}
+
+body > footer > nav > div > div > ul > li > a{
+	font-size: 14px;
+	color: #F2F7F6 !important;
+}
+
+/*Contenido*/
+.contenido{
+	background-color:#FFFFFF;
+}
+
+/*Footer*/
+body > footer > nav > div > div > ul {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	display: table !important;
+	float: none !important;
+}
+
+footer .navbar{
+	background: #4D4843;
+	max-height: 525px;
+}
+
+body > footer > nav{
+	margin-bottom: 0px !important;
+}
+
+/*Varios*/
+header a, footer a,
+body > footer > nav > div > div.container > p{
+	font-family:"Helvetica";
+	font-size:14px;
+	text-decoration:none;
+	color:#F2F7F6;
+}
+
+header a:hover, footer a:hover{
+	color:#F2F7F6;
+	text-decoration: none;
+}
+
+header nav ul{
+	list-style:none;
+}
+
+header nav ul li{
+	float: left;
+	height: 100%;
+}
+header nav ul li a{
+    text-align:justify;
+}
+
+/*Bootstrap modificado*/
+.btn-primary{
+	background-image: linear-gradient(to bottom,#1BA488 0,#1BA488 100%);
+	border-color: #1BA488;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+	background-color: #1BA488;
+	border-color: #1BA488;
+}
+
+header .navbar-inverse{
+	background-image: linear-gradient(to bottom,#1BA488 0,#1BA488 100%);
+	border-color: transparent;
+	z-index: inherit;
+	background-color: transparent;
+}
+
+footer .navbar-inverse{
+	z-index: inherit;
+}
+
+body > header > div.container > .navbar{
+	margin-bottom: 0px;
+}
+
+body > header > div.container > div > div.navbar-header{
+	margin-bottom: 2%;
+}
+
+header .navbar-inverse .navbar-nav li a{
+	color: #FFF;
+	padding: 10px 10px;
+}
+
+header .navbar-inverse .navbar-nav #dropdown .dropdown-menu li a:hover{
+	background-image: linear-gradient(to bottom,transparent 0,transparent 100%);
+	color: #000;
+}
+
+header .navbar-inverse .navbar-collapse, header .navbar-inverse .navbar-form, 
+header .navbar-inverse .navbar-toggle{
+	border-color: #F2F7F6;
+}
+
+header .navbar-inverse .navbar-toggle:hover, header .navbar-inverse .navbar-toggle:focus{
+	background-color: transparent;
+}
+
+header .navbar-inverse .container .collapse .navbar-right li .dropdown-menu,
+.navbar-inverse .navbar-nav>.open>a, 
+.navbar-inverse .navbar-nav>.open>a:hover, 
+.navbar-inverse .navbar-nav>.open>a:focus{
+	background-color: #1BA488;
+}
+
+header .navbar-inverse .container .collapse .navbar-right li .dropdown-menu>li>a:hover{
+	color:#4D4843;
+}
+
+header .btn{
+	background-color: white;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider{
+	background-color: #FFFFFF;
+}
+
+#dropdown{
+	padding-top: 2%;
+}
+
+#dropdown > ul{
+	background-color: #1BA488;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a{
+	color:#FFFFFF;
+}
+
+.modal-dialog{
+	width: 45%;
+}
+
+.modal-header .close{
+	margin-top: -15px;
+}
+
+#myModal > div > div{
+	padding-top: 15px;
+	padding-bottom: 25px;
+	padding-left: 50px;
+	padding-right: 50px;
+	background-color: #F2F7F6;
+}
+/*Fin Bootstrap modificado*/

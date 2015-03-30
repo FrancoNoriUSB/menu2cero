@@ -64,7 +64,7 @@ def index(request):
 		'categorias': categorias,
     	'loginForm': loginF
 	 }
-	return render_to_response('home/home.html', ctx, context_instance=RequestContext(request))
+	return render_to_response('main/home/home.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista de los restaurantes y el filtrador
@@ -218,7 +218,7 @@ def restaurantes_view(request, palabra):
 		'servicios':servicios,
         'loginForm': loginF
 	}
-	return render_to_response('restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
+	return render_to_response('main/restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista del perfil de cada restaurante
@@ -371,7 +371,7 @@ def perfil_view(request, id_rest, restaurante):
 		'platos': platos, 
 		'arreglo': arreglo
 	}
-	return render_to_response('perfil/perfil.html', ctx, context_instance=RequestContext(request))
+	return render_to_response('main/perfil/perfil.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista para contactar a la compania
@@ -410,7 +410,7 @@ def contactos_view(request):
         'ContactForm': contactF,
 	}
 
-	return render_to_response('contactos/contactos.html', ctx, context_instance=RequestContext(request))
+	return render_to_response('main/contactos/contactos.html', ctx, context_instance=RequestContext(request))
 
 
 #Creador de horario para mostrar en el perfil

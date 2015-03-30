@@ -1,0 +1,299 @@
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="menu,comida,restaurante,restaurantes,venezuela,social">
+        <link rel="SHORTCUT ICON" href="{{STATIC_URL}}files/img/ico.png"/>
+        <title>Menu 2.0</title>
+ 
+        <!-- iCheck -->
+        <link href="{{STATIC_URL}}iCheck-master/skins/line/green.css" rel="stylesheet">
+
+        <!--Bootstrap Remoto 
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">!!!-->
+
+        <!-- Optional theme -->
+        <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">-->
+
+        <!-- Latest compiled and minified JavaScript
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        -->
+
+        <!--Bootstrap Local-->
+        <!--CSS -->
+        <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css">
+
+        <!--Estilos-->
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/admin/base.css">
+
+        <!-- jQuery -->
+        <script src="{{STATIC_URL}}files/js/jquery-1.11.1.min.js"></script>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- iCheck -->
+        <script src="{{STATIC_URL}}iCheck-master/icheck.js"></script>
+    </head>
+    <body>
+    
+        <!-- Header de la página -->
+        <header>
+            <div class="header">
+                <!-- Header del home -->
+                {% block header %}
+                {% endblock header %}
+            </div>
+
+            <!-- Botonera inferior del header -->
+            <div class="container">
+                <div class="navbar navbar-static-top navbar-inverse">
+
+                    <div class="navbar-header col-lg-3 col-md-3 col-sm-12 col-lg-offset-0 col-md-offset-0 col-sm-offset-4">
+                        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Logo -->
+                        <div class="logo navbar-brand col-lg-12 col-md-12 col-sm-4 col-xs-8">
+                                <a href="/">
+                                    <img class="logo img-responsive" src="{{STATIC_URL}}files/img/logo.png" alt="Menu2Cero">
+                                </a>
+                        </div>
+                    </div>
+
+                    <!-- Botones y buscador -->
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+                        <div class="collapse navbar-collapse navHeaderCollapse">
+                            
+                            <!-- Buscador -->
+                            <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12 col-lg-offset-0 col-md-offset-0 col-sm-offset-3">
+                                <form role="form" method="GET" class="form-inline navbar-form buscador" name="buscador" action="/restaurantes/">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            {%csrf_token%}
+                                            {{buscador.palabra}}
+                                            <div class="input-group-btn">
+                                                <button class="btn boton_buscador" id="">
+                                                    <img src="{{STATIC_URL}}files/img/buscar.png" alt="Buscar">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Barra de navegacion -->
+                            <div class="col-lg-5 col-md-6 col-sm-12 col-lg-offset-0 col-md-offset-0 col-sm-offset-4">
+                                <ul class="nav navbar-nav">
+                                    <li>
+                                        {%if user.is_authenticated%}
+                                            <p class="navbar-text perfil">
+                                                <a class="navbar-link" href="/administrador/perfil/">{{user.nombre|capfirst}}</a>
+                                            </p>
+                                        {%else%}
+                                            <a class="link-restaurantes" href="/restaurantes/">Restaurantes</a>
+                                        {%endif%}
+                                    </li>
+                                    <li id="dropdown">
+                                          <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+                                            Men&uacute; <span class="caret"></span>
+                                          </a>
+                                          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                            <li>
+                                                <a href="/">Inicio</a>
+                                            </li>
+                                            <li>
+                                                {%if user.is_authenticated%}
+                                                    <a href="/administrador/agregar/">Agregar Restaurante</a>
+                                                {%else%}
+                                                    <a href="#" type="button" class="" data-toggle="modal" data-target="#myModal">
+                                                      Agregar Restaurante
+                                                    </a>
+                                                {%endif%}
+                                            </li>
+                                            <li>
+                                                <a href="/restaurantes/">Restaurantes</a>
+                                            </li>
+                                            <li>
+                                            {%if not user.is_authenticated%}
+                                                <a href="#" type="button" class="" data-toggle="modal" data-target="#myModal">
+                                                  Ingresar
+                                                </a>
+                                            {%endif%}
+                                            </li>
+                                            <li class="divider">
+                                            </li>
+                                            <li>
+                                            <a href="#">Servicios</a>
+                                            </li>
+                                            <li class="divider">
+                                            </li>
+                                            <li>
+                                            <a href="/contactos/">Cont&aacute;ctanos</a>
+                                            </li>
+                                            {%if user.is_authenticated%}
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="/administrador/cerrar_sesion/">Cerrar Sesi&oacute;n</a>
+                                                </li>
+                                            {%endif%}
+                                          </ul>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            <img class="img-responsive" id="fb" src="{{STATIC_URL}}files/img/fb.png" alt="Facebook">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://twitter.com/Menu2cero" target="_new">
+                                            <img class="img-responsive" id="tw" src="{{STATIC_URL}}files/img/tw.png" alt="Twitter">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+        </header>
+        <div class="contenido container">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 class="text-center"><strong>Iniciar sesi&oacute;n</strong></h5>
+                            <form role="form" method="POST" action="/login/">
+                                <div class="form-group">
+                                    {%csrf_token%}
+                                    <div class="form-inline">
+                                        <br>
+                                        <p class="text-center">
+                                            {% render_field loginForm.email class="form-control" %}
+                                            <a href="">&iquest;Olvidaste tu contrase&ntilde;a?</a>
+                                        </p>
+                                    </div>
+                                    <div class="form-inline">
+                                        <br>
+                                        {% render_field loginForm.password class="form-control" %}
+                                        <button class="btn btn-primary">
+                                            Iniciar Sesi&oacute;n
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                            <br>
+                            <div class="modal-footer">
+                                <h4 class="text-center">&iquest;No tienes cuenta? &iexcl;Reg&iacute;strate ahora, es gratis!</h4>
+                                <br>
+                                <h5 class="text-center"><strong>Registro de usuario</strong></h5>
+                                <form role="form" method="POST" action=".">
+                                    <div class="form-group">
+                                        {%csrf_token%}
+                                        <div class="form-inline">
+                                            <br>
+                                            {{UserCreationForm.nombre.errors|striptags}}
+                                            {% render_field UserCreationForm.nombre class="form-control" placeholder="Nombre"%}
+                                            {{ClienteForm.cargo.errors|striptags}}
+                                            {% render_field ClienteForm.cargo class="form-control" %}
+                                        </div>
+                                        <div class="form-inline">
+                                            <br>
+                                            {{UserCreationForm.email.errors|striptags}}
+                                            {% render_field UserCreationForm.email class="form-control" placeholder="Correo electrónico"%}
+                                            {{ClienteForm.telefono.errors|striptags}}
+                                            {% render_field ClienteForm.telefono class="form-control" %}
+                                        </div>
+                                        <div class="form-inline">
+                                            <br>
+                                            {{UserCreationForm.password1.errors|striptags}}
+                                            {% render_field UserCreationForm.password1 class="form-control" placeholder="Contraseña"%}
+                                            {{UserCreationForm.password2.errors|striptags}}
+                                            {% render_field UserCreationForm.password2 class="form-control" placeholder="Confirme contraseña"%}
+                                        </div>
+                                        <div class="form-inline">
+                                            <br>
+                                            <button class="btn btn-primary">
+                                                Crear Cuenta
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Seccion interna de la página -->
+            {% block contenido %}
+            {% endblock contenido %}
+        </div>
+
+        <!-- Footer de la página -->
+        <footer>
+            <nav class="navbar navbar-static-bottom navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse navFooterCollapse navfooter">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="/">Inicio</a>
+                            </li>
+                            <li>
+                            {%if user.is_authenticated%}
+                                <a href="/administrador/agregar/">Agregar Restaurante</a>
+                            {%else%}
+                                <a href="#" type="button" class="" data-toggle="modal" data-target="#myModal">
+                                  Agregar Restaurante
+                                </a>
+                            {%endif%}
+                            </li>
+                            <li>
+                                <a href="/restaurantes/">Restaurantes</a>
+                            </li>
+                            <li>
+                                <a href="/contactos/">Cont&aacute;ctanos</a>
+                            </li>
+                            <li>
+                                <a href="">Ayuda</a>
+                            </li>
+                            <li>
+                                <a href="">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
+                    <div class="container">
+                        <p class="text-center">
+                            Copyright 
+                            <span class="glyphicon glyphicon-copyright-mark"></span> 2014 Menu2Cero Venezuela. Todos los derechos reservados.
+                        </p>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </body>
+
+<!-- Seccion donde se carga el JS -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-57378322-1', 'auto');
+  ga('send', 'pageview');
+</script>
+{%block js%}
+
+{%endblock js%}
+</html>
