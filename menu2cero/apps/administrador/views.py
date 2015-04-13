@@ -70,6 +70,7 @@ def admin_perfil_view(request):
         })
     modificarF = modificarContrasenaForm(user=cliente.user)
     restaurantes = []
+    restaurantes_list = []
     error = ''
     guardado = ''
     vencidos = []
@@ -104,6 +105,20 @@ def admin_perfil_view(request):
     except:
         error = 'Cliente no posee restaurantes'
 
+    #Votacion de cada restaurante
+    for restaurante in restaurantes:
+        votacion = 0
+        cantidad = 0
+        for voto in restaurante.votos.all():
+            votacion += voto.valor
+            cantidad += 1
+
+        #Verificacion de que existe al menos un voto
+        if cantidad != 0:
+            votacion = '%.1f'%(float(votacion/cantidad))
+
+        restaurantes_list.append((restaurante,votacion))
+
     #Cliente logueado en cuestion
     try:
         cliente = Cliente.objects.get(user_id=usuario.id)
@@ -124,7 +139,7 @@ def admin_perfil_view(request):
         'ClienteForm':clienteF,
         'EditUserForm':euserF,
         'modificarContrasenaForm': modificarF,
-        'restaurantes':restaurantes, 
+        'restaurantes':restaurantes_list, 
         'cliente': cliente,
         'vencidos': vencidos,
         'guardado':guardado,
@@ -141,8 +156,8 @@ def admin_agregar_restaurante_view(request):
 
     #Formularios basicos
     buscadorF = BuscadorForm()
-    info_principal = PrincipalForm()
-    horarios_form = HorariosForm()
+    principalF = PrincipalForm()
+    horariosF = HorariosForm()
     direccionF = DireccionForm()
 
     #Telefonos del restaurante
@@ -150,23 +165,33 @@ def admin_agregar_restaurante_view(request):
     telefonoF = telefonoFormSet()
 
     #Formularios otra informacion
-    descripcion = DescripcionForm()
-    redes_sociales = RedesForm()
+    descripcionF = DescripcionForm()
+    redesF = RedesForm()
 
     #Formularios de imagenes
     logosF = LogosForm()
     imagenF = ImagenForm()
 
+    #Verificacion de que se enviaron los formularios
+    if request.POST:
+        principalF = PrincipalForm(request.POST)
+        horariosF = HorariosForm(request.POST)
+        direccionF = DireccionForm(request.POST)
+        telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, form = TelefonoRestauranteForm, can_delete=False)
+        telefonoF = telefonoFormSet(request.POST)
+
+        #Verificacion de que los campos de los formularios se llenaron
+        if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
+            id_restaurante = restaurante_info_basica(request, 0, principalF, horariosF, direccionF, telefonoF)
+            return  HttpResponseRedirect('/administrador/editar/'+str(id_restaurante))
+
     ctx = {
         'buscador':buscadorF,
-        'PrincipalForm':info_principal,
-        'HorariosForm':horarios_form,
+        'PrincipalForm':principalF,
+        'HorariosForm':horariosF,
         'DireccionForm':direccionF,
         'TelefonoRestauranteForm': telefonoF,
-        'DescripcionForm': descripcion,
-        'RedesForm': redes_sociales,
-        'LogosForm': logosF,
-        'ImagenForm':imagenF,
+        'DescripcionForm': descripcionF,
         'lat':lat,
         'lng':lng,
     }
@@ -188,19 +213,17 @@ def admin_editar_restaurante_view(request, id_rest):
     platos_data = []
     red_social = Red_social(facebook='', twitter='')
     puntuacion = 0
-
-    #Variables para horarios
     horarios = []
     dataHorarios = []
 
     #Verificacion de que el restaurante pertenece al usuario
     restaurante = get_object_or_404(Restaurante, cliente__user_id=request.user.id, id=id_rest)
 
+    #Variables para inicializar formularios
+
     #Coordenadas del restaurante
-    coord = str(restaurante.direccion.coord).split(',')
-    lat = coord[0]
-    lng = coord[1]
-    coord = restaurante.direccion.coord
+    lat = restaurante.direccion.latitud
+    lng = restaurante.direccion.longitud
 
     #Votos del restaurante
     votos = Voto.objects.filter(restaurante=restaurante)
@@ -225,9 +248,8 @@ def admin_editar_restaurante_view(request, id_rest):
         if pago.vigencia <= date.today():
             vencidos.append((pago.vigencia, pago.restaurante.nombre, pago.monto))
 
-    #Telefonos del restaurante
-    telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, TelefonoRestauranteForm, can_delete=False, extra=0)
-    telefonoF = telefonoFormSet(instance=restaurante)
+    #Formularios de info basica
+    principalF = PrincipalForm(instance=restaurante)
 
     #Manejo de info para el horario del restaurante
     horarios = Horario.objects.filter(restaurante=restaurante)
@@ -235,14 +257,7 @@ def admin_editar_restaurante_view(request, id_rest):
     for horario in horarios:
         dataHorarios.append((horario.desde, horario.hasta))
 
-    info_principal = PrincipalForm(instance=restaurante)
-
-    categorias = Categoria.objects.filter(restaurante=restaurante)
-
-    for categoria in categorias:
-        categorias_rest.append(str(categoria.id).decode('unicode-escape'))
-
-    horarios_form = HorariosForm(initial={
+    horariosF = HorariosForm(initial={
         'lunes_desde':dataHorarios[0][0], 'lunes_hasta':dataHorarios[0][1], 
         'martes_desde':dataHorarios[1][0],'martes_hasta':dataHorarios[1][1], 
         'miercoles_desde':dataHorarios[2][0], 'miercoles_hasta':dataHorarios[2][1], 
@@ -253,6 +268,15 @@ def admin_editar_restaurante_view(request, id_rest):
     })
 
     direccionF = DireccionForm(instance=restaurante.direccion)
+
+    #Telefonos del restaurante
+    telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, TelefonoRestauranteForm, can_delete=False, extra=0)
+    telefonoF = telefonoFormSet(instance=restaurante)
+
+    categorias = Categoria.objects.filter(restaurante=restaurante)
+
+    for categoria in categorias:
+        categorias_rest.append(str(categoria.id).decode('unicode-escape'))
 
     #Inicializacion de los formularios de Otra Informacion
     servicios = Servicio.objects.filter(restaurante=restaurante)
@@ -265,7 +289,7 @@ def admin_editar_restaurante_view(request, id_rest):
     for metodo in metodos:
         metodos_rest.append(str(metodo.id).decode('unicode-escape'))
 
-    descripcion = DescripcionForm(initial={'descripcion_rest': restaurante.descripcion, 'servicios': servicios_rest, 'metodos_de_pago': metodos_rest})
+    descripcionF = DescripcionForm(initial={'descripcion_rest': restaurante.descripcion, 'servicios': servicios_rest, 'metodos_de_pago': metodos_rest})
 
     try:
         red_social = Red_social.objects.get(restaurante=id_rest)
@@ -273,7 +297,7 @@ def admin_editar_restaurante_view(request, id_rest):
         error = 'Este restaurante no posee red social'
 
     #Redes sociales del restaurante
-    redes_sociales = RedesForm(instance=red_social)
+    redesF = RedesForm(instance=red_social)
 
     #Logo del restaurante
     logoRestF = logoRestForm(instance=restaurante)
@@ -297,14 +321,30 @@ def admin_editar_restaurante_view(request, id_rest):
 
     platosF = platosFormSet(instance=menu, queryset=Plato.objects.filter(menu__restaurante=restaurante))
 
+    #Verificacion de envio de formularios de info basica
+    if request.POST:
+        principalF = PrincipalForm(request.POST, instance=restaurante)
+        horariosF = HorariosForm(request.POST)
+        direccionF = DireccionForm(request.POST, instance=restaurante.direccion)
+        telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, form = TelefonoRestauranteForm, can_delete=False)
+        telefonoF = telefonoFormSet(request.POST, instance=restaurante)
+
+        print direccionF
+
+        #Verificacion de que los campos de los formularios se llenaron
+        if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
+
+            id_restaurante = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF)
+            return  HttpResponseRedirect('/administrador/editar/'+str(id_restaurante))
+
     ctx = {
         'buscador':buscadorF,
-        'PrincipalForm':info_principal, 
-        'HorariosForm':horarios_form,
+        'PrincipalForm':principalF, 
+        'HorariosForm':horariosF,
         'DireccionForm':direccionF,
         'TelefonoRestauranteForm': telefonoF, 
-        'DescripcionForm': descripcion,
-        'RedesForm': redes_sociales, 
+        'DescripcionForm': descripcionF,
+        'RedesForm': redesF, 
         'LogosForm': logosF, 
         'logoRestForm': logoRestF, 
         'ImagenForm':imagenF, 
@@ -325,7 +365,7 @@ def admin_editar_restaurante_view(request, id_rest):
 
 #Vista para el manejo (guardado) del formulario info basica del restaurante
 @login_required
-def restaurante_info_basica(request, id_rest):
+def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF):
 
     #Inicializacion de variables
     categorias_rest = []
@@ -338,108 +378,90 @@ def restaurante_info_basica(request, id_rest):
         restaurante = []
 
     #Caso en que se edita un restaurante
-    if request.POST and restaurante != []:
-        principalF = PrincipalForm(request.POST, instance = restaurante)
-        horariosF = HorariosForm(request.POST)
-        direccionF = DireccionForm(request.POST, instance = restaurante.direccion)
-        telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, form = TelefonoRestauranteForm, can_delete=False)
-        telefonoF = telefonoFormSet(request.POST, instance=restaurante, queryset=restaurante.telefonos.all())
+    if  id_rest != 0:
 
-        #Verificacion de que los campos de los formularios se llenaron
-        if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
+        #Manejo del formulario principal
+        categorias = principalF.cleaned_data['categoria']
 
-            #Manejo del formulario principal
-            categorias = principalF.cleaned_data['categoria']
+        #Manejo del formulario de horarios
+        dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
+        dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
+        dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
+        dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))
+        dias.append(('Viernes', horariosF.cleaned_data['viernes_desde'], horariosF.cleaned_data['viernes_hasta']))
+        dias.append((u'Sábado', horariosF.cleaned_data['sabado_desde'], horariosF.cleaned_data['sabado_hasta']))
+        dias.append(('Domingo', horariosF.cleaned_data['domingo_desde'],horariosF.cleaned_data['domingo_hasta']))
 
-            #Manejo del formulario de horarios
-            dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
-            dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
-            dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
-            dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))
-            dias.append(('Viernes', horariosF.cleaned_data['viernes_desde'], horariosF.cleaned_data['viernes_hasta']))
-            dias.append((u'Sábado', horariosF.cleaned_data['sabado_desde'], horariosF.cleaned_data['sabado_hasta']))
-            dias.append(('Domingo', horariosF.cleaned_data['domingo_desde'],horariosF.cleaned_data['domingo_hasta']))
+        for dia in dias:
+            Horario.objects.filter(dia=dia[0], restaurante=restaurante).update(dia=dia[0], desde=dia[1], hasta=dia[2], restaurante=restaurante)
 
-            for dia in dias:
-                Horario.objects.filter(dia=dia[0], restaurante=restaurante).update(dia=dia[0], desde=dia[1], hasta=dia[2], restaurante=restaurante)
+        cats = Categoria.objects.filter(restaurante=restaurante)
 
-            cats = Categoria.objects.filter(restaurante=restaurante)
+        for categoria in cats:
+            categorias_rest.append(str(categoria.id).decode('unicode-escape'))
 
-            for categoria in cats:
-                categorias_rest.append(str(categoria.id).decode('unicode-escape'))
+        #Caso para guardar solamente cuando cambiaron las categorias
+        if categorias_rest != categorias:
+            restaurante.categoria = categorias
+            restaurante.save()
 
-            #Caso para guardar solamente cuando cambiaron las categorias
-            if categorias_rest != categorias:
-                restaurante.categoria = categorias
-                restaurante.save()
+        #Manejo del formulario de telefonos
+        for form in telefonoF:
+            telefono = form.save(commit=False)
+            telefono.restaurante = restaurante
+            telefono.save()
 
-            #Manejo del formulario de telefonos
-            telefonoF.save()
+        #Manejo del formulario de direcciones
+        direccionF.save()
 
-            #Manejo del formulario de direcciones
-            direccion = direccionF.save(commit=False)
-            direccion.restaurante = restaurante
-            direccion.save()
-
-        return HttpResponseRedirect('/administrador/editar/'+str(id_rest))
+        return id_rest
 
     #Caso en el que se agrega un restaurante
-    elif request.POST and restaurante == []:
+    elif id_rest == 0:
 
-        principalF = PrincipalForm(request.POST)
-        horariosF = HorariosForm(request.POST)
-        direccionF = DireccionForm(request.POST)
-        telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, form = TelefonoRestauranteForm, can_delete=False)
-        telefonoF = telefonoFormSet(request.POST)
+        categorias = principalF.cleaned_data['categoria']
 
-        #Verificacion de que los campos de los formularios se llenaron
-        if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
+        #Datos del restaurante
+        restaurante = principalF.save(commit=False)
+        restaurante.descripcion = u'<Este restaurante no posee descripción en estos momentos.>'
+        restaurante.status = 'Activo'
+        restaurante.tipo = 'rest'
+        restaurante.abierto = True
+        restaurante.visibilidad = 'Privado'
+        restaurante.cliente = Cliente.objects.get(user=request.user.id)
+        restaurante.plan = Plan.objects.get(id=1)
+        restaurante.save()
+        id_rest = restaurante.id
+        
+        for categoria in categorias:
+            categorias_rest.append(str(categoria.id).decode('unicode-escape'))
 
-            categorias = principalF.cleaned_data['categoria']
+        restaurante.categoria = categorias_rest
 
-            #Datos del restaurante
-            restaurante = principalF.save(commit=False)
-            restaurante.descripcion = u'<Este restaurante no posee descripción en estos momentos.>'
-            restaurante.status = 'Inactivo'
-            restaurante.tipo = 'rest'
-            restaurante.abierto = True
-            restaurante.visibilidad = 'Privado'
-            restaurante.cliente = Cliente.objects.get(user=request.user.id)
-            restaurante.plan = Plan.objects.get(id=1)
-            restaurante.save()
-            id_rest = restaurante.id
-            
-            for categoria in categorias:
-                categorias_rest.append(str(categoria.id).decode('unicode-escape'))
+        for form in telefonoF:
+            telefono = form.save(commit=False)
+            telefono.restaurante = restaurante
+            telefono.save()
 
-            restaurante.categoria = categorias_rest
+        #Manejo del formulario de horarios
+        dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
+        dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
+        dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
+        dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))
+        dias.append(('Viernes', horariosF.cleaned_data['viernes_desde'], horariosF.cleaned_data['viernes_hasta']))
+        dias.append((u'Sábado', horariosF.cleaned_data['sabado_desde'], horariosF.cleaned_data['sabado_hasta']))
+        dias.append(('Domingo', horariosF.cleaned_data['domingo_desde'],horariosF.cleaned_data['domingo_hasta']))
 
-            for form in telefonoF:
-                telefono = form.save(commit=False)
-                telefono.restaurante = restaurante
-                telefono.save()
+        for dia in dias:
+            horario = Horario(dia=dia[0], desde=dia[1], hasta=dia[2], restaurante=restaurante)
+            horario.save()
 
-            #Manejo del formulario de horarios
-            dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
-            dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
-            dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
-            dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))
-            dias.append(('Viernes', horariosF.cleaned_data['viernes_desde'], horariosF.cleaned_data['viernes_hasta']))
-            dias.append((u'Sábado', horariosF.cleaned_data['sabado_desde'], horariosF.cleaned_data['sabado_hasta']))
-            dias.append(('Domingo', horariosF.cleaned_data['domingo_desde'],horariosF.cleaned_data['domingo_hasta']))
+        #Manejo del formulario de direcciones
+        direccion =  direccionF.save(commit=False)
+        direccion.restaurante = restaurante
+        direccion.save()
 
-            for dia in dias:
-                horario = Horario(dia=dia[0], desde=dia[1], hasta=dia[2], restaurante=restaurante)
-                horario.save()
-
-            #Manejo del formulario de direcciones
-            direccion =  direccionF.save(commit=False)
-            direccion.restaurante = restaurante
-            direccion.save()
-
-            return HttpResponseRedirect('/administrador/editar/'+str(id_rest))
-
-    return HttpResponseRedirect('/administrador/agregar/')
+        return id_rest
 
 #Vista para el manejo (guardado) del formulario otra info del restaurante
 @login_required

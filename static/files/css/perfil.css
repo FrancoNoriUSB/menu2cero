@@ -65,12 +65,12 @@ div.row.imagenes > div.info_rest{
 }
 
 #puntuacion-datos{
-	float: right;
 	display: inline-block;
 }
 
 .info_rest .puntuacion .estrellas{
 	display: inline-block;
+	width: 100px !important;
 }
 
 .info_rest .puntuacion #votos, .info_rest .puntuacion #puntos{
@@ -114,13 +114,9 @@ body > div > div.caract-pagos.row > div.metodos-pago > p > img.pago{
 }
 
 /*Mapa*/
-#mapa{
+#map{
 	height: 350px;
 	margin-top: 2%;
-}
-
-#lat, #lng{
-	display: none;
 }
 
 /*Telefonos y horario*/

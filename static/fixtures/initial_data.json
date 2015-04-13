@@ -331,6 +331,20 @@
     }
 },
 {
+    "pk": 1, 
+    "model": "main.voto", 
+    "fields": {
+        "valor": "0.9"
+    }
+},
+{
+    "pk": 2, 
+    "model": "main.voto", 
+    "fields": {
+        "valor": "0.9"
+    }
+},
+{
     "pk": "123456", 
     "model": "main.cliente", 
     "fields": {
@@ -355,8 +369,7 @@
             3, 
             2, 
             7
-        ], 
-        "tipo": "rest", 
+        ],
         "plan": 1, 
         "logo": "uploads/img/logos/logo_carne_1.jpg", 
         "descripcion": "Es un restaurante que te acerca a la real parrilla venezolana presentando diferentes cortes que le agregan gusto al paladar.", 
@@ -386,8 +399,7 @@
             4, 
             9, 
             2
-        ], 
-        "tipo": "rest",
+        ],
         "plan": 2, 
         "logo": "uploads/img/logos/logo_sushi.jpg", 
         "descripcion": "Es un restaurante-bar de agradable ambiente para relajarte luego de un duro d\u00eda de trabajo, ofreci\u00e9ndote los mejores rolls y combos de la verdadera cocina japonesa.", 
@@ -396,7 +408,7 @@
         "metodos_pago": [
             3, 
             1
-        ], 
+        ],
         "cliente": "123456", 
         "abierto": true,
         "visibilidad": "P\u00fablico"
@@ -416,8 +428,7 @@
             4, 
             9, 
             7
-        ], 
-        "tipo": "rest", 
+        ],
         "plan": 4, 
         "logo": "uploads/img/logos/logo_italiana_1.jpg", 
         "descripcion": "Restaurante con el verdadero gusto italiano, los mejores risotos y pastas son nuestro sello.", 
@@ -445,8 +456,7 @@
             1, 
             4, 
             3
-        ], 
-        "tipo": "rest",
+        ],
         "plan": 4, 
         "logo": "uploads/img/logos/logo_restaurant_06.jpg", 
         "descripcion": "Es un restaurante que te acerca a la real cachapa venezolana presentando diferentes quesos que le agregan gusto al paladar.", 
@@ -471,8 +481,7 @@
         ], 
         "servicios": [
             4
-        ], 
-        "tipo": "rest", 
+        ],
         "plan": 3, 
         "logo": "uploads/img/logos/logo_restaurant_02.jpg", 
         "descripcion": "Es un restaurante que te acerca al real perro caliente venezolana presentando diferentes salsas que le agregan gusto al paladar.", 
@@ -499,8 +508,7 @@
             1, 
             6, 
             9
-        ], 
-        "tipo": "bar",
+        ],
         "plan": 2, 
         "logo": "uploads/img/logos/logo_restaurant_04_1.jpg", 
         "descripcion": "Bar que trae los mejores grupos musicales del Estado Lara.", 
@@ -693,8 +701,10 @@
     "fields": {
         "restaurante": 1, 
         "zona": 1, 
-         "ciudad": 1, 
-        "coord": "10.504986, -66.905032", 
+        "ciudad": 1,
+        "calle": "",
+        "latitud":10.504986,
+        "longitud":-66.905032,
         "direccion": "Av. M\u00e9xico, cruce con Cl. Rafael Domingo Sisco, Edificio Hotel Plaza Mayor, Piso P.B"
     }
 },
@@ -704,8 +714,10 @@
     "fields": {
         "restaurante": 6, 
         "zona": 2, 
-        "ciudad": 1, 
-        "coord": "10.504986, -67.905032", 
+        "ciudad": 1,
+        "calle": "",
+        "latitud":10.504986,
+        "longitud":-67.905032,
         "direccion": "Distrito Capital, Caracas, Tercera transversal de los Palos Grandes."
     }
 },
@@ -952,22 +964,6 @@
         "precio": "45.00", 
         "descripcion": "Sabroso pedazo de torta de chocolate de dos pisos con glaseado de chocolate y chispas de chocolate.", 
         "nombre": "Torta de chocolate"
-    }
-},
-{
-    "pk": 12, 
-    "model": "main.voto", 
-    "fields": {
-        "restaurante": 2, 
-        "valor": "0.9"
-    }
-},
-{
-    "pk": 13, 
-    "model": "main.voto", 
-    "fields": {
-        "restaurante": 2, 
-        "valor": "0.9"
     }
 }
 ]

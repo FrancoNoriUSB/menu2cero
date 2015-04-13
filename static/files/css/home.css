@@ -9,17 +9,11 @@ Colores a utilizar:
 */
 
 /*Estilos propios del home*/
-
-header{
-	
-}
-
 header section{
 	display: block;
 }
 
 /*Estilos de bootstrap modificados*/
-
 header .carousel .left .glyphicon, 
 header .carousel .right .glyphicon{
 	margin-top: 150%;
@@ -49,9 +43,14 @@ header .carousel .right .glyphicon{
 
 
 /*Estilos del contenido del Home*/
-.contenido section{
+.contenido{
 	margin-right: auto;
 	margin-left: auto;
+}
+
+#clickeable_reciente > div > a > #titulo,
+#clickeable_destacados > div > a > #titulo{
+	margin-bottom: 0px;
 }
 
 /*Seccion de destacados*/

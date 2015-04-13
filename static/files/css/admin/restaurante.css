@@ -122,8 +122,8 @@ Colores a utilizar:
 
 /*Estilo del mapa*/
 .container .mapa{
-	width: 300px;
-	height: 250px;
+	width: 450px;
+	height: 280px;
 }
 #collapse_principal > div > form > div > div.table-responsive > table > tbody > tr > td > div{
 	text-align: center;

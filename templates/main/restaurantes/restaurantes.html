@@ -6,7 +6,6 @@
 <link href="{{STATIC_URL}}files/css/restaurantes.css" rel="stylesheet" type="text/css" />
 
 <!--Scripts-->
-<script src="{{STATIC_URL}}files/js/raty_jquery.js"></script>
 <script src="{{STATIC_URL}}files/js/jquery.raty.js"></script>
 <script src="{{STATIC_URL}}files/js/raty_labs.js" type="text/javascript"></script>
 <script type="text/javascript" src="{{STATIC_URL}}files/js/funciones.js"></script>
@@ -50,7 +49,6 @@
         			{%render_field filtro.Categorias class="form-control"%}
         			{%render_field filtro.Ciudad class="form-control"%}
         			{%render_field filtro.Zona class="form-control"%}
-        			{%render_field filtro.Tipo class="form-control"%}
         			{%render_field filtro.Servicios %}
                     <div class="boton_filtro">
                         <input class="btn btn-default" id="boton_filtro" type="submit" alt="Buscar" value="Filtrar" >
@@ -63,19 +61,18 @@
 		<div class="row">
 			{% for restaurante in restaurantes%}
 			<div class="restaurante col-lg-3 col-md-4 col-sm-4">
-				<a href="/perfil/{{restaurante.id}}/{{restaurante.nombre|slugify}}/">
-					<img src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="img-responsive {% filter force_escape %}{% cycle 'imagen_a' 'imagen_v' %}{% endfilter %}">
-					<p id="titulo">{{restaurante.nombre}}</p>
+				<a href="/perfil/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/">
+					<img src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="" class="img-responsive {% filter force_escape %}{% cycle 'imagen_a' 'imagen_v' %}{% endfilter %}">
+					<p id="titulo">{{restaurante.0.nombre}}</p>
 				</a>
-				<div id="{{restaurante.nombre|cut:" "}}estrellas" class="estrellas">
+				<div id="{{restaurante.0.nombre|cut:" "}}estrellas" class="estrellas">
 					<div id="punt" value="{{puntos}}"></div>
 						<script type="text/javascript">
-						var myVar = document.getElementById("punt").value;
-						myVar=3;
-							$('#{{restaurante.nombre|cut:" "}}estrellas').raty({score:myVar});
+						var myVar = {{restaurante.1|safe}};
+							$('#{{restaurante.0.nombre|cut:" "}}estrellas').raty({readOnly: true, score:myVar});
 						</script>
 				</div>
-				<p class="votos text-center"><span class="glyphicon glyphicon-eye-open"></span> 90000</p>
+				<p class="categoria text-center">{{restaurante.0.categoria.all.0.nombre}}</p>
 			</div>
 			{%empty%}
 			<div class="restaurante class-lg-3">

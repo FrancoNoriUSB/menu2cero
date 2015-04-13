@@ -63,20 +63,20 @@
 				</div>
 
 				<!--Puntuacion-->
-				<div class="col-lg-6 col-md-6 col-sm-6 puntuacion">
+				<div class="col-lg-3 col-md-3 col-sm-3 puntuacion">
 					<p id="titulo-puntuacion">Puntuación:
 					<!--Estrellas-->
 						<div class="estrellas" id="estrellas">
 							<div id="punt" value="{{ puntos }}">
-								
+                    			<input type="hidden" value='false' id="centinela">
 							</div>
 						</div>
 					</p>
-					<p id="puntuacion-datos">
-						&nbsp;{{puntos}}
-						&nbsp;{{votos}} votos
-					</p>
 				</div>
+				<p id="puntuacion-datos">
+					{{puntos|floatformat}}
+					&nbsp;{{votos}} votos
+				</p>
 			</div>
 		</div>
 	</div>
@@ -166,9 +166,7 @@
 		</div>
 		<div class="col-lg-4 col-md-4 col-sm-4">
 			<!-- Mapa de google maps -->
-			<div class="mapa" id="mapa">
-				<input type="hidden" id="lat" value='{{lat}}'>
-				<input type="hidden" id="lng" value='{{lng}}'>
+			<div class="mapa" id="map">
 		    </div>
 	    </div>
 	</div>
@@ -247,45 +245,75 @@
 
 {%block js%}
 
-<!-- Google Maps -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false">
-</script>
 <!-- Scripts -->
 <script src="{{STATIC_URL}}files/js/raty_jquery.js"></script>
 <script src="{{STATIC_URL}}files/js/jquery.raty.js"></script>
 <script src="{{STATIC_URL}}files/js/raty_labs.js" type="text/javascript"></script>
+
+<!-- Mapa de google maps -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<script src="{{STATIC_URL}}files/js/jquery-ui.min.js"></script>
 <script>
 var map;
 function initialize() {
-	/*Inicializacion de variables y toma de argumentos de latitud y longitud*/
-	var lat = parseFloat(document.getElementById('lat').value.replace(/,/g,'.') );
-	var lng = parseFloat(document.getElementById('lng').value.replace(/,/g,'.') );
-	var mapOptions = {
-		zoom: 17,
-		center: new google.maps.LatLng(lat, lng)
-	};
-  	map = new google.maps.Map(document.getElementById('mapa'),
-      mapOptions);
+	var markers = [];
+    var lat = $('#id_latitud');
+    var lng = $('#id_longitud');
 
-  	var marker = new google.maps.Marker({
-	    position: map.getCenter(),
-	    map: map,
-	    title: 'Click para hacer zoom'
-  	});
+    var mapOptions = {
+        zoom: 15,
+        center: new google.maps.LatLng({{lat|safe}},{{lng|safe}})
+    };
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-  	google.maps.event.addListener(marker, 'click', function() {
-	    map.setZoom(8);
-	    map.setCenter(marker.getPosition());
-	});
+    //Nuevo marcador indicando el lugar del restaurante
+    var marcador = new google.maps.LatLng({{lat|safe}}, {{lng|safe}});
+    placeMarker(marcador);
+
+    function clearMarkers() {
+        setAllMap(null);
+    }
+
+    function setAllMap(map) {
+        for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        }
+    }
+    
+    function placeMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+        markers.push(marker);
+    }
 }
-google.maps.event.addDomListener(window, 'load', initialize);
 
+google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
 <script type="text/javascript">
-var myVar = document.getElementById("punt").value;
-myVar=3;
-	$('#estrellas').raty({score:myVar});
+var puntos = {{puntos|safe}};
+	$('#estrellas').raty({
+		score:puntos
+	});
 	$("#estrellas").appendTo("#titulo-puntuacion");
-	$("#puntuacion-datos").insertAfter('#score');
+
+	/*Funcion para las votaciones de los restaurantes*/
+    $('#estrellas').click(function(){
+        var centinela = $('#centinela').val();
+	    if (centinela!='true'){
+	        var restid = {{restaurante.id|safe}};
+	        var valor = $(this).children("input[type='hidden']").val();
+
+	        $.ajax({
+	            data: {'restaurante_id':restid, 'valor':valor},
+	            url:'/votacion/', 
+	            type: 'get', 
+	        });
+	        $('#centinela').val('true');
+	    };
+    });
+
 </script>
 {%endblock js%}

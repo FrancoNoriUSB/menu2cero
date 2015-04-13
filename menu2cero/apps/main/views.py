@@ -16,6 +16,7 @@ from datetime import datetime, date
 from models import *
 from forms import *
 from functions import *
+import math
 
 
 #Vista del Home
@@ -24,6 +25,7 @@ def index(request):
 	clienteF = ClienteForm()
 	buscadorF = BuscadorForm()
 	loginF = LoginForm()
+	restaurantes_rec = []
 
 	#Se veririca que se haya hecho un request a POST
 	if request.POST:
@@ -49,9 +51,23 @@ def index(request):
 	restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
 	
 	#Query para los restaurantes recientes
-	restaurantes_rec = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
-	restaurantes_rec = restaurantes_rec.reverse()[:6]
-	
+	restaurantes = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
+	restaurantes = restaurantes.reverse()[:6]
+
+	#Votacion de cada restaurante
+	for restaurante in restaurantes:
+		votacion = 0
+		cantidad = 0
+		for voto in restaurante.votos.all():
+			votacion += voto.valor
+			cantidad += 1
+
+		#Verificacion de que existe al menos un voto
+		if cantidad != 0:
+			votacion = '%.1f'%(float(votacion/cantidad))
+
+		restaurantes_rec.append((restaurante,votacion))
+
 	#Query para las categorias
 	categorias = Categoria.objects.all()[:30]
 
@@ -80,6 +96,7 @@ def restaurantes_view(request, palabra):
 	categorias_izq = []
 	categorias_der = []
 	restaurantes = []
+	restaurantes_list = []
 	servicios = []
 	categorias = Categoria.objects.all().order_by('nombre')[:22]
 
@@ -191,8 +208,22 @@ def restaurantes_view(request, palabra):
 		#Caso en el que no se introduce ninguna categoria especifica
 		restaurantes = Restaurante.objects.filter(visibilidad='Público',status='Activo').order_by('id').reverse()
 
+	#Votacion de cada restaurante
+	for restaurante in restaurantes:
+		votacion = 0
+		cantidad = 0
+		for voto in restaurante.votos.all():
+			votacion += voto.valor
+			cantidad += 1
+
+		#Verificacion de que existe al menos un voto
+		if cantidad != 0:
+			votacion = '%.1f'%(float(votacion/cantidad))
+
+		restaurantes_list.append((restaurante,votacion))
+
 	#Busqueda de propiedades en el pais actual
-	paginator = Paginator(restaurantes, 24)
+	paginator = Paginator(restaurantes_list, 24)
 	page = request.GET.get('page')
 
 	try:
@@ -278,9 +309,8 @@ def perfil_view(request, id_rest, restaurante):
 
 	#Direccion del restaurante y otros datos.
 	direccion = restaurante.direccion
-	coord = str(direccion.coord).split(',')
-	lat = coord[0]
-	lng = coord[1]
+	lat = direccion.latitud
+	lng = direccion.longitud
 	direccion = direccion.direccion + '. ' + direccion.zona.nombre + ', ' + direccion.ciudad.nombre
 
 	try:
@@ -505,6 +535,22 @@ def buscador_view(palabra):
 			error = 'No se encontraron coincidencias'
 
 	return restaurantes
+
+
+#View para las votaciones de cada restaurante
+def votacion_view(request):
+
+	rest_id = request.GET['restaurante_id']
+	valor = request.GET['valor']
+
+	#Se verifica que se recibio el id y el valor
+	if rest_id and valor:
+		restaurante = Restaurante.objects.get(id=int(rest_id))
+		voto = Voto(valor=valor)
+		voto.save()
+		restaurante.votos.add(voto)
+
+	return HttpResponse(True)
 
 
 #Query dinamico extraido de un proyecto ajeno

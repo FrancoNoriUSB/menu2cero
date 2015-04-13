@@ -22,146 +22,167 @@
 		<!-- Cuerpo de la informacion principal -->
 		<div id="collapse_principal" class="panel-collapse collapse in">
 		    <div class="panel-body">
-				<form role="form" action="/administrador/restaurante_info_basica/{{restaurante.id}}" method="POST">
+				<form role="form" action="." method="POST">
 		  			<div class="form-group">
 						{%csrf_token%}
-						<div class="">
-							Nombre del restaurante:
-							{{PrincipalForm.nombre.errors|striptags}}
-							{% render_field PrincipalForm.nombre class="form-control"%}
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								Nombre del restaurante:
+								<p class="text-danger">{{PrincipalForm.nombre.errors|striptags}}</p>
+								{% render_field PrincipalForm.nombre class="form-control"%}
+							</div>
 						</div>
 						<br>
-						<br>
-						Categor&iacute;as (m&aacute;ximo 3):
-						<br>
-						<br>
-						<div class="table-responsive">
-							<table class="table">
-   								<tr>
-								{%for pk, choice in PrincipalForm.categoria.field.widget.choices%}
-									<td>
-										<input class="input"
-												{% for categoria in categorias %}
-													{% if categoria == pk|safe %}
-														checked="checked"
-													{% endif %}
-												{% endfor %} type="checkbox" id="id_categoria_{{ forloop.counter0 }}" value="{{pk}}" name="categoria" class="options" />
-										<label>
-											{{ choice }}
-										</label>
-									</td>
-									{% if not forloop.last and forloop.counter == 9 or forloop.counter == 18 %}
-									    </tr>
-									    <tr>
-									{% endif %}
-								{%endfor%}
-								</tr>
-							</table>
+						<div class="row">
+							<div class="col-lg-12">
+								Categor&iacute;as (m&aacute;ximo 3):
+								<p class="text-danger">{{PrincipalForm.categoria.errors|striptags}}</p>
+								<div class="table-responsive">
+									<table class="table">
+		   								<tr>
+										{%for pk, choice in PrincipalForm.categoria.field.widget.choices%}
+											<td>
+												<input class="input"
+														{% for categoria in categorias %}
+															{% if categoria == pk|safe %}
+																checked="checked"
+															{% endif %}
+														{% endfor %} type="checkbox" id="id_categoria_{{ forloop.counter0 }}" value="{{pk}}" name="categoria" class="options" />
+												<label>
+													{{ choice }}
+												</label>
+											</td>
+											{% if not forloop.last and forloop.counter == 9 or forloop.counter == 18 %}
+											    </tr>
+											    <tr>
+											{% endif %}
+										{%endfor%}
+										</tr>
+									</table>
+								</div>
+							</div>
 						</div>
-						<br>
-						<div class="col-lg-10">
-							<div class="table-responsive">
-								<table class="table">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<p class="text-danger">{{HorariosForm.errors|striptags}}</p>
+								<div class="table-responsive">
+									<table class="table">
+											<tr>
+											<td>
+												Horario	
+											</td>
+											<td>
+												Lunes
+											</td>
+											<td>
+												Martes
+											</td>
+											<td>
+												Mi&eacute;rcoles
+											</td>
+											<td>
+												Jueves
+											</td>
+											<td>
+												Viernes
+											</td>
+											<td>
+												S&aacute;bado
+											</td>
+											<td>
+												Domingo
+											</td>
+										</tr>
 										<tr>
-										<td>
-											Horario	
-										</td>
-										<td>
-											Lunes
-										</td>
-										<td>
-											Martes
-										</td>
-										<td>
-											Mi&eacute;rcoles
-										</td>
-										<td>
-											Jueves
-										</td>
-										<td>
-											Viernes
-										</td>
-										<td>
-											S&aacute;bado
-										</td>
-										<td>
-											Domingo
-										</td>
-									</tr>
-									<tr>
-										<td>
-											Desde:
-										</td>
-										<td>
-											{{ HorariosForm.lunes_desde|add_class:"form-control"}}
-										</td>
-										<td>
-											{{ HorariosForm.martes_desde|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.miercoles_desde|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.jueves_desde|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.viernes_desde|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.sabado_desde|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.domingo_desde|add_class:"form-control" }}
-										</td>
-									</tr>
-									<tr>
-										<td>
-											Hasta:
-										</td>
-										<td>
-											{{ HorariosForm.lunes_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.martes_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.miercoles_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.jueves_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.viernes_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.sabado_hasta|add_class:"form-control" }}
-										</td>
-										<td>
-											{{ HorariosForm.domingo_hasta|add_class:"form-control" }}
-										</td>
-									</tr>
-								</table>
+											<td>
+												Desde:
+											</td>
+											<td>
+												{{ HorariosForm.lunes_desde|add_class:"form-control"}}
+											</td>
+											<td>
+												{{ HorariosForm.martes_desde|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.miercoles_desde|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.jueves_desde|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.viernes_desde|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.sabado_desde|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.domingo_desde|add_class:"form-control" }}
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Hasta:
+											</td>
+											<td>
+												{{ HorariosForm.lunes_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.martes_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.miercoles_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.jueves_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.viernes_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.sabado_hasta|add_class:"form-control" }}
+											</td>
+											<td>
+												{{ HorariosForm.domingo_hasta|add_class:"form-control" }}
+											</td>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-4">
 								Direcci&oacute;n del restaurante:
+								<p class="text-danger">{{ DireccionForm.direccion.errors|striptags }}</p>
 								{{ DireccionForm.direccion }}
 							</div>
-							<div class="col-lg-4">
+							<div class="col-lg-3">
 								Ciudad:
 								{{ DireccionForm.ciudad }}
+								<p class="text-danger">{{ DireccionForm.ciudad.errors|striptags }}</p>
 								Zona:
 								{{ DireccionForm.zona }}
+								<p class="text-danger">{{ DireccionForm.zona.errors|striptags }}</p>
+								Calle o avenida:
+								{{ DireccionForm.calle }}
+								<p class="text-danger">{{ DireccionForm.calle.errors|striptags }}</p>
 							</div>
-							<div class="col-lg-4">
+							<div class="col-lg-5">
 								<!-- Mapa de google maps -->
 								Coordenadas:
-								{{ DireccionForm.coord }}
+								<p class="text-danger">{{ DireccionForm.latitud.errors|striptags }}</p>
+								<input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
+			                    <div id="type-selector" class="controls">
+			                      <input type="radio" name="type" id="changetype-all" checked="checked">
+			                      <label for="changetype-all">Todo</label>
+			                      <input type="radio" name="type" id="changetype-establishment">
+			                      <label for="changetype-establishment">Establecimietos</label>
+			                      <input type="radio" name="type" id="changetype-address">
+			                      <label for="changetype-address">Direcciones</label>
+			                    </div>
 								<div class="mapa" id="map">
-									<input type="text" id="lat" value='{{lat}}'>
-									<input type="text" id="lng" value='{{lng}}'>
 						        </div>
+		                        {{ DireccionForm.latitud.as_hidden }}
+		                        {{ DireccionForm.longitud.as_hidden }}
 						        (Clickee en el mapa la ubicaci&oacute;n de su local)
 							</div>
 						</div>
@@ -170,9 +191,9 @@
 							<div class="col-lg-4">
 								<table>
 									Tel&eacute;fonos del restaurante:
-									
 									{{TelefonoRestauranteForm.management_form}}
 									{%for form in TelefonoRestauranteForm%}
+										{%render_field form.numero.errors%}
 										{%render_field form.id%}
 										{%render_field form.numero placeholder="(212)-1234567"%}
 										{%render_field form.display.help_text%}
@@ -252,53 +273,118 @@
 <!-- Bloque de Javascript -->
 {% block js %}
 <!-- Mapa de google maps -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false">
-</script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false">
-</script>
-<script >
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<script src="{{STATIC_URL}}files/js/jquery.formset.js"></script>
+<script src="{{STATIC_URL}}files/js/jquery-ui.min.js"></script>
+<script>
 var map;
-function initialize(){
-	/*Inicializacion de variables y toma de argumentos de latitud y longitud*/
-	var lat = parseFloat(document.getElementById('lat').value.replace(/,/g,'.') );
-	var lng = parseFloat(document.getElementById('lng').value.replace(/,/g,'.') );
-	var markers = [];
-	var coord = document.getElementById('id_coord');
+function initialize() {
+    var markers = [];
+    var lat = $('#id_latitud');
+    var lon = $('#id_longitud');
 
-	/*Inicializacion del mapa*/
-	var mapOptions = {
-		zoom: 13,
-		center: new google.maps.LatLng(lat, lng)
-	};
+    var mapOptions = {
+	    zoom: 7,
+	    center: new google.maps.LatLng({{lat|safe}},{{lng|safe}})
+    };
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-  	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    /*Funciones para agregar el marcador y eliminar el anterior*/
+    google.maps.event.addListener(map, 'click', function(event){
+        clearMarkers();
+        markers = [];
+        placeMarker(event.latLng);
+        lat.val(event.latLng.k);
+        lon.val(event.latLng.D);
+    });
 
-  	/*Funciones para agregar el marcador y eliminar el anterior*/
-  	google.maps.event.addListener(map, 'click', function(event){
-  		clearMarkers();
-  		markers = [];
-    	placeMarker(event.latLng);
-    	coord.value = event.latLng.k + ', ' + event.latLng.B;
-	});
+    function clearMarkers() {
+        setAllMap(null);
+    }
 
-	function clearMarkers() {
-		setAllMap(null);
-	}
+    function setAllMap(map) {
+        for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        }
+    }
+    
+    function placeMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+        markers.push(marker);
+    }
 
-	function setAllMap(map) {
-		for (var i = 0; i < markers.length; i++) {
-			markers[i].setMap(map);
-		}
-	}
+    /*Codigo de autocompletacion*/
+    var input = /** @type {HTMLInputElement} */(
+      document.getElementById('pac-input'));
 
-	function placeMarker(location) {
-	    var marker = new google.maps.Marker({
-	        position: location, 
-	        map: map
-	    });
-    	markers.push(marker);
-	}
+    var types = document.getElementById('type-selector');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+
+    var infowindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        infowindow.close();
+        marker.setVisible(false);
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            return;
+        }
+
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+        }
+        marker.setIcon(/** @type {google.maps.Icon} */({
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(35, 35)
+        }));
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(false);
+
+        var address = '';
+        if (place.address_components) {
+        address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+        ].join(' ');
+        }
+
+        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+        infowindow.open(map, marker);
+    });
+
+    // Sets a listener on a radio button to change the filter type on Places
+    // Autocomplete.
+    function setupClickListener(id, types) {
+        var radioButton = document.getElementById(id);
+        google.maps.event.addDomListener(radioButton, 'click', function() {
+            autocomplete.setTypes(types);
+        });
+    }
+
+    setupClickListener('changetype-all', []);
+    setupClickListener('changetype-address', ['address']);
+    setupClickListener('changetype-establishment', ['establishment']);
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 

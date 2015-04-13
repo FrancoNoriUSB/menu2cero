@@ -101,14 +101,16 @@ class DireccionForm(forms.ModelForm):
 		fields = (
 			'direccion', 
 			'ciudad', 
-			'zona', 
-			'coord'
+			'zona',
+			'calle',
+			'latitud',
+			'longitud',
 		)
 		widgets = {
 			'direccion': forms.Textarea(attrs={'class':"form-control", 'cols':'20', 'placeholder': 'Calle, avenida, vía, etc.'}),
 			'ciudad': forms.Select(attrs={'class':"form-control", 'placeholder': 'Ciudad'}),
 			'zona': forms.Select(attrs={'class':"form-control", 'placeholder':'Zona'}),
-			'coord': forms.TextInput(attrs={'style':"display:none"})
+			'calle': forms.Textarea(attrs={'class':"form-control", 'rows':'4', 'placeholder':'Calle'})
 		}
 
 #Formulario del telefono del restaurante

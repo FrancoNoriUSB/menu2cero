@@ -73,7 +73,7 @@
 			{%for restaurante in restaurantes%}
 				<div class="restaurante row">
 					<div class="logo_rest col-lg-2 col-md-2 col-sm-3">
-						<img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="">
+						<img class="img-responsive" src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="">
 						<form action="." method="POST" id="eliminar" enctype="multipart/form-data">
 							{%csrf_token%}
 							{%render_field LogosForm.logo type="image" src="/media/files/img/cambio_logo.png" class="cambiar_logo img-responsive" %}
@@ -82,30 +82,26 @@
 					<div class="info col-lg-8 col-md-8 col-sm-10">
 						<div class="row">
 							<p class="col-md-12 nombre">Nombre del Restaurante:
-								{%if restaurante.nombre%}
-									<a href="/administrador/editar/{{restaurante.id}}"><strong>{{restaurante.nombre}}</strong></a>
-								{%else%}
-									<strong>-Sin Nombre-</strong>
-								{%endif%}
+								<a href="/administrador/editar/{{restaurante.0.id}}"><strong>{{restaurante.0.nombre}}</strong></a>
 							</p>
 						</div>
 						<div class="row">
-							<p class="col-md-3">Visitas:<strong>0</strong></p>
-							<p class="col-md-3 ">Votos:<strong>0</strong></p>
-							<p class="col-md-3 ">Puntuaci&oacute;n:<strong>0</strong></p>
+							<p class="col-md-3">Visitas:<strong> 0</strong></p>
+							<p class="col-md-3 ">Votos:<strong> {{restaurante.0.votos.all|length}}</strong></p>
+							<p class="col-md-3 ">Puntuaci&oacute;n:<strong> {{restaurante.1}}</strong></p>
 						</div>
 						<div class="row">
 							<p class="col-md-12 estatus">Estatus pagos: <strong></strong></p>
 						</div>
 						<div class="row botones">
 							<div class="editar col-lg-2 col-md-1">
-								<a href="/administrador/editar/{{restaurante.id}}">
+								<a href="/administrador/editar/{{restaurante.0.id}}">
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/editar.png" alt="" >
 									<p >Editar</p>
 								</a>
 							</div>
 							<div class="vista col-lg-2 col-md-1">
-								<a href="/perfil/{{restaurante.id}}/{{restaurante.nombre|slugify}}/" target="_blank">
+								<a href="/perfil/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/" target="_blank">
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/previa.png" alt="">
 									<p>Ver Restaurante</p>
 								</a>
@@ -117,19 +113,19 @@
 								</a>
 							</div>
 							<div class="publico col-lg-2 col-md-1">
-								<a href="/administrador/visibilidad_restaurante/{{restaurante.id}}">
-								{%if restaurante.visibilidad == 'Privado'%}
+								<a href="/administrador/visibilidad_restaurante/{{restaurante.0.id}}">
+								{%if restaurante.0.visibilidad == 'Privado'%}
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/privado.png" alt="" >
-									<p>{{restaurante.visibilidad}}</p>
+									<p>{{restaurante.0.visibilidad}}</p>
 								{%else%}
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/publicar.png" alt="" >
-									<p>{{restaurante.visibilidad}}</p>
+									<p>{{restaurante.0.visibilidad}}</p>
 								{%endif%}
 								</a>
 							</div>
 							<div class="status col-lg-2 col-md-1">
-								<a href="/administrador/abrir_cerrar/{{restaurante.id}}" id="abierto">
-									{%if restaurante.abierto == True%}
+								<a href="/administrador/abrir_cerrar/{{restaurante.0.id}}" id="abierto">
+									{%if restaurante.0.abierto == True%}
 										<img class="img-responsive" src="{{STATIC_URL}}files/img/abierto.png" alt="" >
 										<p>Abierto</p>
 									{%else%}
@@ -144,16 +140,16 @@
 									<p>Eliminar</p>
 									<form action="." method="POST" id="eliminar">
 										{%csrf_token%}
-										{%render_field EliminarForm.eliminar value=restaurante.id%}
+										{%render_field EliminarForm.eliminar value=restaurante.0.id%}
 									</form>
 								</a>
 							</div>
 						</div>
 					</div>
 					<div class="plan col-lg-2 col-md-2 col-sm-3">
-						<img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre|lower}}.png" alt="{{STATIC_URL}}files/img/{{restaurante.plan.nombre}}.png" title="{{restaurante.plan.nombre}}">
+						<img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.0.plan.nombre|lower}}.png" alt="{{STATIC_URL}}files/img/{{restaurante.0.plan.nombre}}.png" title="{{restaurante.0.plan.nombre}}">
 						<p class="text-center">
-							<a href="/administrador/plan/{{restaurante.id}}">Plan {{restaurante.plan.nombre}}</a>
+							<a href="/administrador/plan/{{restaurante.0.id}}">Plan {{restaurante.0.plan.nombre}}</a>
 						</p>
 					</div>
 				</div>

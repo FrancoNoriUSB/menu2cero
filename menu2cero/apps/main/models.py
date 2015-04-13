@@ -135,6 +135,20 @@ class Metodo(models.Model):
 		return u"%s" %(self.nombre)
 
 
+#Clase para los votos que emiten los usuarios hacia los restaurantes
+class Voto(models.Model):
+
+	valor = models.DecimalField(max_digits=2, decimal_places=1)
+
+	class Meta:
+		ordering = ('id',)
+		verbose_name = _('Voto')
+		verbose_name_plural = _('Votos')
+
+	def __unicode__(self):
+		return u"%s" %(self.valor)
+
+
 #Clase del cliente
 class Cliente(models.Model):
 
@@ -157,20 +171,12 @@ class Cliente(models.Model):
 		verbose_name_plural = _('Clientes')
 
 	def __unicode__(self):
-		return u"Nombre: %s" %(self.user.username)
+		return u"Nombre: %s" %(self.user.nombre)
 
 
 #Clase del restaurante
 class Restaurante(models.Model):
 	
-	tipos = (
-		('Restaurante', 'Restaurante'),
-		('Bar', 'Bar'),
-		(u'Heladería', u'Heladería'),
-		('Panadería', u'Panadería'),
-		(u'café', 'Cafetería'),
-	)
-
 	statuses = (
 		('Activo', 'Activo'),
 		('Inactivo', 'Inactivo'),
@@ -187,7 +193,6 @@ class Restaurante(models.Model):
 	logo = models.ImageField(upload_to='uploads/img/logos/', default='uploads/img/logos/ico.png')
 	descripcion = models.TextField(max_length=300)
 	status = models.CharField(max_length=20, default='Activo', choices=statuses, editable=False)
-	tipo = models.CharField(max_length=4, choices=tipos)
 	abierto = models.BooleanField(default=True, help_text='Desmarcar si su restaurante se encuentra cerrado')
 	visibilidad = models.CharField(max_length=10, null=True, choices=visible)
 	
@@ -196,6 +201,7 @@ class Restaurante(models.Model):
 	categoria = models.ManyToManyField(Categoria)
 	servicios = models.ManyToManyField(Servicio)
 	metodos_pago = models.ManyToManyField(Metodo)
+	votos = models.ManyToManyField(Voto)
 	plan = models.ForeignKey(Plan)
 
 	class Meta:
@@ -241,8 +247,10 @@ class Zona(models.Model):
 #Clase para la direccion del restaurante
 class Direccion(models.Model):
 
-	coord = models.CharField(max_length=50)
 	direccion = models.CharField(max_length=100)
+	calle = models.CharField(max_length=100)
+	latitud = models.DecimalField(max_digits=20, decimal_places=17)
+	longitud = models.DecimalField(max_digits=20, decimal_places=17)
 
 	#Claves foraneas y de otras tablas
 	ciudad = models.ForeignKey(Ciudad)
@@ -478,19 +486,3 @@ class Pago(models.Model):
 
 	def __unicode__(self):
 		return u"Cliente: %s. Fecha: %s. Monto: %s" %(self.cliente, self.fecha, self.monto)
-
-
-#Clase para los votos que emiten los usuarios hacia los restaurantes
-class Voto(models.Model):
-
-	valor = models.DecimalField(max_digits=2, decimal_places=1)
-
-	#Claves foraneas y de otras tablas
-	restaurante = models.ForeignKey(Restaurante)
-
-	class Meta:
-		verbose_name = _('Voto')
-		verbose_name_plural = _('Votos')
-
-	def __unicode__(self):
-		return u'Voto %s' %(self.valor)

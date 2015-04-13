@@ -87,12 +87,12 @@ class BuscadorForm(forms.Form):
 #Formulario de filtro de categorias y restaurantes
 class FiltroForm(forms.Form):
 
-	choices_tipo = (('','- Tipo -'), 
-		('Restaurante', 'Restaurante'),
-		('Bar', 'Bar'),
-		(u'Heladería', u'Heladería'),
-		('Panadería', u'Panadería'),
-		(u'café', 'Cafetería'),)
+	# choices_tipo = (('','- Tipo -'), 
+	# 	('Restaurante', 'Restaurante'),
+	# 	('Bar', 'Bar'),
+	# 	(u'Heladería', u'Heladería'),
+	# 	('Panadería', u'Panadería'),
+	# 	(u'café', 'Cafetería'),)
 	choices_servicios = (
 		('Wifi', 'Wifi'), 
 		('Exterior', 'Exterior'), 
@@ -108,7 +108,7 @@ class FiltroForm(forms.Form):
 
 	Zona = forms.ModelChoiceField(queryset=Zona.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Zona -', required=False, to_field_name="nombre")
 
-	Tipo = forms.ChoiceField(choices=choices_tipo, required=False)
+	# Tipo = forms.ChoiceField(choices=choices_tipo, required=False)
 
 	Servicios = forms.MultipleChoiceField(choices=choices_servicios, widget=forms.CheckboxSelectMultiple, required=False)
 
