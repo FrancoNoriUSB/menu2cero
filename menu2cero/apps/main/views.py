@@ -252,8 +252,8 @@ def restaurantes_view(request, palabra):
 	return render_to_response('main/restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
 
 
-#Vista del perfil de cada restaurante
-def perfil_view(request, id_rest, restaurante):
+#Vista del restaurante de cada restaurante
+def restaurante_view(request, id_rest, restaurante):
 
 	#Query para obtener los datos del restaurante.
 	imagenes = []
@@ -401,7 +401,7 @@ def perfil_view(request, id_rest, restaurante):
 		'platos': platos, 
 		'arreglo': arreglo
 	}
-	return render_to_response('main/perfil/perfil.html', ctx, context_instance=RequestContext(request))
+	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista para contactar a la compania
@@ -443,7 +443,7 @@ def contactos_view(request):
 	return render_to_response('main/contactos/contactos.html', ctx, context_instance=RequestContext(request))
 
 
-#Creador de horario para mostrar en el perfil
+#Creador de horario para mostrar en el restaurante
 def horario_restaurante(dias):
 
 	i=0

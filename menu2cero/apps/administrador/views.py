@@ -557,13 +557,8 @@ def visibilidad_restaurante(request, id_rest):
 def abrir_cerrar_restaurante(request, id_rest):
 
     restaurante = get_object_or_404(Restaurante, cliente__user_id=request.user.id, id=id_rest)
-
-    if restaurante.abierto == True:
-        restaurante.abierto = False
-        restaurante.save()
-    else:
-        restaurante.abierto = True
-        restaurante.save()
+    restaurante.abierto = not(restaurante.abierto)
+    restaurante.save()
 
     return HttpResponseRedirect('/administrador/perfil')
 
