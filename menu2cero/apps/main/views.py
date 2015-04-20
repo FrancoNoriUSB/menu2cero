@@ -9,6 +9,7 @@ from django.template import Context
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from menu2cero.apps.administrador.forms import *
+from menu2cero.apps.administrador.views import loginUser
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from django.db.models import Q
@@ -26,6 +27,8 @@ def index(request):
 	buscadorF = BuscadorForm()
 	loginF = LoginForm()
 	restaurantes_rec = []
+	login = True
+	registro = True
 
 	#Se veririca que se haya hecho un request a POST
 	if request.POST:
@@ -33,6 +36,7 @@ def index(request):
 		userF = UserCreationForm(request.POST)
 		clienteF = ClienteForm(request.POST)
 		buscadorF = BuscadorForm(request.POST)
+		loginF = LoginForm(request.POST)
 
 		#Caso para el buscador
 		if buscadorF.is_valid():
@@ -46,6 +50,14 @@ def index(request):
 			cliente.user = usuario
 			cliente.save()
 			return HttpResponseRedirect('/')
+		else:
+			registro = False
+
+		#Logueando al usuario
+		if request.POST.get('email',False) and request.POST.get('password',False):
+			login = loginUser(request)
+			if login:
+				return HttpResponseRedirect('/administrador/perfil/')
 
 	#Query para los restaurantes destacados
 	restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
@@ -78,7 +90,9 @@ def index(request):
 		'restaurantes_dest': restaurantes_dest,
 		'restaurantes_rec': restaurantes_rec, 
 		'categorias': categorias,
-    	'loginForm': loginF
+    	'loginForm': loginF,
+    	'login':login,
+    	'registro':registro,
 	 }
 	return render_to_response('main/home/home.html', ctx, context_instance=RequestContext(request))
 
@@ -99,6 +113,8 @@ def restaurantes_view(request, palabra):
 	restaurantes_list = []
 	servicios = []
 	categorias = Categoria.objects.all().order_by('nombre')[:22]
+	login = True
+	registro = True
 
 	# Categorias que se imprimen arriba del formulario filtrador
 	for cat in categorias:
@@ -193,6 +209,14 @@ def restaurantes_view(request, palabra):
 			cliente.user = usuario
 			cliente.save()
 			return HttpResponseRedirect('/')
+		else:
+			registro = False
+
+		#Logueando al usuario
+		if request.POST.get('email',False) and request.POST.get('password',False):
+			login = loginUser(request)
+			if login:
+				return HttpResponseRedirect('/administrador/perfil/')
 
 	#Caso para el cual la palabra tiene contenido
 	elif palabra:
@@ -247,13 +271,15 @@ def restaurantes_view(request, palabra):
 		'categorias_der':categorias_der, 
 		'categorias_izq': categorias_izq, 
 		'servicios':servicios,
-        'loginForm': loginF
+        'loginForm': loginF,
+    	'login':login,
+    	'registro':registro,
 	}
 	return render_to_response('main/restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
 
 
 #Vista del restaurante de cada restaurante
-def restaurante_view(request, id_rest, restaurante):
+def restaurante_view(request, restaurante):
 
 	#Query para obtener los datos del restaurante.
 	imagenes = []
@@ -291,7 +317,8 @@ def restaurante_view(request, id_rest, restaurante):
 			cliente.save()
 			return HttpResponseRedirect('/')
 
-	restaurante = get_object_or_404(Restaurante, id=id_rest)
+	nombre = restaurante.replace("-"," ")
+	restaurante = get_object_or_404(Restaurante, nombre__iexact=nombre)
 
 	#Preparacion del horario para mostrar
 	horarios = Horario.objects.filter(restaurante=restaurante)
@@ -588,3 +615,9 @@ def dynamic_query(model, fields, types, values, operator):
     else:
         # Return an empty result
         return {}
+
+
+#View para renderizar el url de google web master tools
+def GoogleWebMasterTools(request):
+
+	return render_to_response('google4d589b5fc798be45.html', ctx, context_instance=RequestContext(request))

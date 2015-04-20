@@ -57,9 +57,9 @@
             </h4>
         </div>
         <!-- Cuerpo de la informacion principal -->
-        <div id="collapse_principal" class="panel-collapse collapse in">
+        <div id="collapse_principal" class="panel-collapse collapse {%if formulario_activo == 'basico' or formulario_activo == '0'%}in{%endif%}">
             <div class="panel-body">
-                <form role="form" action="/administrador/editar/{{restaurante.id}}" method="POST">
+                <form role="form" action="/administrador/editar/{{restaurante.id}}/basico" method="POST">
                     <div class="form-group">
                         {%csrf_token%}
                         <div class="row">
@@ -101,7 +101,6 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <p class="text-danger">{{HorariosForm.errors|striptags}}</p>
                                 <div class="table-responsive">
                                     <table class="table">
                                             <tr>
@@ -188,11 +187,6 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4">
-                                Direcci&oacute;n del restaurante:
-                                <p class="text-danger">{{ DireccionForm.direccion.errors|striptags }}</p>
-                                {{ DireccionForm.direccion }}
-                            </div>
-                            <div class="col-lg-3">
                                 Ciudad:
                                 {{ DireccionForm.ciudad }}
                                 <p class="text-danger">{{ DireccionForm.ciudad.errors|striptags }}</p>
@@ -203,19 +197,11 @@
                                 {{ DireccionForm.calle }}
                                 <p class="text-danger">{{ DireccionForm.calle.errors|striptags }}</p>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-8">
                                 <!-- Mapa de google maps -->
                                 Coordenadas:
                                 <p class="text-danger">{{ DireccionForm.latitud.errors|striptags }}</p>
                                 <input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
-                                <div id="type-selector" class="controls">
-                                  <input type="radio" name="type" id="changetype-all" checked="checked">
-                                  <label for="changetype-all">Todo</label>
-                                  <input type="radio" name="type" id="changetype-establishment">
-                                  <label for="changetype-establishment">Establecimietos</label>
-                                  <input type="radio" name="type" id="changetype-address">
-                                  <label for="changetype-address">Direcciones</label>
-                                </div>
                                 <div class="mapa" id="map">
                                 </div>
                                 {{ DireccionForm.latitud.as_hidden }}
@@ -264,13 +250,14 @@
                 </a>
             </h4>
         </div>
-        <div id="collapse_otra" class="panel-collapse collapse">
+        <div id="collapse_otra" class="panel-collapse collapse {%if formulario_activo == 'otra'%}in{%endif%}">
             <div class="panel-body">
-                <form role="form" action="/administrador/restaurante_otra_info/{{restaurante.id}}" method="POST">
+                <form role="form" action="/administrador/editar/{{restaurante.id}}/otra" method="POST">
                     <div class="form-group">
                         {%csrf_token%}
                         Descripci&oacute;n del restaurante (m&aacute;ximo 400 caracteres):
                         {{ DescripcionForm.descripcion_rest }}
+                        <p class="text-danger">{{DescripcionForm.descripcion.errors|striptags}}</p>
                         <br>
                         Servicios del restaurante:
                         <br>
@@ -289,6 +276,7 @@
                             
                             </label>
                         {%endfor%}
+                        <p class="text-danger">{{DescripcionForm.servicios.errors|striptags}}</p>
                         <br>
                         M&eacute;todos de pago:
                         <br>
@@ -306,12 +294,23 @@
                                 {% endfor %} type="checkbox" id="id_metodos_de_pago_{{ forloop.counter0 }}" name="metodos_de_pago" value="{{ pk }}" />
                             </label>
                         {%endfor%}
+                        <p class="text-danger">{{DescripcionForm.metodos.errors|striptags}}</p>
                         <br>
                         Redes Sociales:
                         <br>
                         <div class="row">
-                            <div class="col-lg-4 col-md-6">Facebook: {{ RedesForm.facebook }}</div>
-                            <div class="col-lg-4 col-md-6">Twitter: {{ RedesForm.twitter }}</div>
+                            <div class="col-lg-4 col-md-6">
+                                Facebook: {{ RedesForm.facebook }}
+                                <p class="text-danger">{{RedesForm.facebook.errors|striptags}}</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                Twitter: {{ RedesForm.twitter }}
+                                <p class="text-danger">{{RedesForm.twitter.errors|striptags}}</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                Instagram: {{ RedesForm.instagram }}
+                                <p class="text-danger">{{RedesForm.instagram.errors|striptags}}</p>
+                            </div>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Guardar</button>
@@ -336,9 +335,9 @@
                 </a>
             </h4>
         </div>
-        <div id="collapse_imgs" class="panel-collapse collapse">
+        <div id="collapse_imgs" class="panel-collapse collapse {%if formulario_activo == 'imagenes'%}in{%endif%}">
             <div class="panel-body">
-                <form role="form" action="/administrador/restaurante_imagenes/{{restaurante.id}}" method="POST" enctype="multipart/form-data">
+                <form role="form" action="/administrador/editar/{{restaurante.id}}/imagenes" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         {%csrf_token%}
                         Logos:
@@ -349,6 +348,7 @@
                             <div class="col-lg-10">
                                 Logo del restaurante:
                                 {{ logoRestForm.logo }}
+                                <p class="text-danger">{{LogoRestForm.logo.errors|striptags}}</p>
                                 <p align="left">
                                     De no poseer logo, puede seleccionar uno de nuestra colecci&oacute;n. 
                                     <a class="col-lg-offset-1" href="">Quiero un logo para mi restaurante!</a>
@@ -361,7 +361,7 @@
                                         {{ choice }}
                                         <br>
                                             <input 
-                                                {% if logo == pk|safe %}
+                                                {% if restaurante.logo == pk|safe %}
                                                     checked="checked"
                                                 {% endif %} id="id_logos_{{ forloop.counter0 }}" type="radio" name="logos" value="{{ pk }}" />
                                         </label>
@@ -377,6 +377,7 @@
                             {%for form in ImagenForm%}
                                 <div class="col-lg-8">
                                     {{form}}
+                                    <p class="text-danger">{{form.errors|striptags}}</p>
                                 </div>
                                 <div class="col-lg-4">
                                     {%if form.thumbnail.value != None%}
@@ -465,7 +466,7 @@ function initialize() {
     var lng = $('#id_longitud');
 
     var mapOptions = {
-        zoom: 7,
+        zoom: 13,
         center: new google.maps.LatLng({{lat|safe}},{{lng|safe}})
     };
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -565,9 +566,6 @@ function initialize() {
         });
     }
 
-    setupClickListener('changetype-all', []);
-    setupClickListener('changetype-address', ['address']);
-    setupClickListener('changetype-establishment', ['establishment']);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

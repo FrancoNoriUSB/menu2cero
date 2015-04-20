@@ -58,7 +58,7 @@
         <div id="clickeable_destacados" class="collapse in col-lg-12 col-md-12 col-sm-12">
             {% for restaurante in restaurantes_dest%}
             <div class="restaurante col-lg-2 col-md-3 col-sm-4 col-xs-12" >
-                <a href="/restaurante/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/">
+                <a href="/restaurante/{{restaurante.0.nombre|slugify}}/">
                     <img class="img-responsive" src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="" class="{% filter force_escape %}{% cycle 'imagen_a' 'imagen_r' %}{% endfilter %}">
                     <p id="titulo">{{restaurante.0.nombre}}</p>
                 </a>
@@ -88,7 +88,7 @@
         <div id="clickeable_reciente" class="collapse in col-lg-12 col-md-12 col-sm-12">
             {% for restaurante in restaurantes_rec%}
                 <div class="restaurante col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                    <a href="/restaurante/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/">
+                    <a href="/restaurante/{{restaurante.0.nombre|slugify}}/">
                         <img class="img-responsive" src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="" class="{% filter force_escape %}{% cycle 'imagen_a' 'imagen_r' %}{% endfilter %}">
                         <p id="titulo">{{restaurante.0.nombre}}</p>
                     </a>

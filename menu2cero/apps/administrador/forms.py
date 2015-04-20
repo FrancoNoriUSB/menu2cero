@@ -57,7 +57,15 @@ class PrincipalForm(forms.ModelForm):
 			'nombre' : forms.TextInput(attrs={'placeholder':'Nombre de su restaurante'}),
 			'categoria': forms.CheckboxSelectMultiple()
 		}
-	
+
+	def clean_categoria(self):
+		categoria = self.cleaned_data.get("categoria")
+
+		if len(categoria) > 3:
+			raise forms.ValidationError(u"El máximo de categorías a elegir es 3.")
+		return categoria
+
+
 #Formulario de los horarios
 class HorariosForm(forms.Form):
 
@@ -93,13 +101,13 @@ class HorariosForm(forms.Form):
 	domingo_desde = forms.ChoiceField(choices=horas)
 	domingo_hasta = forms.ChoiceField(choices=horas)
 
+
 #Formulario de la direccion del restaurante
 class DireccionForm(forms.ModelForm):
 
 	class Meta:
 		model = Direccion
-		fields = (
-			'direccion', 
+		fields = ( 
 			'ciudad', 
 			'zona',
 			'calle',
@@ -107,11 +115,11 @@ class DireccionForm(forms.ModelForm):
 			'longitud',
 		)
 		widgets = {
-			'direccion': forms.Textarea(attrs={'class':"form-control", 'cols':'20', 'placeholder': 'Calle, avenida, vía, etc.'}),
 			'ciudad': forms.Select(attrs={'class':"form-control", 'placeholder': 'Ciudad'}),
 			'zona': forms.Select(attrs={'class':"form-control", 'placeholder':'Zona'}),
-			'calle': forms.Textarea(attrs={'class':"form-control", 'rows':'4', 'placeholder':'Calle'})
+			'calle': forms.Textarea(attrs={'class':"form-control", 'rows':'4', 'placeholder':'Calle o avenida'})
 		}
+
 
 #Formulario del telefono del restaurante
 class TelefonoRestauranteForm(forms.ModelForm):
@@ -123,10 +131,11 @@ class TelefonoRestauranteForm(forms.ModelForm):
 			'display'
 		)
 		widgets = {
-		'restaurante': forms.HiddenInput(),
-		'numero': forms.TextInput(attrs={'class':'form-control'}),
-		'display': forms.CheckboxInput(attrs={'class':'checkbox'})
+			'restaurante': forms.HiddenInput(),
+			'numero': forms.TextInput(attrs={'class':'form-control'}),
+			'display': forms.CheckboxInput(attrs={'class':'checkbox'})
 		}
+
 
 #Formulario de otra informacion del restaurante
 class DescripcionForm(forms.Form):
@@ -135,16 +144,19 @@ class DescripcionForm(forms.Form):
 	servicios = forms.ModelMultipleChoiceField(queryset=Servicio.objects.all(), widget=forms.CheckboxSelectMultiple())
 	metodos_de_pago = forms.ModelMultipleChoiceField(queryset=Metodo.objects.all(), widget=forms.CheckboxSelectMultiple())
 
+
 #Formulario de redes sociales
 class RedesForm(forms.ModelForm):
 
 	class Meta:
 		model = Red_social
-		fields = ('facebook', 'twitter')
+		fields = ('facebook', 'twitter', 'instagram')
 		widgets = {
-		'facebook': forms.TextInput(attrs={'class':"form-control", 'placeholder':"facebook"}),
-		'twitter': forms.TextInput(attrs={'class':"form-control", 'placeholder':"twitter"}),
+			'facebook': forms.TextInput(attrs={'class':"form-control", 'placeholder':"facebook"}),
+			'twitter': forms.TextInput(attrs={'class':"form-control", 'placeholder':"twitter"}),
+			'instagram': forms.TextInput(attrs={'class':"form-control", 'placeholder':"instagram"}),
 		}
+
 
 #Formulario para el logo del restaurante
 class logoRestForm(forms.ModelForm):
@@ -162,6 +174,7 @@ class LogosForm(forms.Form):
 
 	logos = forms.ChoiceField(choices=choices_logos, widget=forms.RadioSelect())
 
+
 #Formulario de imagen del restaurante
 class ImagenForm(forms.ModelForm):
 
@@ -178,12 +191,14 @@ class ImagenForm(forms.ModelForm):
 			'thumbnail': '',
 		}
 
+
 #Formulario del menu del restaurante
 class MenuForm(forms.ModelForm):
 
 	class Meta:
 		model = Menu
 		fields = ('nombre',)
+
 
 #Formulario de los platos del menu
 class PlatosForm(forms.ModelForm):
@@ -199,10 +214,12 @@ class PlatosForm(forms.ModelForm):
 			'imagen': forms.FileInput(attrs={'disabled':'True'})
 		}
 		
+
 #Formulario para los tipos de platos
 class TipoPlatoForm(forms.Form):
 
 	nombre = forms.ModelChoiceField(queryset=Tipo.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Tipo -', required=True)
+
 
 #Formulario de eliminacion de restaurante
 class EliminarForm(forms.Form):

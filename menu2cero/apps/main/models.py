@@ -189,7 +189,7 @@ class Restaurante(models.Model):
 	)
 
 	rif = models.CharField(max_length=13)
-	nombre = models.CharField(max_length=50, help_text='Introduzca el nombre de su restaurante.')
+	nombre = models.CharField(max_length=50, help_text='Introduzca el nombre de su restaurante.', unique=True)
 	logo = models.ImageField(upload_to='uploads/img/logos/', default='uploads/img/logos/ico.png')
 	descripcion = models.TextField(max_length=300)
 	status = models.CharField(max_length=20, default='Activo', choices=statuses, editable=False)
@@ -269,9 +269,9 @@ class Direccion(models.Model):
 #Clase para las redes sociales del restaurante
 class Red_social(models.Model):
 
-	facebook = models.CharField(max_length=100, null=True)
-	twitter = models.CharField(max_length=50, null=True)
-	instagram = models.CharField(max_length=50, null=True)
+	facebook = models.CharField(max_length=100, null=True, blank=True)
+	twitter = models.CharField(max_length=50, null=True, blank=True)
+	instagram = models.CharField(max_length=50, null=True, blank=True)
 
 	#Claves foraneas y de otras tablas
 	restaurante = models.OneToOneField(Restaurante)

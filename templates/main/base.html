@@ -173,9 +173,12 @@
                         </div>
                         <div class="modal-body">
                             <h5 class="text-center"><strong>Iniciar sesi&oacute;n</strong></h5>
-                            <form role="form" method="POST" action="/login/">
+                            <form role="form" method="POST" action=".">
                                 <div class="form-group">
                                     {%csrf_token%}
+                                    {%if not login%}
+                                        <p class="text-danger">Verifica tus datos de ingreso!</p>
+                                    {%endif%}
                                     <div class="form-inline">
                                         <br>
                                         <p class="text-center">
@@ -201,26 +204,49 @@
                                 <form role="form" method="POST" action=".">
                                     <div class="form-group">
                                         {%csrf_token%}
-                                        <div class="form-inline">
-                                            <br>
-                                            {{UserCreationForm.nombre.errors|striptags}}
-                                            {% render_field UserCreationForm.nombre class="form-control" placeholder="Nombre"%}
-                                            {{ClienteForm.cargo.errors|striptags}}
-                                            {% render_field ClienteForm.cargo class="form-control" %}
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{UserCreationForm.nombre.errors|striptags}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{ClienteForm.cargo.errors|striptags}}</p>
+                                            </div>
                                         </div>
                                         <div class="form-inline">
-                                            <br>
-                                            {{UserCreationForm.email.errors|striptags}}
-                                            {% render_field UserCreationForm.email class="form-control" placeholder="Correo electrónico"%}
-                                            {{ClienteForm.telefono.errors|striptags}}
-                                            {% render_field ClienteForm.telefono class="form-control" %}
+                                                {% render_field UserCreationForm.nombre class="form-control" placeholder="Nombre"%}
                                         </div>
                                         <div class="form-inline">
-                                            <br>
-                                            {{UserCreationForm.password1.errors|striptags}}
-                                            {% render_field UserCreationForm.password1 class="form-control" placeholder="Contraseña"%}
-                                            {{UserCreationForm.password2.errors|striptags}}
-                                            {% render_field UserCreationForm.password2 class="form-control" placeholder="Confirme contraseña"%}
+                                                {% render_field ClienteForm.cargo class="form-control" %}
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{UserCreationForm.email.errors|striptags}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{ClienteForm.telefono.errors|striptags}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-inline">
+                                                {% render_field UserCreationForm.email class="form-control" placeholder="Correo electrónico"%}
+                                        </div>
+                                        <div class="form-inline">
+                                                {% render_field ClienteForm.telefono class="form-control" %}
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{UserCreationForm.password1.errors|striptags}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <p class="text-danger">{{UserCreationForm.password2.errors|striptags}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-inline">
+                                                {% render_field UserCreationForm.password1 class="form-control" placeholder="Contraseña"%}
+                                        </div>
+                                        <div class="form-inline">
+                                                {% render_field UserCreationForm.password2 class="form-control" placeholder="Confirme contraseña"%}
                                         </div>
                                         <div class="form-inline">
                                             <br>
@@ -286,14 +312,21 @@
 
 <!-- Seccion donde se carga el JS -->
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-57378322-1', 'auto');
-  ga('send', 'pageview');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-57378322-1', 'auto');
+    ga('send', 'pageview');
 </script>
+
+<!--Verificacion de formulario de login-->
+{%if not login or not registro%}
+<script>
+    $('#myModal').modal('show');
+</script>
+
+{%endif%}
 {%block js%}
 
 {%endblock js%}

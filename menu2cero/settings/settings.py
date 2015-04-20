@@ -64,7 +64,7 @@ ROOT_URLCONF = 'menu2cero.urls'
 
 WSGI_APPLICATION = 'menu2cero.wsgi.application'
 
-LOGIN_URL = '/administrador/login/'
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

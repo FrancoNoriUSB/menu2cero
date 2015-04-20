@@ -95,13 +95,13 @@
 						</div>
 						<div class="row botones">
 							<div class="editar col-lg-2 col-md-1">
-								<a href="/administrador/editar/{{restaurante.0.id}}">
+								<a href="/administrador/editar/{{restaurante.0.id}}/0">
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/editar.png" alt="" >
 									<p >Editar</p>
 								</a>
 							</div>
 							<div class="vista col-lg-2 col-md-1">
-								<a href="/restaurante/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/" target="_blank">
+								<a href="/restaurante/{{restaurante.0.nombre|slugify}}/" target="_blank">
 									<img class="img-responsive" src="{{STATIC_URL}}files/img/previa.png" alt="">
 									<p>Ver Restaurante</p>
 								</a>

@@ -64,7 +64,6 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
-								<p class="text-danger">{{HorariosForm.errors|striptags}}</p>
 								<div class="table-responsive">
 									<table class="table">
 											<tr>
@@ -151,40 +150,27 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-4">
-								Direcci&oacute;n del restaurante:
-								<p class="text-danger">{{ DireccionForm.direccion.errors|striptags }}</p>
-								{{ DireccionForm.direccion }}
-							</div>
-							<div class="col-lg-3">
-								Ciudad:
-								{{ DireccionForm.ciudad }}
-								<p class="text-danger">{{ DireccionForm.ciudad.errors|striptags }}</p>
-								Zona:
-								{{ DireccionForm.zona }}
-								<p class="text-danger">{{ DireccionForm.zona.errors|striptags }}</p>
-								Calle o avenida:
-								{{ DireccionForm.calle }}
-								<p class="text-danger">{{ DireccionForm.calle.errors|striptags }}</p>
-							</div>
-							<div class="col-lg-5">
-								<!-- Mapa de google maps -->
-								Coordenadas:
-								<p class="text-danger">{{ DireccionForm.latitud.errors|striptags }}</p>
-								<input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
-			                    <div id="type-selector" class="controls">
-			                      <input type="radio" name="type" id="changetype-all" checked="checked">
-			                      <label for="changetype-all">Todo</label>
-			                      <input type="radio" name="type" id="changetype-establishment">
-			                      <label for="changetype-establishment">Establecimietos</label>
-			                      <input type="radio" name="type" id="changetype-address">
-			                      <label for="changetype-address">Direcciones</label>
-			                    </div>
-								<div class="mapa" id="map">
-						        </div>
-		                        {{ DireccionForm.latitud.as_hidden }}
-		                        {{ DireccionForm.longitud.as_hidden }}
-						        (Clickee en el mapa la ubicaci&oacute;n de su local)
-							</div>
+                                Ciudad:
+                                {{ DireccionForm.ciudad }}
+                                <p class="text-danger">{{ DireccionForm.ciudad.errors|striptags }}</p>
+                                Zona:
+                                {{ DireccionForm.zona }}
+                                <p class="text-danger">{{ DireccionForm.zona.errors|striptags }}</p>
+                                Calle o avenida:
+                                {{ DireccionForm.calle }}
+                                <p class="text-danger">{{ DireccionForm.calle.errors|striptags }}</p>
+                            </div>
+                            <div class="col-lg-8">
+                                <!-- Mapa de google maps -->
+                                Coordenadas:
+                                <p class="text-danger">{{ DireccionForm.latitud.errors|striptags }}</p>
+                                <input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
+                                <div class="mapa" id="map">
+                                </div>
+                                {{ DireccionForm.latitud.as_hidden }}
+                                {{ DireccionForm.longitud.as_hidden }}
+                                (Clickee en el mapa la ubicaci&oacute;n de su local)
+                            </div>
 						</div>
 						<br>
 						<div class="row">
@@ -379,10 +365,6 @@ function initialize() {
             autocomplete.setTypes(types);
         });
     }
-
-    setupClickListener('changetype-all', []);
-    setupClickListener('changetype-address', ['address']);
-    setupClickListener('changetype-establishment', ['establishment']);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

@@ -122,9 +122,16 @@ Colores a utilizar:
 
 /*Estilo del mapa*/
 .container .mapa{
-	width: 450px;
-	height: 280px;
+	width: 650px;
+	height: 300px;
+	top: -10px;
 }
 #collapse_principal > div > form > div > div.table-responsive > table > tbody > tr > td > div{
 	text-align: center;
+}
+
+
+#pac-input{
+	width: 400px !important;
+	height: 25px !important;
 }

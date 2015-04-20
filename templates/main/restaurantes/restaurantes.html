@@ -61,7 +61,7 @@
 		<div class="row">
 			{% for restaurante in restaurantes%}
 			<div class="restaurante col-lg-3 col-md-4 col-sm-4">
-				<a href="/restaurante/{{restaurante.0.id}}/{{restaurante.0.nombre|slugify}}/">
+				<a href="/restaurante/{{restaurante.0.nombre|slugify}}/">
 					<img src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="" class="img-responsive {% filter force_escape %}{% cycle 'imagen_a' 'imagen_v' %}{% endfilter %}">
 					<p id="titulo">{{restaurante.0.nombre}}</p>
 				</a>
