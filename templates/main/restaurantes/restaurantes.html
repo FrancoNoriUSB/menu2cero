@@ -29,13 +29,13 @@
 				<ul class="col-lg-6 col-md-6">
 					{%for categoria in categorias_izq%}
 						<li>
-							<a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a>
+							<a href="/restaurantes/{{categoria.nombre|lower}}">-{{categoria.nombre}}</a>
 						</li>
 					{%endfor%}
 				</ul>
 				<ul class="col-lg-6 col-md-6">
 					{%for categoria in categorias_der%}
-						<li><a href="/restaurantes/{{categoria.nombre}}">-{{categoria.nombre}}</a></li>
+						<li><a href="/restaurantes/{{categoria.nombre|lower}}">-{{categoria.nombre}}</a></li>
 					{%endfor%}
 				</ul>
 			</div>

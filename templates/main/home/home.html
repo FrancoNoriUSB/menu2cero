@@ -119,7 +119,7 @@
         <div id="clickeable_categorias" class="collapse in col-lg-12 col-md-12 col-sm-12">
             {% for categoria in categorias%}
                 <div class="categoria col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                    <a href="/restaurantes/{{categoria.nombre}}/">
+                    <a href="/restaurantes/{{categoria.nombre|lower}}">
                         <img class="img-responsive" src="{{MEDIA_URL}}{{categoria.imagen}}" alt="" class="{% filter force_escape %}{% cycle 'imagen_a' 'imagen_r' %}{% endfilter %}">
                         <p id="titulo">{{categoria.nombre}}</p>
                     </a>

@@ -150,7 +150,7 @@ def restaurantes_view(request, palabra):
 
 				#Extraccion del objeto de categoria
 				try:
-					cat = Categoria.objects.get(nombre=cat)
+					cat = Categoria.objects.get(nombre__iexact=cat)
 				except:
 					cat = ''
 
@@ -225,7 +225,7 @@ def restaurantes_view(request, palabra):
 		#Caso en que se le dio click a una categoria
 		try:
 			#Caso en el que la categoria no esta vacia
-			restaurantes = Restaurante.objects.filter(categoria__nombre=palabra, visibilidad='Público',status='Activo')
+			restaurantes = Restaurante.objects.filter(categoria__nombre__iexact=palabra, visibilidad='Público',status='Activo')
 		except:
 			error = 'Error'
 	else:
@@ -619,5 +619,9 @@ def dynamic_query(model, fields, types, values, operator):
 
 #View para renderizar el url de google web master tools
 def GoogleWebMasterTools(request):
+
+	ctx = {
+	
+	}
 
 	return render_to_response('google4d589b5fc798be45.html', ctx, context_instance=RequestContext(request))
