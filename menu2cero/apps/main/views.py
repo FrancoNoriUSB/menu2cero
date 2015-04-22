@@ -134,19 +134,16 @@ def restaurantes_view(request, palabra):
 			cat = filtro.cleaned_data['Categorias']
 			ciudad = filtro.cleaned_data['Ciudad']
 			zona = filtro.cleaned_data['Zona']
-			tipo = filtro.cleaned_data['Tipo']
 			servicios = filtro.cleaned_data['Servicios']
 
 			#Verificar que no todos los campos esten vacios
-			if cat != None or ciudad != None or zona != None or tipo != '' or servicios!=[]:
+			if cat != None or ciudad != None or zona != None or servicios!=[]:
 
 				#Verificacion de arreglo vacio
 				if not servicios:
 					servicios = None
 
 				#Verificacion de string vacio
-				if tipo == '':
-					tipo = None
 
 				#Extraccion del objeto de categoria
 				try:
@@ -159,7 +156,6 @@ def restaurantes_view(request, palabra):
 				fields_list.append('categoria')
 				fields_list.append('direccion__ciudad')
 				fields_list.append('direccion__zona')
-				fields_list.append('tipo')
 				fields_list.append('servicios')
 
 				#Comparadores para buscar
@@ -167,7 +163,6 @@ def restaurantes_view(request, palabra):
 				types_list.append('id__exact')
 				types_list.append('nombre__exact')
 				types_list.append('nombre__exact')
-				types_list.append('exact')
 				types_list.append('nombre__in')
 
 				#Valores a buscar
@@ -178,7 +173,6 @@ def restaurantes_view(request, palabra):
 					values_list.append(cat.id)
 				values_list.append(ciudad)
 				values_list.append(zona)
-				values_list.append(tipo)
 				values_list.append(servicios)
 
 				operator = 'and'
@@ -290,7 +284,9 @@ def restaurante_view(request, restaurante):
 	dias = []
 	direccion = ''
 	lat = 0
-	lng = 0
+	lng = 0		
+	login = True
+	registro = True
 
 	#Formularios basicos
 	buscadorF = BuscadorForm()
@@ -309,6 +305,7 @@ def restaurante_view(request, restaurante):
 			palabra = "buscar_"+buscador.cleaned_data['palabra']
 			return redirect('restaurantes', palabra=palabra)
 
+
 		# Creando un nuevo usuario
 		if userF.is_valid() and clienteF.is_valid():
 			cliente = clienteF.save(commit=False)
@@ -316,9 +313,40 @@ def restaurante_view(request, restaurante):
 			cliente.user = usuario
 			cliente.save()
 			return HttpResponseRedirect('/')
+		else:
+			registro = False
 
+		#Logueando al usuario
+		if request.POST.get('email',False) and request.POST.get('password',False):
+			login = loginUser(request)
+			if login:
+				return HttpResponseRedirect('/administrador/perfil/')
+
+
+	#Preparacion de conjunto de busqueda para el caso de palabras con acentos u.u...
+	i = 0
+	nombres = []
 	nombre = restaurante.replace("-"," ")
-	restaurante = get_object_or_404(Restaurante, nombre__iexact=nombre)
+	nombres.append(nombre)
+	for char in nombre:
+		if char == 'a':
+			nombres.append(nombre.replace(char,u'á'))
+		elif char == 'e':
+			nombres.append(nombre.replace(char,u'é'))
+		elif char == 'i':
+			nombres.append(nombre.replace(char,u'í'))
+		elif char == 'o':
+			nombres.append(nombre.replace(char,u'ó'))
+		elif char == 'u':
+			nombres.append(nombre.replace(char,u'ú'))
+		i+=1
+	#Falta caso en que la vocal se repite y cambia todas esas ocurrencias por acento.
+		
+
+	#Arma la lista de query a realizar
+	q_list = map(lambda n: Q(nombre__iexact=n), nombres)
+	q_list = reduce(lambda a, b: a | b, q_list)
+	restaurante = get_object_or_404(Restaurante, q_list, status='Activo')
 
 	#Preparacion del horario para mostrar
 	horarios = Horario.objects.filter(restaurante=restaurante)
@@ -412,6 +440,7 @@ def restaurante_view(request, restaurante):
         'loginForm': loginF,
 		'restaurante': restaurante,
 		'categorias': restaurante.categoria,
+		'imagenes':imagenes,
 		'rango_img': rango_img,
 		'puntos': puntos,
 		'horario':horario,
@@ -426,7 +455,9 @@ def restaurante_view(request, restaurante):
 		'telefonos': telefonos,
 		'disponible': restaurante.abierto, 
 		'platos': platos, 
-		'arreglo': arreglo
+		'arreglo': arreglo,
+		'login':login,
+		'registro':registro,
 	}
 	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))
 
@@ -621,7 +652,7 @@ def dynamic_query(model, fields, types, values, operator):
 def GoogleWebMasterTools(request):
 
 	ctx = {
-	
+
 	}
 
 	return render_to_response('google4d589b5fc798be45.html', ctx, context_instance=RequestContext(request))

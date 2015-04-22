@@ -150,6 +150,10 @@ section{
 	font-size: medium;
 }
 
+body > div > div.restaurantes.row > div.cuadros.col-lg-8.col-md-8.col-sm-9.col-xs-10 > div > div > a:hover{
+	text-decoration: none;
+}
+
 
 /*Media Querys para hacer resize*/
 @media (max-width: 1199px) {

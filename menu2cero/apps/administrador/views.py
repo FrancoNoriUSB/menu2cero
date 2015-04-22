@@ -335,7 +335,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 
 			#Verificacion de que los campos de los formularios se llenaron correctamente
 			if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
-				restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF)
+				id_rest = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF)
 				return  HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/basico')
 			elif not(principalF.is_valid() or horariosF.is_valid() or direccionF.is_valid() or telefonoF.is_valid()):
 				principalF = PrincipalForm(instance=restaurante)
@@ -390,6 +390,9 @@ def admin_editar_restaurante_view(request, id_rest, form):
 			else:
 				imagenFormSet = inlineformset_factory(Restaurante, Imagen, form=ImagenForm, extra=1, max_num=restaurante.plan.max_imagenes, can_delete=True)
 				imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
+
+		elif form == 'platos':
+			print 'platos'
 
 	ctx = {
 		'buscador':buscadorF,
@@ -469,7 +472,7 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 		#Manejo del formulario de direcciones
 		direccionF.save()
 
-		return True
+		return id_rest
 
 	#Caso en el que se agrega un restaurante
 	elif id_rest == 0:
@@ -516,7 +519,7 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 		direccion.restaurante = restaurante
 		direccion.save()
 
-		return True
+		return id_rest
 
 
 #Vista para el manejo (guardado) del formulario otra info del restaurante
@@ -546,7 +549,7 @@ def restaurante_otra_info(request, id_rest, descripcionF, redesF):
 		redes.restaurante = restaurante
 		redes.save()
 
-	return true
+	return True
 
 
 #View para manejar el cierre del restaurante
