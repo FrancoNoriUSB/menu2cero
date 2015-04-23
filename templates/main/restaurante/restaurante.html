@@ -5,17 +5,61 @@
 {% load cycle from future %}
 <!-- Estilos de la pagina-->
 <link href="{{STATIC_URL}}files/css/restaurante.css" rel="stylesheet" type="text/css" />
+<!-- Carousel -->
+<script>
+jQuery(document).ready(function($) {
 
+	$('#carrusel').carousel({
+	        interval: 170000
+	});
+
+	$('#carousel-text').html($('#slide-content-0').html());
+
+	//Handles the carousel thumbnails
+	$('[id^=carousel-selector-]').click( function(){
+	    var id = this.id.substr(this.id.lastIndexOf("-") + 1);
+	    var id = parseInt(id);
+	    $('#carrusel').carousel(id);
+	});
+
+
+	// When the carousel slides, auto update the text
+	$('#carrusel').on('slid.bs.carousel', function (e) {
+	         var id = $('.item.active').data('slide-number');
+	        $('#carousel-text').html($('#slide-content-'+id).html());
+	});
+});
+</script>
 <!-- Seccion del carrusel -->
 <div class="carrousel row">
-	<div class="col-lg-12 col-md-12 col-sm-12">
-		
-	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12" id="carousel-bounding-box">
+        <div class="carousel slide" id="carrusel">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+            	{%for imagen in imagenes%}
+	            	{%if forloop.first%}
+		                <div class="active item" data-slide-number="{{forloop.counter0}}">
+		                	<img class="img-responsive" src="{{imagen.archivo.url}}">
+		                </div>
+	                {%else%}
+		                <div class="item" data-slide-number="{{forloop.counter0}}">
+		                	<img class="img-responsive" src="{{imagen.archivo.url}}">
+		                </div>
+	                {%endif%}
+                {%endfor%}
+            </div><!-- Carousel nav -->
+            <a class="left carousel-control" href="#carrusel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>                                       
+            </a>
+            <a class="right carousel-control" href="#carrusel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>                                       
+            </a>                                
+        </div>
+    </div>
 </div>
 
 <!-- Seccion de logo e imagenes -->
 <div class="row imagenes">
-	
 	<div class="logo col-lg-2 col-md-2 col-sm-2 col-xs-4">
 		<!--Barra del logo-->
 		<img class="img-responsive logo-rest" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
@@ -37,13 +81,16 @@
 				</p>
 			</div>
 			
-			<div class="imagenes col-lg-12 col-md-12 col-sm-12">
-				<!--Imagenes-->			
-				{% for imagen in imagenes %}
-					<img class="img-responsive {% cycle 'imagen_b' 'imagen_g' %}" src="{{imagen.thumbnail.url}}" alt="">
+			<div class="imagenes col-lg-12 col-md-12 col-sm-12 hidden-xs">
+				<!--Thumbnails Imagenes-->
+                {% for imagen in imagenes %}
+                	<div class="col-lg-2 col-md-2 col-sm-2 {% cycle 'imagen_b' 'imagen_g' %}">
+	                    <a class="" id="carousel-selector-{{forloop.counter0}}">
+							<img class="img-responsive" src="{{imagen.thumbnail.url}}" alt="" align="middle">
+						</a>
+                	</div>
 				{% endfor %}
 			</div>
-
 			<!--Puntuacion-->
 			<div class="col-lg-3 col-md-3 col-sm-3 puntuacion">
 				<p id="titulo-puntuacion">Puntuación:
@@ -62,7 +109,9 @@
 		</div>
 	</div>
 </div>
-
+<br>
+<br>
+<br>
 <!--Caracteristicas-->
 <div class="caract-pagos row">
 	<div class="col-lg-8 col-md-8 col-sm-8 caracteristicas">
@@ -77,7 +126,7 @@
 
 	<!--Pagos-->
 	<div class="col-lg-4 col-md-4 col-sm-4 metodos-pago">
-		<p class="pagos">Formas de pago: 
+		<p class="pagos">M&eacute;todos de pago: 
 		<!-- Imprimir nombres de imagenes segun las tenga el rest-->
 		{% for pago in metodos %}
 			{% if pago in metodos_rest%}
@@ -296,4 +345,5 @@ var puntos = {{puntos|safe}};
     });
 
 </script>
+
 {%endblock js%}

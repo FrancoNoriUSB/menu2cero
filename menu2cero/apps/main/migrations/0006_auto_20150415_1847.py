@@ -15,6 +15,5 @@ class Migration(migrations.Migration):
             model_name='plato',
             name='imagen',
             field=models.ImageField(default=b'', null=True, upload_to=b'uploads/img/menus/', blank=True),
-            preserve_default=True,
         ),
     ]

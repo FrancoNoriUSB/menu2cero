@@ -444,7 +444,7 @@ class Plato(models.Model):
 	descripcion = models.CharField(max_length=300)
 	precio = models.DecimalField(max_digits=10, decimal_places=2)
 	disponibilidad = models.BooleanField(default=True, help_text='Desmarque si el plato no se encuentra disponible')
-	imagen = models.ImageField(upload_to='uploads/img/menus/', default='', blank=True, null=True)
+	imagen = models.ImageField(upload_to='uploads/img/menus/', default='')
 
 	#Claves foraneas y de otras tablas
 	tipo = models.ForeignKey(Tipo)

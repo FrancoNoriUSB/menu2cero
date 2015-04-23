@@ -406,6 +406,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 					p.menu = menu
 					p.save()
 				return HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/menu')
+				
 
 	ctx = {
 		'buscador':buscadorF,
