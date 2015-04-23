@@ -315,7 +315,7 @@ class TelefonoRestaurante(Telefono):
 #Clase de las imagenes de los restaurantes
 class Imagen(models.Model):
 	
-	imagen = models.ImageField(upload_to='uploads/img/rest/')
+	archivo = models.ImageField(upload_to='uploads/img/rest/')
 	thumbnail = models.ImageField(upload_to='uploads/img/rest/thumbnails/', blank=True,null=True)
 	descripcion = models.CharField(max_length=140, null=True)
 
@@ -326,7 +326,7 @@ class Imagen(models.Model):
 
 		# If there is no image associated with this.
 		# do not create thumbnail
-		if not self.imagen:
+		if not self.archivo:
 			return
  
 		from PIL import Image
@@ -338,7 +338,7 @@ class Imagen(models.Model):
 		THUMBNAIL_SIZE = (200,200)
 
 		# Open original photo which we want to thumbnail using PIL's Image
-		imagen = Image.open(StringIO(self.imagen.read()))
+		imagen = Image.open(StringIO(self.archivo.read()))
 		image_type = imagen.format.lower()
 
 		imagen.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
@@ -350,7 +350,7 @@ class Imagen(models.Model):
  
 		# Save image to a SimpleUploadedFile which can be saved into
 		# ImageField
-		suf = SimpleUploadedFile(os.path.split(self.imagen.name)[-1], temp_handle.read(), content_type='image/%s' % (image_type))
+		suf = SimpleUploadedFile(os.path.split(self.archivo.name)[-1], temp_handle.read(), content_type='image/%s' % (image_type))
 		# Save SimpleUploadedFile into image field
 		self.thumbnail.save('%s_thumbnail.%s'%
 			(os.path.splitext(suf.name)[0], image_type), suf, save=False)
@@ -361,7 +361,7 @@ class Imagen(models.Model):
 		super(Imagen, self).save()
 
 	class Meta:
-		ordering = ('imagen',)
+		ordering = ('descripcion',)
 		verbose_name = _(u'Imágen')
 		verbose_name_plural = _(u'Imágenes')
 

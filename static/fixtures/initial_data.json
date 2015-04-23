@@ -735,9 +735,9 @@
     "model": "main.imagen", 
     "fields": {
         "descripcion": "imagen1", 
-        "restaurante": 1, 
+        "restaurante": 6, 
         "thumbnail": "uploads/img/rest/thumbnails/imagen_p_thumbnail.jpeg",
-        "imagen": "uploads/img/rest/imagen_p.jpg"
+        "archivo": "uploads/img/rest/imagen_p.jpg"
     }
 },
 {

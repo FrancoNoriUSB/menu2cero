@@ -180,13 +180,13 @@ class ImagenForm(forms.ModelForm):
 
 	class Meta:
 		model = Imagen
-		fields = ('imagen', 'descripcion', 'thumbnail')
+		fields = ('archivo', 'descripcion', 'thumbnail')
 		widgets = {
 			'descripcion': forms.TextInput(attrs={'class':"form-control"}),
 			'thumbnail': forms.FileInput(attrs={'style':"display:none"}),
 		}
 		labels = {
-			'imagen': 'Imágen',
+			'archivo': 'Imágen',
 			'descripcion': 'Descripción de imágen',
 			'thumbnail': '',
 		}

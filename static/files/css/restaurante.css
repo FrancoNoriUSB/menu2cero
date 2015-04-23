@@ -48,12 +48,12 @@ div.row.imagenes > div.info_rest{
 
 .info_rest .imagenes .imagen_b{
 	background-color: #F6F6F6;
-
+	height: 120px;
 }
 
 .info_rest .imagenes .imagen_g{
 	background-color: #999999;
-
+	height: 120px;
 }
 
 .info_rest .puntuacion{
@@ -121,7 +121,11 @@ body > div > div.caract-pagos.row > div.metodos-pago > p > img.pago{
 
 /*Telefonos y horario*/
 body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora > div.telefonos > p{
-	margin-left: 6%;
+	margin-left: 20%;
+}
+
+body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8.col-xs-12 > div.row.telfs_hora > div.col-lg-6.col-md-6.col-sm-12.col-xs-12.telefonos > img{
+	float: left;
 }
 
 /*Telefono*/
@@ -141,7 +145,6 @@ div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora{
 }
 
 .telfs_hora .horario img{
-	height: 51px;
 	float: left;
 }
 
@@ -311,6 +314,13 @@ body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.
 }
 
 /*Estilos del slider*/
+
+#slider1_container > div > div > div > div.contenedor_imagenes > img.img-responsive.imagen{
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* jssor slider arrow navigator skin 05 css */
 /*
 .jssora05l                  (normal)
@@ -348,7 +358,7 @@ body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.
 .jssort01 {
 position: absolute;
 /* size of thumbnail navigator container */
-width: 800px;
+width: 1170px;
 height: 100px;
 }
 

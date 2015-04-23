@@ -6,272 +6,221 @@
 <!-- Estilos de la pagina-->
 <link href="{{STATIC_URL}}files/css/restaurante.css" rel="stylesheet" type="text/css" />
 
-<!-- Scripts para el slider -->
-<script type="text/javascript" src="{{STATIC_URL}}files/js/jssor.js"></script>
-<script type="text/javascript" src="{{STATIC_URL}}files/js/jssor.slider.js"></script>
-	<!-- Seccion del carrusel -->
-	<div class="carrousel row">
-		<div class="col-lg-12 col-md-12 col-sm-12">
-			<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 800px;
-        height: 456px; background: #191919; overflow: hidden;">
-
-        <!-- Loading Screen -->
-        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-            <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
-            </div>
-            <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
-                top: 0px; left: 0px;width: 100%;height:100%;">
-            </div>
-        </div>
-
-        <!-- Slides Container -->
-        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 800px; height: 356px; overflow: hidden;">
-            <div>
-                <img class="img-responsive" src="{{STATIC_URL}}files/img/imagen_p.jpg" alt="">
-                <img u="thumb" src="{{STATIC_URL}}files/img/imagen_p.jpg" />
-            </div>
-            <div>
-                <img u="image" src="../img/alila/02.jpg" />
-                <img u="thumb" src="../img/alila/thumb-02.jpg" />
-            </div>
-        </div>
-
-        <!-- Arrow Left -->
-        <span u="arrowleft" class="jssora05l" style="top: 158px; left: 8px;">
-        </span>
-        <!-- Arrow Right -->
-        <span u="arrowright" class="jssora05r" style="top: 158px; right: 8px">
-        </span>
-
-        <!-- thumbnail navigator container -->
-        <div u="thumbnavigator" class="jssort01" style="left: 0px; bottom: 0px;">
-            <!-- Thumbnail Item Skin Begin -->
-            <div u="slides" style="cursor: default;">
-                <div u="prototype" class="p">
-                    <div class=w><div u="thumbnailtemplate" class="t"></div></div>
-                    <div class=c></div>
-                </div>
-            </div>
-            <!-- Thumbnail Item Skin End -->
-        </div>
-        <!--#endregion Thumbnail Navigator Skin End -->
-    </div>
-	    </div>
-    </div>
-
-	<!-- Seccion de logo e imagenes -->
-	<div class="row imagenes">
+<!-- Seccion del carrusel -->
+<div class="carrousel row">
+	<div class="col-lg-12 col-md-12 col-sm-12">
 		
-		<div class="logo col-lg-2 col-md-2 col-sm-2 col-xs-4">
-			<!--Barra del logo-->
-			<img class="img-responsive logo-rest" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
+	</div>
+</div>
+
+<!-- Seccion de logo e imagenes -->
+<div class="row imagenes">
+	
+	<div class="logo col-lg-2 col-md-2 col-sm-2 col-xs-4">
+		<!--Barra del logo-->
+		<img class="img-responsive logo-rest" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
+	</div>
+	
+	<div class="info_rest col-lg-10 col-md-10 col-sm-10 col-xs-11 col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-xs-offset-1">
+
+		<!--Titulo del restaurante. Titulo y categoria-->
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">	
+				<p id="nombre">
+					<strong id="titulo">
+						{{restaurante.nombre}}
+					</strong>
+					- 
+					{% for categoria in restaurante.categoria.all|slice:":3"%}
+						<a href="/restaurantes/{{categoria.nombre|lower}}">{{categoria.nombre}}</a>
+					{%endfor%}
+				</p>
+			</div>
+			
+			<div class="imagenes col-lg-12 col-md-12 col-sm-12">
+				<!--Imagenes-->			
+				{% for imagen in imagenes %}
+					<img class="img-responsive {% cycle 'imagen_b' 'imagen_g' %}" src="{{imagen.thumbnail.url}}" alt="">
+				{% endfor %}
+			</div>
+
+			<!--Puntuacion-->
+			<div class="col-lg-3 col-md-3 col-sm-3 puntuacion">
+				<p id="titulo-puntuacion">Puntuación:
+				<!--Estrellas-->
+					<div class="estrellas" id="estrellas">
+						<div id="punt" value="{{ puntos }}">
+                			<input type="hidden" value='false' id="centinela">
+						</div>
+					</div>
+				</p>
+			</div>
+			<p id="puntuacion-datos">
+				{{puntos|floatformat}}
+				&nbsp;{{votos}} votos
+			</p>
 		</div>
-		
-		<div class="info_rest col-lg-10 col-md-10 col-sm-10 col-xs-11 col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-xs-offset-1">
+	</div>
+</div>
 
-			<!--Titulo del restaurante. Titulo y categoria-->
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">	
-					<p id="nombre">
-						<strong id="titulo">
-							{{restaurante.nombre}}
-						</strong>
-						- 
-						{% for categoria in restaurante.categoria.all|slice:":3"%}
-							<a href="/restaurantes/{{categoria.nombre|lower}}">{{categoria.nombre}}</a>
-						{%endfor%}
-					</p>
-				</div>
+<!--Caracteristicas-->
+<div class="caract-pagos row">
+	<div class="col-lg-8 col-md-8 col-sm-8 caracteristicas">
+		{%for caract in servicios%}
+			{%if caract in servicios_rest%}
+				<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
+			{%else%}
+				<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}_g.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
+			{%endif%}
+		{%endfor%}
+	</div>
+
+	<!--Pagos-->
+	<div class="col-lg-4 col-md-4 col-sm-4 metodos-pago">
+		<p class="pagos">Formas de pago: 
+		<!-- Imprimir nombres de imagenes segun las tenga el rest-->
+		{% for pago in metodos %}
+			{% if pago in metodos_rest%}
+					<img class="img-responsive pago" src="{{STATIC_URL}}files/img/{{pago.nombre|lower}}.png" alt="" title="{{pago.nombre}}">
+			{% endif %}
+		{% endfor %}
+		</p>
+	</div>
+</div>
+
+<div class="row datos-generales">
+	<!-- Direccion, telefonos, horaios y descripcion -->
+	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+
+		<!--Direccion-->
+		<div class="row direccion">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p class="text-left">
+					Dirección:<br/>{{restaurante.direccion.calle}}, {{restaurante.direccion.zona.nombre}}, {{restaurante.direccion.ciudad.nombre}}
+				</p>
+			</div>
+		</div>
+		<br>
+		<!--Telefonos y horario-->
+		<div class="row telfs_hora">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 telefonos">
+				<img class="img-responsive img-telfs" src="{{STATIC_URL}}files/img/telf.png" alt="">
+				{%for telf in telefonos%}
+					<p class="text-left">{{telf.numero}}</p>
+				{%endfor%}
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 horario">
+				<p id="horario">{{horario}}</p>
 				
-				<div class="imagenes col-lg-12 col-md-12 col-sm-12">
-					<!--Imagenes-->			
-					{% for i in rango_img %}
-						<div class="{% cycle 'imagen_b' 'imagen_g' %}">
-							<img class="img-responsive" src="{{STATIC_URL}}files/img/imagen_p.jpg" alt="">
-						</div>
-					{% endfor %}
-				</div>
+				<p id="cuadro">
+					<img class="img-responsive" src="{{STATIC_URL}}files/img/hora.png" alt="">
+					Horario
+					<div class="ab-ce">
+						<p class="abierto">
+							{%if disponible%}
+								Abierto
+							{%else%}
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{%endif%}
+						</p>
+						<p class="cerrado">
+							{%if not disponible%}
+								Cerrado
+							{%else%}
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{%endif%}
+						</p> 
+					</div>
+				</p>
+			</div>
+		</div>
 
-				<!--Puntuacion-->
-				<div class="col-lg-3 col-md-3 col-sm-3 puntuacion">
-					<p id="titulo-puntuacion">Puntuación:
-					<!--Estrellas-->
-						<div class="estrellas" id="estrellas">
-							<div id="punt" value="{{ puntos }}">
-                    			<input type="hidden" value='false' id="centinela">
-							</div>
-						</div>
-					</p>
-				</div>
-				<p id="puntuacion-datos">
-					{{puntos|floatformat}}
-					&nbsp;{{votos}} votos
+		<!--Descripcion-->
+		<div class="row descripcion">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p class="text-left">
+					Descripción:<br/>{{restaurante.descripcion}}
 				</p>
 			</div>
 		</div>
 	</div>
-
-	<!--Caracteristicas-->
-	<div class="caract-pagos row">
-		<div class="col-lg-8 col-md-8 col-sm-8 caracteristicas">
-			{%for caract in servicios%}
-				{%if caract in servicios_rest%}
-					<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
-				{%else%}
-					<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}_g.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
-				{%endif%}
-			{%endfor%}
-		</div>
-
-		<!--Pagos-->
-		<div class="col-lg-4 col-md-4 col-sm-4 metodos-pago">
-			<p class="pagos">Formas de pago: 
-			<!-- Imprimir nombres de imagenes segun las tenga el rest-->
-			{% for pago in metodos %}
-				{% if pago in metodos_rest%}
-						<img class="img-responsive pago" src="{{STATIC_URL}}files/img/{{pago.nombre|lower}}.png" alt="" title="{{pago.nombre}}">
-				{% endif %}
-			{% endfor %}
-			</p>
-		</div>
-	</div>
-
-	<div class="row datos-generales">
-		<!-- Direccion, telefonos, horaios y descripcion -->
-		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-
-			<!--Direccion-->
-			<div class="row direccion">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="text-left">
-						Dirección:<br/>{{restaurante.direccion}}, {{restaurante.direccion.zona.nombre}}, {{restaurante.direccion.ciudad.nombre}}
-					</p>
-				</div>
-			</div>
-			<br>
-			<!--Telefonos y horario-->
-			<div class="row telfs_hora">
-				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 telefonos">
-					<p class="text-left">
-						<img class="img-responsive img-telfs" src="{{STATIC_URL}}files/img/telf.png" alt="">
-						{%for telf in telefonos%}
-							{{telf.numero}} <br>
-						{%endfor%}
-					</p>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 horario">
-					<p id="horario">{{horario}}</p>
-					
-					<p id="cuadro">
-						<img class="img-responsive" src="{{STATIC_URL}}files/img/hora.png" alt="">
-						Horario
-						<div class="ab-ce">
-							<p class="abierto">
-								{%if disponible%}
-									Abierto
-								{%else%}
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								{%endif%}
-							</p>
-							<p class="cerrado">
-								{%if not disponible%}
-									Cerrado
-								{%else%}
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								{%endif%}
-							</p> 
-						</div>
-					</p>
-				</div>
-			</div>
-
-			<!--Descripcion-->
-			<div class="row descripcion">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="text-left">
-						Descripción:<br/>{{restaurante.descripcion}}
-					</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-4 col-md-4 col-sm-4">
-			<!-- Mapa de google maps -->
-			<div class="mapa" id="map">
-		    </div>
+	<div class="col-lg-4 col-md-4 col-sm-4">
+		<!-- Mapa de google maps -->
+		<div class="mapa" id="map">
 	    </div>
+    </div>
+</div>
+
+<!--Menu-->
+<div class="row menu">
+	<div class="barra-sup col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<p>Menú</p>
 	</div>
 
-	<!--Menu-->
-	<div class="row menu">
-		<div class="barra-sup col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<p>Menú</p>
-		</div>
+	<!-- Lineas Superiores -->
+	<div class="lineas row">
+		<p class="linea-sup col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
+		<p class="linea-inf col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
+	</div>
 
-		<!-- Lineas Superiores -->
-		<div class="lineas row">
-			<p class="linea-sup col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
-			<p class="linea-inf col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
-		</div>
-
-		<!--Platos del menu -->
-		<div class="panel-group platos col-lg-12 col-md-12 col-sm-12 col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
-			{% for tipo in arreglo %}
-				<div class="tipo {{tipo.0|slugify}} panel panel-default">
-					<div class="panel-heading" role="tab" id="heading{{tipo.0|slugify}}">
-						<h4 class="panel-title">
-							<a class="{%if tipo.2 != 1%}collapsed{%endif%}" data-toggle="collapse" data-parent="#accordion" href="#collapse{{tipo.0|slugify}}" aria-expanded="true" aria-controls="collapse{{tipo.0|slugify}}">
-								<p class="titulo text-left">
-								{{tipo.0}}
-								<div class="linea">
-									<p class="cantidad text-right">
-										{{tipo.1}}
-									</p>
-								</div>
+	<!--Platos del menu -->
+	<div class="panel-group platos col-lg-12 col-md-12 col-sm-12 col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
+		{% for tipo in arreglo %}
+			<div class="tipo {{tipo.0|slugify}} panel panel-default">
+				<div class="panel-heading" role="tab" id="heading{{tipo.0|slugify}}">
+					<h4 class="panel-title">
+						<a class="{%if tipo.2 != 1%}collapsed{%endif%}" data-toggle="collapse" data-parent="#accordion" href="#collapse{{tipo.0|slugify}}" aria-expanded="true" aria-controls="collapse{{tipo.0|slugify}}">
+							<p class="titulo text-left">
+							{{tipo.0}}
+							<div class="linea">
+								<p class="cantidad text-right">
+									{{tipo.1}}
 								</p>
-							</a>
-						</h4>
-					</div>
-					<div id="collapse{{tipo.0|slugify}}" class="layer_platos panel-collapse {%if tipo.2 == 1%}collapse in{%else%}collapse{%endif%}" role="tabpanel" aria-labelledby="heading{{tipo.0|slugify}}">
-						<div class="panel-body">
-						{% for plato in platos %}
-							{%if tipo.0 == plato.tipo and plato.disponibilidad == True%}
-							<br/>
-							<div class="plato">
-								<div class="titulo text-left">
-									{{plato.nombre}} 
-									<div class="precio text-right">
-										{{plato.precio}} bsf
-										<div class="descripcion text-left">&nbsp;&nbsp;{{plato.descripcion}}</div>
-									</div>
+							</div>
+							</p>
+						</a>
+					</h4>
+				</div>
+				<div id="collapse{{tipo.0|slugify}}" class="layer_platos panel-collapse {%if tipo.2 == 1%}collapse in{%else%}collapse{%endif%}" role="tabpanel" aria-labelledby="heading{{tipo.0|slugify}}">
+					<div class="panel-body">
+					{% for plato in platos %}
+						{%if tipo.0 == plato.tipo and plato.disponibilidad == True%}
+						<br/>
+						<div class="plato">
+							<div class="titulo text-left">
+								{{plato.nombre}} 
+								<div class="precio text-right">
+									{{plato.precio}} bsf
+									<div class="descripcion text-left">&nbsp;&nbsp;{{plato.descripcion}}</div>
 								</div>
 							</div>
-							{%endif%}
-						{% endfor %}
 						</div>
+						{%endif%}
+					{% endfor %}
 					</div>
 				</div>
-			{% endfor %}
-		</div>
-		
-		<!-- Lineas inferiores -->
-		<div class="lineas-inf row">
-			<p class="linea-inf-inf col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
-			<p class="linea-inf-sup col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
-		</div>
-		<div class="barra-inf col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		</div>
+			</div>
+		{% endfor %}
 	</div>
+	
+	<!-- Lineas inferiores -->
+	<div class="lineas-inf row">
+		<p class="linea-inf-inf col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
+		<p class="linea-inf-sup col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
+	</div>
+	<div class="barra-inf col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	</div>
+</div>
 
-	<!--Publicidad-->
-	<div class="publicidad">
-		<div class="pub1">
-			<img class="img-responsive" src="{{STATIC_URL}}files/img/p1.png" alt="">
-		</div>
-		<div class="pub2">
-			<img class="img-responsive" src="{{STATIC_URL}}files/img/p2.png" alt="">
-		</div>
+<!--Publicidad
+<div class="publicidad">
+	<div class="pub1">
+		<img class="img-responsive" src="{{STATIC_URL}}files/img/p1.png" alt="">
 	</div>
+	<div class="pub2">
+		<img class="img-responsive" src="{{STATIC_URL}}files/img/p2.png" alt="">
+	</div>
+</div>-->
 {% endblock contenido %}
 
 {%block js%}
@@ -346,111 +295,5 @@ var puntos = {{puntos|safe}};
 	    };
     });
 
-</script>
-<script>
-
-    jQuery(document).ready(function ($) {
-
-        var _SlideshowTransitions = [
-        //Fade in L
-            {$Duration: 1200, x: 0.3, $During: { $Left: [0.3, 0.7] }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade out R
-            , { $Duration: 1200, x: -0.3, $SlideOut: true, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade in R
-            , { $Duration: 1200, x: -0.3, $During: { $Left: [0.3, 0.7] }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade out L
-            , { $Duration: 1200, x: 0.3, $SlideOut: true, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-
-        //Fade in T
-            , { $Duration: 1200, y: 0.3, $During: { $Top: [0.3, 0.7] }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade out B
-            , { $Duration: 1200, y: -0.3, $SlideOut: true, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade in B
-            , { $Duration: 1200, y: -0.3, $During: { $Top: [0.3, 0.7] }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade out T
-            , { $Duration: 1200, y: 0.3, $SlideOut: true, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-
-        //Fade in LR
-            , { $Duration: 1200, x: 0.3, $Cols: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Column: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade out LR
-            , { $Duration: 1200, x: 0.3, $Cols: 2, $SlideOut: true, $ChessMode: { $Column: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade in TB
-            , { $Duration: 1200, y: 0.3, $Rows: 2, $During: { $Top: [0.3, 0.7] }, $ChessMode: { $Row: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade out TB
-            , { $Duration: 1200, y: 0.3, $Rows: 2, $SlideOut: true, $ChessMode: { $Row: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-
-        //Fade in LR Chess
-            , { $Duration: 1200, y: 0.3, $Cols: 2, $During: { $Top: [0.3, 0.7] }, $ChessMode: { $Column: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade out LR Chess
-            , { $Duration: 1200, y: -0.3, $Cols: 2, $SlideOut: true, $ChessMode: { $Column: 12 }, $Easing: { $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade in TB Chess
-            , { $Duration: 1200, x: 0.3, $Rows: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Row: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade out TB Chess
-            , { $Duration: 1200, x: -0.3, $Rows: 2, $SlideOut: true, $ChessMode: { $Row: 3 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-
-        //Fade in Corners
-            , { $Duration: 1200, x: 0.3, y: 0.3, $Cols: 2, $Rows: 2, $During: { $Left: [0.3, 0.7], $Top: [0.3, 0.7] }, $ChessMode: { $Column: 3, $Row: 12 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-        //Fade out Corners
-            , { $Duration: 1200, x: 0.3, y: 0.3, $Cols: 2, $Rows: 2, $During: { $Left: [0.3, 0.7], $Top: [0.3, 0.7] }, $SlideOut: true, $ChessMode: { $Column: 3, $Row: 12 }, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2, $Outside: true }
-
-        //Fade Clip in H
-            , { $Duration: 1200, $Delay: 20, $Clip: 3, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade Clip out H
-            , { $Duration: 1200, $Delay: 20, $Clip: 3, $SlideOut: true, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade Clip in V
-            , { $Duration: 1200, $Delay: 20, $Clip: 12, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-        //Fade Clip out V
-            , { $Duration: 1200, $Delay: 20, $Clip: 12, $SlideOut: true, $Assembly: 260, $Easing: { $Clip: $JssorEasing$.$EaseOutCubic, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 }
-            ];
-
-        var options = {
-            $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
-            $AutoPlayInterval: 1500,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
-            $PauseOnHover: 1,                                //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
-
-            $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
-            $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
-            $SlideDuration: 800,                                //Specifies default duration (swipe) for slide in milliseconds
-
-            $SlideshowOptions: {                                //[Optional] Options to specify and enable slideshow or not
-                $Class: $JssorSlideshowRunner$,                 //[Required] Class to create instance of slideshow
-                $Transitions: _SlideshowTransitions,            //[Required] An array of slideshow transitions to play slideshow
-                $TransitionsOrder: 1,                           //[Optional] The way to choose transition to play slide, 1 Sequence, 0 Random
-                $ShowLink: true                                    //[Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
-            },
-
-            $ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
-                $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
-                $ChanceToShow: 1                               //[Required] 0 Never, 1 Mouse Over, 2 Always
-            },
-
-            $ThumbnailNavigatorOptions: {                       //[Optional] Options to specify and enable thumbnail navigator or not
-                $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
-                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
-
-                $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
-                $SpacingX: 8,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
-                $DisplayPieces: 10,                             //[Optional] Number of pieces to display, default value is 1
-                $ParkingPosition: 360                          //[Optional] The offset position to park thumbnail
-            }
-        };
-
-        var jssor_slider1 = new $JssorSlider$("slider1_container", options);
-        //responsive code begin
-        //you can remove responsive code if you don't want the slider scales while window resizes
-        function ScaleSlider() {
-            var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
-            if (parentWidth)
-                jssor_slider1.$ScaleWidth(Math.max(Math.min(parentWidth, 800), 300));
-            else
-                window.setTimeout(ScaleSlider, 30);
-        }
-        ScaleSlider();
-
-        $(window).bind("load", ScaleSlider);
-        $(window).bind("resize", ScaleSlider);
-        $(window).bind("orientationchange", ScaleSlider);
-        //responsive code end
-    });
 </script>
 {%endblock js%}
