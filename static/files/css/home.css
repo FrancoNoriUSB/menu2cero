@@ -53,6 +53,12 @@ header .carousel .right .glyphicon{
 	margin-bottom: 0px;
 }
 
+#clickeable_destacados > div > a:hover,
+#clickeable_reciente > div > a:hover,
+#clickeable_categorias > div > a:hover{
+	text-decoration: none !important;
+}
+
 /*Seccion de destacados*/
 .contenido .destacados{
 	margin-top: 1%;
