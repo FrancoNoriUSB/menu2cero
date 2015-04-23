@@ -407,11 +407,14 @@
                 </a>
             </h4>
         </div>
-        <div id="collapse_menu" class="panel-collapse collapse">
+        <div id="collapse_menu" class="panel-collapse collapse {%if formulario_activo == 'menu'%}in{%endif%}">
             <div class="panel-body">
-                <form role="form" action="" method="POST" enctype="multipart/form-data">
+                <form role="form" action="/administrador/editar/{{restaurante.id}}/menu" method="POST" enctype="multipart/form-data">
                     <div class="container-fluid">
+                        {%csrf_token%}
+                        {{platosForm.management_form}}
                         {%for form in platosForm%}
+                            {{form.id}}
                             {%ifchanged form.tipo.value%}
                                 
                             {%endifchanged%}

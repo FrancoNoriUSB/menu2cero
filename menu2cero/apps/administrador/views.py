@@ -391,8 +391,21 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				imagenFormSet = inlineformset_factory(Restaurante, Imagen, form=ImagenForm, extra=1, max_num=restaurante.plan.max_imagenes, can_delete=True)
 				imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
 
-		elif form == 'platos':
-			print 'platos'
+		elif form == 'menu':
+			platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, can_delete=False)
+			platosF = platosFormSet(request.POST, request.FILES, instance=menu)
+
+			if platosF.is_valid():
+				platos = platosF.save(commit=False)
+				# Se crea el menu si no existe
+				if not menu.id:
+					menu.restaurante = restaurante
+					menu.nombre = restaurante.nombre
+					menu.save()
+				for p in platos:
+					p.menu = menu
+					p.save()
+				return HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/menu')
 
 	ctx = {
 		'buscador':buscadorF,
