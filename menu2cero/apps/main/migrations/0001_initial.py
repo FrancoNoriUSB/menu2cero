@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.utils.timezone
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -11,6 +12,22 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.CreateModel(
+            name='User',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('password', models.CharField(max_length=128, verbose_name='password')),
+                ('last_login', models.DateTimeField(default=django.utils.timezone.now, verbose_name='last login')),
+                ('nombre', models.CharField(max_length=40)),
+                ('email', models.EmailField(unique=True, max_length=75)),
+                ('is_staff', models.BooleanField(default=False)),
+                ('is_active', models.BooleanField(default=True)),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
         migrations.CreateModel(
             name='Categoria',
             fields=[
@@ -44,6 +61,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('cargo', models.CharField(max_length=20, choices=[(b'', b'- Cargo -'), (b'Gerente', b'Gerente'), (b'Encargado', b'Encargado'), ('Due\xf1o', 'Due\xf1o')])),
                 ('telefono', models.CharField(max_length=20)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('user',),
@@ -69,8 +87,10 @@ class Migration(migrations.Migration):
             name='Direccion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('coord', models.CharField(max_length=50)),
                 ('direccion', models.CharField(max_length=100)),
+                ('calle', models.CharField(max_length=100)),
+                ('latitud', models.DecimalField(max_digits=20, decimal_places=17)),
+                ('longitud', models.DecimalField(max_digits=20, decimal_places=17)),
                 ('ciudad', models.ForeignKey(to='main.Ciudad')),
             ],
             options={
@@ -99,12 +119,12 @@ class Migration(migrations.Migration):
             name='Imagen',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('imagen', models.ImageField(upload_to=b'uploads/img/rest/')),
+                ('archivo', models.ImageField(upload_to=b'uploads/img/rest/')),
                 ('thumbnail', models.ImageField(null=True, upload_to=b'uploads/img/rest/thumbnails/', blank=True)),
                 ('descripcion', models.CharField(max_length=140, null=True)),
             ],
             options={
-                'ordering': ('imagen',),
+                'ordering': ('descripcion',),
                 'verbose_name': 'Im\xe1gen',
                 'verbose_name_plural': 'Im\xe1genes',
             },
@@ -196,9 +216,9 @@ class Migration(migrations.Migration):
             name='Red_social',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('facebook', models.CharField(max_length=100, null=True)),
-                ('twitter', models.CharField(max_length=50, null=True)),
-                ('instagram', models.CharField(max_length=50, null=True)),
+                ('facebook', models.CharField(max_length=100, null=True, blank=True)),
+                ('twitter', models.CharField(max_length=50, null=True, blank=True)),
+                ('instagram', models.CharField(max_length=50, null=True, blank=True)),
             ],
             options={
                 'ordering': ('facebook',),
@@ -212,11 +232,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('rif', models.CharField(max_length=13)),
-                ('nombre', models.CharField(help_text=b'Introduzca el nombre de su restaurante.', max_length=50)),
+                ('nombre', models.CharField(help_text=b'Introduzca el nombre de su restaurante.', unique=True, max_length=100)),
+                ('slug', models.SlugField(max_length=100)),
                 ('logo', models.ImageField(default=b'uploads/img/logos/ico.png', upload_to=b'uploads/img/logos/')),
                 ('descripcion', models.TextField(max_length=300)),
                 ('status', models.CharField(default=b'Activo', max_length=20, editable=False, choices=[(b'Activo', b'Activo'), (b'Inactivo', b'Inactivo'), (b'Eliminado', b'Eliminado')])),
-                ('tipo', models.CharField(max_length=4, choices=[(b'Restaurante', b'Restaurante'), (b'Bar', b'Bar'), ('Helader\xeda', 'Helader\xeda'), (b'Panader\xc3\xada', 'Panader\xeda'), ('caf\xe9', b'Cafeter\xc3\xada')])),
                 ('abierto', models.BooleanField(default=True, help_text=b'Desmarcar si su restaurante se encuentra cerrado')),
                 ('visibilidad', models.CharField(max_length=10, null=True, choices=[('P\xfablico', b'P\xc3\xbablico'), (b'Privado', b'Privado')])),
                 ('categoria', models.ManyToManyField(to='main.Categoria')),
@@ -250,7 +270,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('numero', models.CharField(max_length=20)),
                 ('display', models.BooleanField(default=True, help_text=b'Marcado si desea que se muestre en el perfil')),
-                ('restaurante', models.ForeignKey(related_name='telefonos', to='main.Restaurante')),
+                ('restaurante', models.ForeignKey(related_name=b'telefonos', to='main.Restaurante')),
             ],
             options={
                 'ordering': ('numero',),
@@ -274,29 +294,13 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='User',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(default=django.utils.timezone.now, verbose_name='last login')),
-                ('nombre', models.CharField(max_length=40)),
-                ('email', models.EmailField(unique=True, max_length=75)),
-                ('is_staff', models.BooleanField(default=False)),
-                ('is_active', models.BooleanField(default=True)),
-            ],
-            options={
-                'abstract': False,
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Voto',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('valor', models.DecimalField(max_digits=2, decimal_places=1)),
-                ('restaurante', models.ForeignKey(to='main.Restaurante')),
             ],
             options={
+                'ordering': ('id',),
                 'verbose_name': 'Voto',
                 'verbose_name_plural': 'Votos',
             },
@@ -320,6 +324,12 @@ class Migration(migrations.Migration):
             model_name='restaurante',
             name='servicios',
             field=models.ManyToManyField(to='main.Servicio'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='restaurante',
+            name='votos',
+            field=models.ManyToManyField(to='main.Voto'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -374,12 +384,6 @@ class Migration(migrations.Migration):
             model_name='comensal',
             name='restaurante',
             field=models.ManyToManyField(to='main.Restaurante'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='cliente',
-            name='user',
-            field=models.OneToOneField(to='main.User'),
             preserve_default=True,
         ),
     ]
