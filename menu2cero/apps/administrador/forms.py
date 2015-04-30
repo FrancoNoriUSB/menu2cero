@@ -152,9 +152,9 @@ class RedesForm(forms.ModelForm):
 		model = Red_social
 		fields = ('facebook', 'twitter', 'instagram')
 		widgets = {
-			'facebook': forms.TextInput(attrs={'class':"form-control", 'placeholder':"facebook"}),
-			'twitter': forms.TextInput(attrs={'class':"form-control", 'placeholder':"twitter"}),
-			'instagram': forms.TextInput(attrs={'class':"form-control", 'placeholder':"instagram"}),
+			'facebook': forms.TextInput(attrs={'class':"form-control", 'placeholder':"www.facebook.com/cuenta_restaurante"}),
+			'twitter': forms.TextInput(attrs={'class':"form-control", 'placeholder':"www.twitter.com/cuenta_restaurante"}),
+			'instagram': forms.TextInput(attrs={'class':"form-control", 'placeholder':"www.instagram.com/cuenta_restaurante"}),
 		}
 
 

@@ -322,31 +322,7 @@ def restaurante_view(request, restaurante):
 			if login:
 				return HttpResponseRedirect('/administrador/perfil/')
 
-
-	#Preparacion de conjunto de busqueda para el caso de palabras con acentos u.u...
-	i = 0
-	nombres = []
-	nombre = restaurante.replace("-"," ")
-	nombres.append(nombre)
-	for char in nombre:
-		if char == 'a':
-			nombres.append(nombre.replace(char,u'á'))
-		elif char == 'e':
-			nombres.append(nombre.replace(char,u'é'))
-		elif char == 'i':
-			nombres.append(nombre.replace(char,u'í'))
-		elif char == 'o':
-			nombres.append(nombre.replace(char,u'ó'))
-		elif char == 'u':
-			nombres.append(nombre.replace(char,u'ú'))
-		i+=1
-	#Falta caso en que la vocal se repite y cambia todas esas ocurrencias por acento.
-		
-
-	#Arma la lista de query a realizar
-	q_list = map(lambda n: Q(nombre__iexact=n), nombres)
-	q_list = reduce(lambda a, b: a | b, q_list)
-	restaurante = get_object_or_404(Restaurante, q_list, status='Activo')
+	restaurante = get_object_or_404(Restaurante, slug=restaurante, status='Activo')
 
 	#Preparacion del horario para mostrar
 	horarios = Horario.objects.filter(restaurante=restaurante)
@@ -362,6 +338,23 @@ def restaurante_view(request, restaurante):
 	except:
 		error = 'Este rest no posee imagenes'
 
+	#Votos para los restaurantes
+	votos = Voto.objects.filter(restaurante=restaurante)
+	puntos = 0
+
+	for voto in votos:
+		puntos = puntos + voto.valor
+
+	#Calculo de puntos
+	cantidad = len(votos)
+	try:
+		puntos = puntos/cantidad
+	except:
+		error = 'Division por cero!'
+
+	#Redes sociales del restaurante
+	redes = Red_social.objects.get(restaurante=restaurante)
+
 	#Direccion del restaurante y otros datos.
 	direccion = restaurante.direccion
 	lat = direccion.latitud
@@ -372,11 +365,6 @@ def restaurante_view(request, restaurante):
 		telefonos = TelefonoRestaurante.objects.filter(restaurante=restaurante)
 	except:
 		telefonos = 'Este rest no posee telefonos'
-
-	#Rango de la cantidad de imagenes.
-	rango_img =[]
-	for i in range(len(imagenes)):
- 		rango_img.append(i)
 
 	#Informacion de los metodos de pago del restaurante.
 	metodos = Metodo.objects.all()
@@ -419,20 +407,6 @@ def restaurante_view(request, restaurante):
 		arreglo.append((tipo, contador[i], tipo.id))
 		i = i+1
 
-	#Votos para los restaurantes
-	votos = Voto.objects.filter(restaurante=restaurante)
-	puntos = 0
-
-	for voto in votos:
-		puntos = puntos + voto.valor
-
-	#Calculo de puntos
-	cantidad = len(votos)
-	try:
-		puntos = puntos/cantidad
-	except:
-		error = 'Division por cero!'
-
 	ctx = {
 		'UserCreationForm': userF,
 		'ClienteForm': clienteF,
@@ -441,8 +415,8 @@ def restaurante_view(request, restaurante):
 		'restaurante': restaurante,
 		'categorias': restaurante.categoria,
 		'imagenes':imagenes,
-		'rango_img': rango_img,
 		'puntos': puntos,
+		'redes':redes,
 		'horario':horario,
 		'votos':cantidad,
 		'lat': lat,

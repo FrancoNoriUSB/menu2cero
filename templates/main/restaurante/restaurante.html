@@ -94,7 +94,7 @@ jQuery(document).ready(function($) {
 			<!--Puntuacion-->
 			<div class="col-lg-3 col-md-3 col-sm-3 puntuacion">
 				<p id="titulo-puntuacion">Puntuación:
-				<!--Estrellas-->
+					<!--Estrellas-->
 					<div class="estrellas" id="estrellas">
 						<div id="punt" value="{{ puntos }}">
                 			<input type="hidden" value='false' id="centinela">
@@ -102,10 +102,29 @@ jQuery(document).ready(function($) {
 					</div>
 				</p>
 			</div>
-			<p id="puntuacion-datos">
-				{{puntos|floatformat}}
-				&nbsp;{{votos}} votos
-			</p>
+			<div class="col-lg-2">
+				<p class="text-left">
+					{{puntos|floatformat}}
+					&nbsp;{{votos}} votos
+				</p>
+			</div>
+			<!--Redes sociales-->
+			{%if redes%}
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<a href="{{redes.facebook}}">
+						<img src="{{STATIC_URL}}files/img/facebook_logo.jpg" alt="Facebook">
+					</a>
+					&nbsp;
+					<a href="{{redes.twitter}}">
+						<img src="{{STATIC_URL}}files/img/twitter_logo.jpg" alt="Twitter">
+					</a>
+					&nbsp;
+					
+					<a href="{{redes.instagram}}">
+						<img src="{{STATIC_URL}}files/img/instagram_logo.jpg" alt="Instagram">
+					</a>
+				</div>
+			{%endif%}
 		</div>
 	</div>
 </div>

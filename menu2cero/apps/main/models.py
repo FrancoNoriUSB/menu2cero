@@ -2,6 +2,7 @@
 from django.utils.translation import gettext as _
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.template import defaultfilters
 
 #Modelos de la base de datos de Menu 2.0
 
@@ -189,7 +190,8 @@ class Restaurante(models.Model):
 	)
 
 	rif = models.CharField(max_length=13)
-	nombre = models.CharField(max_length=50, help_text='Introduzca el nombre de su restaurante.', unique=True)
+	nombre = models.CharField(max_length=100, help_text='Introduzca el nombre de su restaurante.', unique=True)
+	slug = models.SlugField(max_length=100)
 	logo = models.ImageField(upload_to='uploads/img/logos/', default='uploads/img/logos/ico.png')
 	descripcion = models.TextField(max_length=300)
 	status = models.CharField(max_length=20, default='Activo', choices=statuses, editable=False)
@@ -203,6 +205,12 @@ class Restaurante(models.Model):
 	metodos_pago = models.ManyToManyField(Metodo)
 	votos = models.ManyToManyField(Voto)
 	plan = models.ForeignKey(Plan)
+
+
+	def save(self, *args, **kwargs):
+		self.slug = defaultfilters.slugify(self.nombre)
+		super(Restaurante, self).save(*args, **kwargs)
+
 
 	class Meta:
 		ordering = ('nombre',)

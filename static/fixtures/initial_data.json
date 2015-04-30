@@ -373,7 +373,8 @@
         "plan": 1, 
         "logo": "uploads/img/logos/logo_carne_1.jpg", 
         "descripcion": "Es un restaurante que te acerca a la real parrilla venezolana presentando diferentes cortes que le agregan gusto al paladar.", 
-        "nombre": "El Parrillon", 
+        "nombre": "El Parrillon",
+        "slug": "el-parrillon", 
         "rif": "J-12345678-9",
         "metodos_pago": [
             4, 
@@ -404,6 +405,7 @@
         "logo": "uploads/img/logos/logo_sushi.jpg", 
         "descripcion": "Es un restaurante-bar de agradable ambiente para relajarte luego de un duro d\u00eda de trabajo, ofreci\u00e9ndote los mejores rolls y combos de la verdadera cocina japonesa.", 
         "nombre": "Haraki Sushi Bar", 
+        "slug": "haraki-sushi-bar", 
         "rif": "J-10355678-1",
         "metodos_pago": [
             3, 
@@ -433,6 +435,7 @@
         "logo": "uploads/img/logos/logo_italiana_1.jpg", 
         "descripcion": "Restaurante con el verdadero gusto italiano, los mejores risotos y pastas son nuestro sello.", 
         "nombre": "Mamma Italia", 
+        "slug": "mamma-italia", 
         "rif": "J-87345678-6",
         "metodos_pago": [
             3, 
@@ -461,6 +464,7 @@
         "logo": "uploads/img/logos/logo_restaurant_06.jpg", 
         "descripcion": "Es un restaurante que te acerca a la real cachapa venezolana presentando diferentes quesos que le agregan gusto al paladar.", 
         "nombre": "El Cachapon", 
+        "slug": "el-cachapon", 
         "rif": "J-14345785-9",
         "metodos_pago": [
             4, 
@@ -485,7 +489,8 @@
         "plan": 3, 
         "logo": "uploads/img/logos/logo_restaurant_02.jpg", 
         "descripcion": "Es un restaurante que te acerca al real perro caliente venezolana presentando diferentes salsas que le agregan gusto al paladar.", 
-        "nombre": "El Perrocalenton", 
+        "nombre": "El Perrocalenton",
+        "slug": "el-perrocalenton", 
         "rif": "J-12345678-9",
         "metodos_pago": [
             4, 
@@ -512,7 +517,8 @@
         "plan": 2, 
         "logo": "uploads/img/logos/logo_restaurant_04_1.jpg", 
         "descripcion": "Bar que trae los mejores grupos musicales del Estado Lara.", 
-        "nombre": "Bar Quisimeto", 
+        "nombre": "Bar Quisimeto",
+        "slug": "bar-quisimeto",  
         "rif": "J-12345678-9",
         "metodos_pago": [
             3, 
