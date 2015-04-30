@@ -167,8 +167,8 @@
                                 <input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
                                 <div class="mapa" id="map">
                                 </div>
-                                {{ DireccionForm.latitud }}
-                                {{ DireccionForm.longitud }}
+                                {{ DireccionForm.latitud.as_hidden }}
+                                {{ DireccionForm.longitud.as_hidden }}
                                 (Clickee en el mapa la ubicaci&oacute;n de su local)
                             </div>
 						</div>
