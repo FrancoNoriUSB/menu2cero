@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='restaurante',
             name='slug',
-            field=models.SlugField(default=' ', max_length=100),
+            field=models.SlugField(default='restaurante-nombre', max_length=100),
             preserve_default=False,
         ),
         migrations.AlterField(
