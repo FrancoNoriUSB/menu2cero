@@ -167,8 +167,8 @@
                                 <input id="pac-input" class="controls" type="text" placeholder="Introduzca una direccion">
                                 <div class="mapa" id="map">
                                 </div>
-                                {{ DireccionForm.latitud.as_hidden }}
-                                {{ DireccionForm.longitud.as_hidden }}
+                                {{ DireccionForm.latitud }}
+                                {{ DireccionForm.longitud }}
                                 (Clickee en el mapa la ubicaci&oacute;n de su local)
                             </div>
 						</div>
@@ -280,8 +280,8 @@ function initialize() {
         clearMarkers();
         markers = [];
         placeMarker(event.latLng);
-        lat.val(event.latLng.k);
-        lon.val(event.latLng.D);
+        lat.val(event.latLng.A);
+        lon.val(event.latLng.F);
     });
 
     function clearMarkers() {
