@@ -251,7 +251,7 @@ jQuery(document).ready(function($) {
 						</a>
 					</h4>
 				</div>
-				<div id="collapse{{tipo.0|slugify}}" class="layer_platos panel-collapse {%if tipo.2 == 1%}collapse in{%else%}collapse{%endif%}" role="tabpanel" aria-labelledby="heading{{tipo.0|slugify}}">
+				<div id="collapse{{tipo.0|slugify}}" class="layer_platos panel-collapse" role="tabpanel" aria-labelledby="heading{{tipo.0|slugify}}">
 					<div class="panel-body">
 					{% for plato in platos %}
 						{%if tipo.0 == plato.tipo and plato.disponibilidad == True%}

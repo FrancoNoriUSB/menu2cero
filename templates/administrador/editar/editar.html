@@ -257,7 +257,9 @@
                         {%csrf_token%}
                         Descripci&oacute;n del restaurante (m&aacute;ximo 400 caracteres):
                         {{ DescripcionForm.descripcion_rest }}
-                        <p class="text-danger">{{DescripcionForm.descripcion.errors|striptags}}</p>
+                        <p class="text-danger">
+                            {{DescripcionForm.descripcion.errors|striptags}}
+                        </p>
                         <br>
                         Servicios del restaurante:
                         <br>
@@ -265,7 +267,7 @@
                             <label align="center">
                                 {{ choice }}
                                 <br>
-                                <img src="{{STATIC_URL}}files/img/{{choice|lower}}.png" width="46px" height="46px">
+                                <img src="{{choice.imagen}}" width="46px" height="46px">
                                 <br>
                                 <input 
                                     {% for servicio in servicios %}
