@@ -30,6 +30,7 @@ jQuery(document).ready(function($) {
 	});
 });
 </script>
+{%if imagenes%}
 <!-- Seccion del carrusel -->
 <div class="carrousel row">
 	<div class="col-lg-12 col-md-12 col-sm-12" id="carousel-bounding-box">
@@ -57,6 +58,7 @@ jQuery(document).ready(function($) {
         </div>
     </div>
 </div>
+{%endif%}
 
 <!-- Seccion de logo e imagenes -->
 <div class="row imagenes">
@@ -134,11 +136,11 @@ jQuery(document).ready(function($) {
 <!--Caracteristicas-->
 <div class="caract-pagos row">
 	<div class="col-lg-8 col-md-8 col-sm-8 caracteristicas">
-		{%for caract in servicios%}
-			{%if caract in servicios_rest%}
-				<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
+		{%for servicio in servicios%}
+			{%if servicio in servicios_rest%}
+				<img class="car" id="{{servicio.nombre}}" src="{{servicio.imagen.url}}" alt="{{servicio.nombre}}" title="{{servicio.nombre}}">
 			{%else%}
-				<img class="car" id="{{caract.nombre}}" src="{{STATIC_URL}}files/img/{{caract.nombre|lower}}_g.png" alt="{{caract.nombre}}" title="{{caract.nombre}}">
+				<img class="car" id="{{servicio.nombre}}" src="{{servicio.imagen_gris.url}}" alt="{{servicio.nombre}}" title="{{servicio.nombre}}">
 			{%endif%}
 		{%endfor%}
 	</div>

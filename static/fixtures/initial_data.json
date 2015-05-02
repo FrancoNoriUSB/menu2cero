@@ -68,7 +68,7 @@
     "model": "main.categoria", 
     "fields": {
         "nombre": "Parrilla", 
-        "imagen": "uploads/img/categorias/carnes_1.jpg"
+        "imagen": "uploads/img/categorias/carnes.jpg"
     }
 },
 {
@@ -228,7 +228,7 @@
     "model": "main.categoria", 
     "fields": {
         "nombre": "R\u00e1pida", 
-        "imagen": "uploads/img/categorias/americana_1.jpg"
+        "imagen": "uploads/img/categorias/americana.jpg"
     }
 },
 {
@@ -371,7 +371,7 @@
             7
         ],
         "plan": 1, 
-        "logo": "uploads/img/logos/logo_carne_1.jpg", 
+        "logo": "uploads/img/logos/logo_carne.jpg", 
         "descripcion": "Es un restaurante que te acerca a la real parrilla venezolana presentando diferentes cortes que le agregan gusto al paladar.", 
         "nombre": "El Parrillon",
         "slug": "el-parrillon", 
@@ -432,7 +432,7 @@
             7
         ],
         "plan": 4, 
-        "logo": "uploads/img/logos/logo_italiana_1.jpg", 
+        "logo": "uploads/img/logos/logo_italiana.jpg", 
         "descripcion": "Restaurante con el verdadero gusto italiano, los mejores risotos y pastas son nuestro sello.", 
         "nombre": "Mamma Italia", 
         "slug": "mamma-italia", 
@@ -515,7 +515,7 @@
             9
         ],
         "plan": 2, 
-        "logo": "uploads/img/logos/logo_restaurant_04_1.jpg", 
+        "logo": "uploads/img/logos/logo_restaurant_04.jpg", 
         "descripcion": "Bar que trae los mejores grupos musicales del Estado Lara.", 
         "nombre": "Bar Quisimeto",
         "slug": "bar-quisimeto",  

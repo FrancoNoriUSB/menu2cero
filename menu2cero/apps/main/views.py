@@ -353,7 +353,10 @@ def restaurante_view(request, restaurante):
 		error = 'Division por cero!'
 
 	#Redes sociales del restaurante
-	redes = Red_social.objects.get(restaurante=restaurante)
+	try:
+		redes = Red_social.objects.get(restaurante=restaurante)
+	except:
+		redes = Red_social(facebook='', twitter='', instagram='')
 
 	#Direccion del restaurante y otros datos.
 	direccion = restaurante.direccion

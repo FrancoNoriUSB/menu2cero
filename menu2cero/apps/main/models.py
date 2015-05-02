@@ -106,6 +106,8 @@ class Categoria(models.Model):
 class Servicio(models.Model):
 	
 	nombre = models.CharField(max_length=30)
+	imagen = models.ImageField(upload_to='uploads/img/servicios', null=True)
+	imagen_gris = models.ImageField(upload_to='uploads/img/servicios/grises', null=True)
 
 	class Meta:
 		ordering = ('nombre',)
