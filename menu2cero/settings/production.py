@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'menu2cero.apps.administrador',
     'widget_tweaks',
     'bootstrap3',
+    'django_random_queryset'
 )
 
 MIDDLEWARE_CLASSES = (
