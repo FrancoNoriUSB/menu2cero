@@ -56,20 +56,22 @@
             <p>Destacados</p>
         </div>
         <div id="clickeable_destacados" class="collapse in col-lg-12 col-md-12 col-sm-12">
-            {% for restaurante in restaurantes_dest%}
+            {% for restaurante in restaurantes_destacados%}
             <div class="restaurante col-lg-2 col-md-3 col-sm-4 col-xs-12" >
-                <a href="/restaurante/{{restaurante.0.nombre|slugify}}/">
-                    <img class="img-responsive" src="{%if 'uploads/' in restaurante.0.logo.url %}{{MEDIA_URL}}{{restaurante.0.logo}}{%else%}{{STATIC_URL}}{{restaurante.0.logo}}{%endif%}" alt="" class="{% filter force_escape %}{% cycle 'imagen_a' 'imagen_r' %}{% endfilter %}">
-                    <p id="titulo">{{restaurante.0.nombre}}</p>
+                <a href="/restaurante/{{restaurante.nombre|slugify}}/">
+                    <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="" class="{% filter force_escape %}{% cycle 'imagen_a' 'imagen_r' %}{% endfilter %}">
+                    <p id="titulo">{{restaurante.nombre}}</p>
                 </a>
-                <div id="{{restaurante.0.nombre|cut:" "}}estrellasdes" class="estrellas">
+                <div id="{{restaurante.nombre|cut:" "}}estrellasdes" class="estrellas">
                     <div id="punt" value="{{puntos}}"></div>
                         <script type="text/javascript">
                         var myVar = {{restaurante.1|safe}};
-                                $('#{{restaurante.0.nombre|cut:" "}}estrellasdes').raty({readOnly:true, score:myVar});
+                                $('#{{restaurante.nombre|cut:" "}}estrellasdes').raty({readOnly:true, score:myVar});
                         </script>
                 </div>
-                <p id="categoria">{{restaurante.0.categoria.nombre}} </p>
+                <a href="/restaurantes/{{restaurante.categoria.all.0.nombre}}">
+                    <p id="categoria">{{restaurante.categoria.all.0.nombre}} </p>
+                </a>
             </div>
             {% endfor %}
             <!-- Espacio superior de banner publicitario -->
@@ -99,7 +101,9 @@
                                 $('#{{restaurante.0.nombre|cut:" "}}estrellas').raty({readOnly: true, score:myVar});
                             </script>
                     </div>
-                    <p id="categoria">{{restaurante.0.categoria.all.0.nombre}}</p>
+                    <a href="/restaurantes/{{restaurante.0.categoria.all.0.nombre}}">
+                        <p id="categoria">{{restaurante.0.categoria.all.0.nombre}}</p>
+                    </a>
                 </div>
             {% endfor %}
 

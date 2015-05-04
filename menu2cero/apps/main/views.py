@@ -17,7 +17,7 @@ from datetime import datetime, date
 from models import *
 from forms import *
 from functions import *
-import math
+from itertools import chain
 
 
 #Vista del Home
@@ -29,6 +29,7 @@ def index(request):
 	restaurantes_rec = []
 	login = True
 	registro = True
+	restaurantes_destacados = []
 
 	#Se veririca que se haya hecho un request a POST
 	if request.POST:
@@ -59,9 +60,18 @@ def index(request):
 			if login:
 				return HttpResponseRedirect('/administrador/perfil/')
 
-	#Query para los restaurantes destacados
-	restaurantes_dest = Restaurante.objects.filter(plan__nombre='Azul', visibilidad='Público', status='Activo').order_by('?')[:12]
-	
+	#Restaurantes destacados
+	restaurantes_diamante = Restaurante.objects.filter(plan__nombre='Diamante', visibilidad='Público', status='Activo')
+	if restaurantes_diamante.count() != 0:
+		restaurantes_diamante = restaurantes_diamante.random(6)
+	restaurantes_platino = Restaurante.objects.filter(plan__nombre='Platino', visibilidad='Público', status='Activo')
+	if restaurantes_platino.count() != 0:
+		restaurantes_platino = restaurantes_platino.random(4)
+	restaurantes_oro = Restaurante.objects.filter(plan__nombre='Oro', visibilidad='Público', status='Activo')
+	if restaurantes_oro.count() != 0:
+		restaurantes_oro = restaurantes_oro.random(2)
+	restaurantes_destacados = list(chain(restaurantes_diamante,restaurantes_platino,restaurantes_oro))
+
 	#Query para los restaurantes recientes
 	restaurantes = Restaurante.objects.filter(visibilidad='Público', status='Activo').order_by('id')
 	restaurantes = restaurantes.reverse()[:6]
@@ -87,13 +97,14 @@ def index(request):
 		'UserCreationForm': userF, 
 		'ClienteForm': clienteF,
 		'buscador': buscadorF, 
-		'restaurantes_dest': restaurantes_dest,
+		'restaurantes_destacados': restaurantes_destacados,
 		'restaurantes_rec': restaurantes_rec, 
 		'categorias': categorias,
-    	'loginForm': loginF,
-    	'login':login,
-    	'registro':registro,
-	 }
+		'loginForm': loginF,
+		'login':login,
+		'registro':registro,
+	}
+
 	return render_to_response('main/home/home.html', ctx, context_instance=RequestContext(request))
 
 
@@ -144,7 +155,6 @@ def restaurantes_view(request, palabra):
 					servicios = None
 
 				#Verificacion de string vacio
-
 				#Extraccion del objeto de categoria
 				try:
 					cat = Categoria.objects.get(nombre__iexact=cat)
@@ -153,17 +163,17 @@ def restaurantes_view(request, palabra):
 
 				#Campos a buscar
 				fields_list = []
-				fields_list.append('categoria')
-				fields_list.append('direccion__ciudad')
-				fields_list.append('direccion__zona')
-				fields_list.append('servicios')
+				fields_list.append('categoria__id')
+				fields_list.append('direccion__ciudad__nombre')
+				fields_list.append('direccion__zona__nombre')
+				fields_list.append('servicios__nombre')
 
 				#Comparadores para buscar
 				types_list=[]
-				types_list.append('id__exact')
-				types_list.append('nombre__exact')
-				types_list.append('nombre__exact')
-				types_list.append('nombre__in')
+				types_list.append('exact')
+				types_list.append('exact')
+				types_list.append('exact')
+				types_list.append('in')
 
 				#Valores a buscar
 				values_list=[]
@@ -177,7 +187,7 @@ def restaurantes_view(request, palabra):
 
 				operator = 'and'
 
-				restaurantes = dynamic_query(Restaurante, fields_list, types_list, values_list, operator)
+				restaurantes = dynamic_query(Restaurante, fields_list, types_list, values_list, operator).distinct()
 
 			#Caso registro de cliente
 			elif userF.is_valid() and clienteF.is_valid():
@@ -265,10 +275,11 @@ def restaurantes_view(request, palabra):
 		'categorias_der':categorias_der, 
 		'categorias_izq': categorias_izq, 
 		'servicios':servicios,
-        'loginForm': loginF,
-    	'login':login,
-    	'registro':registro,
+		'loginForm': loginF,
+		'login':login,
+		'registro':registro,
 	}
+
 	return render_to_response('main/restaurantes/restaurantes.html', ctx, context_instance=RequestContext(request))
 
 
@@ -414,7 +425,7 @@ def restaurante_view(request, restaurante):
 		'UserCreationForm': userF,
 		'ClienteForm': clienteF,
 		'buscador': buscadorF,
-        'loginForm': loginF,
+		'loginForm': loginF,
 		'restaurante': restaurante,
 		'categorias': restaurante.categoria,
 		'imagenes':imagenes,
@@ -436,6 +447,7 @@ def restaurante_view(request, restaurante):
 		'login':login,
 		'registro':registro,
 	}
+
 	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))
 
 
@@ -471,8 +483,8 @@ def contactos_view(request):
 		'UserCreationForm': userF,
 		'ClienteForm': clienteF,
 		'buscador': buscadorF,
-        'loginForm': loginF,
-        'ContactForm': contactF,
+		'loginForm': loginF,
+		'ContactForm': contactF,
 	}
 
 	return render_to_response('main/contactos/contactos.html', ctx, context_instance=RequestContext(request))
@@ -590,46 +602,38 @@ def votacion_view(request):
 
 #Query dinamico extraido de un proyecto ajeno
 def dynamic_query(model, fields, types, values, operator):
-    """
-     Takes arguments & constructs Qs for filter()
-     We make sure we don't construct empty filters that would
-        return too many results
-     We return an empty dict if we have no filters so we can
-        still return an empty response from the view
-    """
-    
-    queries = []
-    for (f, t, v) in zip(fields, types, values):
-        # We only want to build a Q with a value
-        if v != None:
-            kwargs = {str('%s__%s' % (f,t)) : str('%s' % v)}
-            queries.append(Q(**kwargs))
-    
-    # Make sure we have a list of filters
-    if len(queries) > 0:
-        q = Q()
-        # AND/OR awareness
-        for query in queries:
-            if operator == "and":
-                q = q & query
-            elif operator == "or":
-                q = q | query
-            else:
-                q = None
-        if q:
-            # We have a Q object, return the QuerySet
-            print q
-            return model.objects.filter(q)
-    else:
-        # Return an empty result
-        return {}
+	"""
+	 Takes arguments & constructs Qs for filter()
+	 We make sure we don't construct empty filters that would
+		return too many results
+	 We return an empty dict if we have no filters so we can
+		still return an empty response from the view
+	"""
+	
+	queries = []
+	for (f, t, v) in zip(fields, types, values):
 
-
-#View para renderizar el url de google web master tools
-def GoogleWebMasterTools(request):
-
-	ctx = {
-
-	}
-
-	return render_to_response('google4d589b5fc798be45.html', ctx, context_instance=RequestContext(request))
+		if v != None:
+			if t == 'in':
+				kwargs = {str('%s__%s' % (f,t)) : v}
+			else:
+				kwargs = {str('%s__%s' % (f,t)) : str('%s' % v)}
+			queries.append(Q(**kwargs))
+	
+	# Make sure we have a list of filters
+	if len(queries) > 0:
+		q = Q()
+		# AND/OR awareness
+		for query in queries:
+			if operator == "and":
+				q = q & query
+			elif operator == "or":
+				q = q | query
+			else:
+				q = None
+		if q:
+			# We have a Q object, return the QuerySet
+			return model.objects.filter(q)
+	else:
+		# Return an empty result
+		return {}

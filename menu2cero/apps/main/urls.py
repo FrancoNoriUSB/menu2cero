@@ -7,5 +7,4 @@ urlpatterns = patterns('menu2cero.apps.main.views',
 	url(r'^restaurantes/(?P<palabra>.*)$', 'restaurantes_view', name='restaurantes'),
 	url(r'^contactos/$', 'contactos_view', name='contactos'),
 	url(r'^votacion/$', 'votacion_view', name='votacion'),
-	url(r'^google/$','GoogleWebMasterTools', name='GoogleWebMasterTools'),
 	)

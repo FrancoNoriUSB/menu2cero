@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.template import defaultfilters
+from django_random_queryset import RandomManager
 
 #Modelos de la base de datos de Menu 2.0
 
@@ -190,6 +191,8 @@ class Restaurante(models.Model):
 		(u'Público','Público'),
 		('Privado','Privado'),
 	)
+
+	objects = RandomManager()
 
 	rif = models.CharField(max_length=13)
 	nombre = models.CharField(max_length=100, help_text='Introduzca el nombre de su restaurante.', unique=True)
