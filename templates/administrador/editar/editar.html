@@ -70,7 +70,7 @@
                 <form role="form" action="/administrador/editar/{{restaurante.id}}/basico" method="POST">
                     <div class="form-group">
                         {%csrf_token%}
-                        {%if formulario_activo == 'basico'%}
+                        {%if formulario_activo == 'basico' and not PrincipalForm.nombre.errors and not DireccionForm.ciudad.errors and not DireccionForm.zona.errors and not DireccionForm.calle.error and not DireccionForm.latitud.errors and not HorariosForm.errors %}
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                 <strong>Guardado!</strong> Se ha guardado la informaci&oacute;n con &eacute;xito!
@@ -115,6 +115,11 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
+                            {%if HorariosForm.errors%}
+                             <p class="text-danger">
+                                Estos campos son obligatorios.
+                             </p>
+                             {%endif%}
                                 <div class="table-responsive">
                                     <table class="table">
                                             <tr>
@@ -269,6 +274,12 @@
                 <form role="form" action="/administrador/editar/{{restaurante.id}}/otra" method="POST">
                     <div class="form-group">
                         {%csrf_token%}
+                        {%if formulario_activo == 'otra' and not DescripcionForm.descripcion.errors and not DescripcionForm.servicios.errors and not DescripcionForm.metodos_de_pago.errors %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong>Guardado!</strong> Se ha guardado la informaci&oacute;n con &eacute;xito!
+                            </div>
+                        {%endif%}
                         Descripci&oacute;n del restaurante (m&aacute;ximo 400 caracteres):
                         {{ DescripcionForm.descripcion_rest }}
                         <p class="text-danger">

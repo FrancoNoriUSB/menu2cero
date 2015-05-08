@@ -334,8 +334,11 @@ def admin_editar_restaurante_view(request, id_rest, form):
 			telefonoF = telefonoFormSet(request.POST, instance=restaurante)
 
 			#Verificacion de que los campos de los formularios se llenaron correctamente
-			if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid() and telefonoF.is_valid():
-				id_rest = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF)
+			if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid():
+				if telefonoF.is_valid():
+					id_rest = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, telefonoF)
+				else:
+					id_rest = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, '')
 				return  HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/basico')
 			elif not(principalF.is_valid() or horariosF.is_valid() or direccionF.is_valid() or telefonoF.is_valid()):
 				principalF = PrincipalForm(instance=restaurante)
@@ -478,10 +481,11 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 			restaurante.save()
 
 		#Manejo del formulario de telefonos
-		for form in telefonoF:
-			telefono = form.save(commit=False)
-			telefono.restaurante = restaurante
-			telefono.save()
+		if telefonoF !='':
+			for form in telefonoF:
+				telefono = form.save(commit=False)
+				telefono.restaurante = restaurante
+				telefono.save()
 
 		#Manejo del formulario de direcciones
 		direccionF.save()
@@ -510,10 +514,12 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 
 		restaurante.categoria = categorias_rest
 
-		for form in telefonoF:
-			telefono = form.save(commit=False)
-			telefono.restaurante = restaurante
-			telefono.save()
+		#Manejo del formulario de telefonos
+		if telefonoF !='':
+			for form in telefonoF:
+				telefono = form.save(commit=False)
+				telefono.restaurante = restaurante
+				telefono.save()
 
 		#Manejo del formulario de horarios
 		dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))

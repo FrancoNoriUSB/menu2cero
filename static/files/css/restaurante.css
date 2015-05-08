@@ -162,7 +162,7 @@ div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora{
 	float: left;
 }
 
-.telfs_hora > .telefonos > p{
+.telfs_hora > .telefonos > p.middle{
 	margin-top: 6%;
 }
 
