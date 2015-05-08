@@ -254,8 +254,8 @@
 {
     "fields": {
         "nombre": "Estacionamiento",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/estacionamiento_g.png",
+        "imagen": "uploads/img/servicios/estacionamiento.png"
     },
     "model": "main.servicio",
     "pk": 1
@@ -263,8 +263,8 @@
 {
     "fields": {
         "nombre": "Reservaci\u00f3n",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/reservaci\u00f3n_g.png",
+        "imagen": "uploads/img/servicios/reservaci\u00f3n.png"
     },
     "model": "main.servicio",
     "pk": 2
@@ -272,8 +272,8 @@
 {
     "fields": {
         "nombre": "Parquero",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/parquero_g.png",
+        "imagen": "uploads/img/servicios/parquero.png"
     },
     "model": "main.servicio",
     "pk": 3
@@ -281,8 +281,8 @@
 {
     "fields": {
         "nombre": "Exterior",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/exterior_g.png",
+        "imagen": "uploads/img/servicios/exterior.png"
     },
     "model": "main.servicio",
     "pk": 4
@@ -290,8 +290,8 @@
 {
     "fields": {
         "nombre": "Delivery",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/delivery_g.png",
+        "imagen": "uploads/img/servicios/delivery.png"
     },
     "model": "main.servicio",
     "pk": 5
@@ -299,8 +299,8 @@
 {
     "fields": {
         "nombre": "Local Nocturno",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/local_nocturno_g.png",
+        "imagen": "uploads/img/servicios/local_nocturno.png"
     },
     "model": "main.servicio",
     "pk": 6
@@ -308,8 +308,8 @@
 {
     "fields": {
         "nombre": "Wifi",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/wifi_g.png",
+        "imagen": "uploads/img/servicios/wifi.png"
     },
     "model": "main.servicio",
     "pk": 7
@@ -317,8 +317,8 @@
 {
     "fields": {
         "nombre": "Discapacitados",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/discapacitados_g.png",
+        "imagen": "uploads/img/servicios/discapacitados.png"
     },
     "model": "main.servicio",
     "pk": 8
@@ -326,8 +326,8 @@
 {
     "fields": {
         "nombre": "M\u00fasica",
-        "imagen_gris": "",
-        "imagen": ""
+        "imagen_gris": "uploads/img/servicios/grises/m\u00fasica_g.png",
+        "imagen": "uploads/img/servicios/m\u00fasica.png"
     },
     "model": "main.servicio",
     "pk": 9
@@ -609,7 +609,7 @@
         "zona": 2,
         "restaurante": 6,
         "direccion": "Distrito Capital, Caracas, Tercera transversal de los Palos Grandes.",
-        "calle": "",
+        "calle": "Calle 1, con calle 2",
         "ciudad": 1,
         "longitud": "-67.90503200000000561"
     },
@@ -633,6 +633,15 @@
     },
     "model": "main.telefonorestaurante",
     "pk": 2
+},
+{
+    "fields": {
+        "restaurante": 6,
+        "display": false,
+        "numero": "+584126191171"
+    },
+    "model": "main.telefonorestaurante",
+    "pk": 3
 },
 {
     "fields": {
@@ -721,6 +730,14 @@
     },
     "model": "main.menu",
     "pk": 1
+},
+{
+    "fields": {
+        "nombre": "Bar Quisimeto",
+        "restaurante": 6
+    },
+    "model": "main.menu",
+    "pk": 2
 },
 {
     "fields": {
@@ -939,5 +956,18 @@
     },
     "model": "main.plato",
     "pk": 13
+},
+{
+    "fields": {
+        "imagen": "",
+        "tipo": 7,
+        "menu": 2,
+        "disponibilidad": true,
+        "precio": "2102.00",
+        "descripcion": "asdasdsa",
+        "nombre": "Arepitas"
+    },
+    "model": "main.plato",
+    "pk": 14
 }
 ]
