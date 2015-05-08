@@ -173,13 +173,17 @@ jQuery(document).ready(function($) {
 		<br>
 		<!--Telefonos y horario-->
 		<div class="row telfs_hora">
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 telefonos">
-				<img class="img-responsive img-telfs" src="{{STATIC_URL}}files/img/telf.png" alt="">
+			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 telefonos">
+				<img class=" img-telfs" src="{{STATIC_URL}}files/img/telf.png" alt="">
 				{%for telf in telefonos%}
-					<p class="text-left">{{telf.numero}}</p>
+					{%if telefonos.count == 2%}
+						<p class="text-left">{{telf.numero}}</p>
+					{%else%}
+						<p class="text-left middle">{{telf.numero}}</p>
+					{%endif%}
 				{%endfor%}
 			</div>
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 horario">
+			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 horario">
 				<p id="horario">{{horario}}</p>
 				
 				<p id="cuadro">

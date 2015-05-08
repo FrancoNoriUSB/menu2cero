@@ -11,10 +11,18 @@
             <img class="img-responsive" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="">
         </div>
         <div class="info col-lg-8">
-            <p class="nombre">Nombre del Restaurante: <strong>{{restaurante.nombre}}</strong></p>
-            <p class="visitas">Visitas: <strong></strong></p>
-            <p class="votos">Votos: <strong>{{votos.count}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Puntuacion: <strong>{{puntuacion|floatformat}}</strong></p>
-            <p class="plan">Plan asociado: <strong>{{restaurante.plan.nombre}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">&iquest;Qu&eacute; son los planes?</a></p>
+            <p class="nombre">
+                Nombre del Restaurante: <strong>{{restaurante.nombre}}</strong>
+            </p>
+            <p class="visitas">
+            Visitas: <strong>0</strong>
+            </p>
+            <p class="votos">
+                Votos: <strong>{{votos.count}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Puntuacion: <strong>{{puntuacion|floatformat}}</strong>
+            </p>
+            <p class="plan">
+                Plan asociado: <strong>{{restaurante.plan.nombre}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">&iquest;Qu&eacute; son los planes?</a>
+            </p>
             <p class="estatus">
                 Estatus del plan: 
                 <strong>
@@ -38,7 +46,7 @@
             </p>
         </div>
         <div class="plan col-lg-2">
-            <img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre}}.png" alt="">
+            <img class="img-responsive" src="{{STATIC_URL}}files/img/{{restaurante.plan.nombre|lower}}.png" alt="">
         </div>
     </div>
 </div>
@@ -62,6 +70,12 @@
                 <form role="form" action="/administrador/editar/{{restaurante.id}}/basico" method="POST">
                     <div class="form-group">
                         {%csrf_token%}
+                        {%if formulario_activo == 'basico'%}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong>Guardado!</strong> Se ha guardado la informaci&oacute;n con &eacute;xito!
+                            </div>
+                        {%endif%}
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 Nombre del restaurante:

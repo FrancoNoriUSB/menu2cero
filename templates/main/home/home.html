@@ -65,8 +65,9 @@
                 <div id="{{restaurante.nombre|cut:" "}}estrellasdes" class="estrellas">
                     <div id="punt" value="{{puntos}}"></div>
                         <script type="text/javascript">
-                        var myVar = {{restaurante.1|safe}};
+                        /*var myVar = {{restaurante.1|safe}};
                                 $('#{{restaurante.nombre|cut:" "}}estrellasdes').raty({readOnly:true, score:myVar});
+                        */
                         </script>
                 </div>
                 <a href="/restaurantes/{{restaurante.categoria.all.0.nombre}}">

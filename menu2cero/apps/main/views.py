@@ -18,6 +18,7 @@ from models import *
 from forms import *
 from functions import *
 from itertools import chain
+from ipware.ip import get_real_ip
 
 
 #Vista del Home
@@ -299,6 +300,17 @@ def restaurante_view(request, restaurante):
 	login = True
 	registro = True
 
+	#Conteo de views y verificacion de ingreso previo
+	ip = get_real_ip(request)
+	if ip is not None:
+		# we have a real, public ip address for user
+		print ip
+	else:
+		print 'ase'
+		if request.session.test_cookie_worked():
+			print ">>>> TEST COOKIE WORKED!"
+			request.session.delete_test_cookie()
+
 	#Formularios basicos
 	buscadorF = BuscadorForm()
 	userF = UserCreationForm()
@@ -505,7 +517,6 @@ def horario_restaurante(dias):
 			dia_ini = dia
 			dia_fin = dia
 		else:
-
 			#Si el dia que estoy revisando, es igual al inicial, entonces sigo y mantengo los dias
 			if dia_ini[1] == dia[1]:
 				dia_fin = dia
@@ -514,7 +525,6 @@ def horario_restaurante(dias):
 				if i==6:
 					horario = dia_ini[0] + ' a ' + dia_fin[0] + ' de ' + dia_ini[1] + '.'	
 			else:
-
 				#Caso que no es el ultimo dia a revisar
 				if i != 6:
 
@@ -529,7 +539,6 @@ def horario_restaurante(dias):
 						horario = horario + dia_ini[0] + ' a ' + dia_fin[0] + ' de ' + dia_ini[1] + ', '
 						dia_ini = dia
 						dia_fin = dia
-
 				else:
 					#Caso que llego al Domingo y comparara
 					if dia_ini == dia_fin:

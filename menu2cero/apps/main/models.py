@@ -153,6 +153,21 @@ class Voto(models.Model):
 		return u"%s" %(self.valor)
 
 
+#Clase para las visitas a los restaurantes
+class Visita(models.Model):
+
+	cantidad = models.IntegerField(max_length=20)
+	ip = models.CharField(max_length=40)
+
+	class Meta:
+		ordering = ('ip',)
+		verbose_name = "Visita"
+		verbose_name_plural = "Visitas"
+
+	def __unicode__(self):
+		return u"%s" %(self.ip)
+
+
 #Clase del cliente
 class Cliente(models.Model):
 
@@ -457,7 +472,7 @@ class Plato(models.Model):
 	descripcion = models.CharField(max_length=300)
 	precio = models.DecimalField(max_digits=10, decimal_places=2)
 	disponibilidad = models.BooleanField(default=True, help_text='Desmarque si el plato no se encuentra disponible')
-	imagen = models.ImageField(upload_to='uploads/img/menus/', default='')
+	imagen = models.ImageField(upload_to='uploads/img/menus/', default='', null=True, blank=True)
 
 	#Claves foraneas y de otras tablas
 	tipo = models.ForeignKey(Tipo)

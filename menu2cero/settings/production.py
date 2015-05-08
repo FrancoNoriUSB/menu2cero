@@ -137,7 +137,7 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, '../media'))
 MEDIA_URL = '/media/'
 
 FIXTURE_DIRS = (
-    #os.path.join(BASE_DIR, '../static/fixtures'),
+    os.path.join(BASE_DIR, '../static/fixtures'),
 )
 
 # For Sidebar Menu (List of apps and models) (RECOMMENDED)
