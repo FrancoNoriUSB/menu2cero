@@ -369,7 +369,6 @@ def restaurante_view(request, restaurante):
 			desde = datetime.strptime(horario.desde, "%I:%M %p").time()
 			hasta = datetime.strptime(horario.hasta, "%I:%M %p").time()
 			horaActual = fechaActual.time()
-			print horaActual, desde, hasta
 			# Si esta dentro del horario estara abierto.
 			if horaActual >= desde and horaActual <= hasta:
 				disponible = True
@@ -377,7 +376,7 @@ def restaurante_view(request, restaurante):
 				disponible = False
 
 		dias.append((horario.dia, horario.desde + ' a ' + horario.hasta))
-
+	horaActual = fechaActual.time()
 	horario = horario_restaurante(dias)
 
 	#Imagenes del restaurante
@@ -483,6 +482,9 @@ def restaurante_view(request, restaurante):
 		'arreglo': arreglo,
 		'login':login,
 		'registro':registro,
+		'horaActual':horaActual,
+		'desde':desde,
+		'hasta':hasta,
 	}
 
 	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))
