@@ -299,6 +299,9 @@ def restaurante_view(request, restaurante):
 	lng = 0		
 	login = True
 	registro = True
+	desde = ''
+	hasta = ''
+	horaActual = ''
 
 	#Conteo de views y verificacion de ingreso previo
 	ip = get_real_ip(request)
@@ -483,8 +486,6 @@ def restaurante_view(request, restaurante):
 		'login':login,
 		'registro':registro,
 		'horaActual':horaActual,
-		'desde':desde,
-		'hasta':hasta,
 	}
 
 	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))

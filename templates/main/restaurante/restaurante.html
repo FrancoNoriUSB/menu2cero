@@ -189,11 +189,9 @@ jQuery(document).ready(function($) {
 				<p id="cuadro">
 					<img class="img-responsive" src="{{STATIC_URL}}files/img/hora.png" alt="">
 					Horario
+					{{horaActual}}
 					<div class="ab-ce">
 						<p class="abierto">
-							{{horaActual}}
-							{{desde}}
-							{{hasta}}
 							{%if disponible%}
 								Abierto
 							{%else%}
