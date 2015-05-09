@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
 		<img class="img-responsive logo-rest" src="{%if 'uploads/' in restaurante.logo.url %}{{MEDIA_URL}}{{restaurante.logo}}{%else%}{{STATIC_URL}}{{restaurante.logo}}{%endif%}" alt="{{restaurante.nombre|lower}}" />
 	</div>
 	
-	<div class="info_rest col-lg-10 col-md-10 col-sm-10 col-xs-11 col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-xs-offset-1">
+	<div class="info_rest col-lg-10 col-md-10 col-sm-10 col-xs-11 col-md-offset-0 col-sm-offset-0 col-xs-offset-1">
 
 		<!--Titulo del restaurante. Titulo y categoria-->
 		<div class="row">
@@ -88,7 +88,8 @@ jQuery(document).ready(function($) {
                 {% for imagen in imagenes %}
                 	<div class="col-lg-2 col-md-2 col-sm-2 {% cycle 'imagen_b' 'imagen_g' %}">
 	                    <a class="" id="carousel-selector-{{forloop.counter0}}">
-							<img class="img-responsive" src="{{imagen.thumbnail.url}}" alt="" align="middle">
+							<span class="helper"></span>
+							<img src="{{imagen.thumbnail.url}}" alt="">
 						</a>
                 	</div>
 				{% endfor %}
@@ -189,7 +190,6 @@ jQuery(document).ready(function($) {
 				<p id="cuadro">
 					<img class="img-responsive" src="{{STATIC_URL}}files/img/hora.png" alt="">
 					Horario
-					{{horaActual}}
 					<div class="ab-ce">
 						<p class="abierto">
 							{%if disponible%}

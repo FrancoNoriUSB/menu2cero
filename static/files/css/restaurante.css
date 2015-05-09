@@ -55,20 +55,34 @@ div.row.imagenes > div.info_rest{
 	font-size: 18px;
 }
 
-.info_rest .imagenes .imagen_b{
+.info_rest .imagenes > div{
 	background-color: #F6F6F6;
+}
+
+.info_rest .imagenes .imagen_b{
 	height: 120px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .info_rest .imagenes .imagen_g{
 	background-color: #999999;
 	height: 120px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .info_rest .imagenes > div > a > img{
 	max-height: 120px;
-	margin-left: auto;
-	margin-right: auto;
+	vertical-align: middle;
+	max-width: 100%;
+	margin-left: -5px;
+}
+
+.info_rest .imagenes > div > a > .helper{
+	display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 .info_rest .puntuacion{
@@ -134,16 +148,16 @@ body > div > div.caract-pagos.row > div.metodos-pago > p > img.pago{
 }
 
 /*Telefonos y horario*/
-body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora > div.telefonos > p{
+.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora > div.telefonos > p{
 	margin-left: 20%;
 }
 
-body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8.col-xs-12 > div.row.telfs_hora > div.col-lg-6.col-md-6.col-sm-12.col-xs-12.telefonos > img{
+.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8.col-xs-12 > div.row.telfs_hora > div.col-lg-6.col-md-6.col-sm-12.col-xs-12.telefonos > img{
 	float: left;
 }
 
 /*Telefono*/
-body > div > div.row.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora > div.telefonos > p > img.img-telfs{
+.datos-generales > div.col-lg-8.col-md-8.col-sm-8 > div.row.telfs_hora > div.telefonos > p > img.img-telfs{
 	float: left;
 	margin-right: 5%;
 }

@@ -485,7 +485,6 @@ def restaurante_view(request, restaurante):
 		'arreglo': arreglo,
 		'login':login,
 		'registro':registro,
-		'horaActual':horaActual,
 	}
 
 	return render_to_response('main/restaurante/restaurante.html', ctx, context_instance=RequestContext(request))

@@ -218,7 +218,16 @@ header .navbar-inverse .navbar-nav #dropdown .dropdown-menu li a:hover{
 
 header .navbar-inverse .navbar-collapse, header .navbar-inverse .navbar-form, 
 header .navbar-inverse .navbar-toggle{
+	border-style: none;
 	border-color: #F2F7F6;
+}
+
+header .navbar-inverse .navbar-toggle .navbar-form{
+	box-shadow: none;
+}
+
+.container > div > div> div > div > form{
+	box-shadow: none;
 }
 
 header .navbar-inverse .navbar-toggle:hover, header .navbar-inverse .navbar-toggle:focus{
