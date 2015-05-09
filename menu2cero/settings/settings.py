@@ -136,9 +136,9 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, '../media'))
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = '/media/'
 
-FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, '../static/fixtures'),
-)
+# FIXTURE_DIRS = (
+#     os.path.join(BASE_DIR, '../static/fixtures'),
+# )
 
 # For Sidebar Menu (List of apps and models) (RECOMMENDED)
 from django.conf import global_settings

@@ -251,7 +251,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 	principalF = PrincipalForm(instance=restaurante)
 
 	#Manejo de info para el horario del restaurante
-	horarios = Horario.objects.filter(restaurante=restaurante)
+	horarios = Horario.objects.filter(restaurante=restaurante).order_by("id")
 
 	for horario in horarios:
 		dataHorarios.append((horario.desde, horario.hasta))
@@ -333,6 +333,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 			telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, TelefonoRestauranteForm, can_delete=True, extra=1, max_num=2)
 			telefonoF = telefonoFormSet(request.POST, instance=restaurante)
 
+			print (telefonoF.errors)
 			#Verificacion de que los campos de los formularios se llenaron correctamente
 			if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid():
 				if telefonoF.is_valid():
