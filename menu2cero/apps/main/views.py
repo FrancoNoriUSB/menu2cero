@@ -369,6 +369,7 @@ def restaurante_view(request, restaurante):
 			desde = datetime.strptime(horario.desde, "%I:%M %p").time()
 			hasta = datetime.strptime(horario.hasta, "%I:%M %p").time()
 			horaActual = fechaActual.time()
+			print horaActual, desde, hasta
 			# Si esta dentro del horario estara abierto.
 			if horaActual >= desde and horaActual <= hasta:
 				disponible = True
