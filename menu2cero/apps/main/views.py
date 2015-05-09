@@ -348,9 +348,34 @@ def restaurante_view(request, restaurante):
 	restaurante = get_object_or_404(Restaurante, slug=restaurante, status='Activo')
 
 	#Preparacion del horario para mostrar
-	horarios = Horario.objects.filter(restaurante=restaurante)
+	horarios = Horario.objects.filter(restaurante=restaurante).order_by('id')
+	print (horarios)
+	# Fecha actual con hora y todo.
+	fechaActual = datetime.now()
+	# Enumera el dia actual, de 0 para lunes hasta 6 para domingo.
+	numeroDiaActual = fechaActual.weekday()
+	diasSemana = {0:"Lunes",
+				1:"Martes",
+				2:"Miércoles",
+				3:"Jueves",
+				4:"Viernes",
+				5:"Sábado",
+				6:"Domingo"}
 
 	for horario in horarios:
+		# Verifica si el restaurante esta en el horario de abierto.
+		if diasSemana[numeroDiaActual] == horario.dia:
+			# Horas desde y hasta y la hora actual
+			desde = datetime.strptime(horario.desde, "%I:%M %p").time()
+			hasta = datetime.strptime(horario.hasta, "%I:%M %p").time()
+			horaActual = fechaActual.time()
+			# Si esta dentro del horario estara abierto.
+			if horaActual >= desde and horaActual <= hasta:
+				restaurante.abierto = True
+			else:
+				restaurante.abierto = False
+			restaurante.save()
+
 		dias.append((horario.dia, horario.desde + ' a ' + horario.hasta))
 
 	horario = horario_restaurante(dias)
@@ -505,49 +530,47 @@ def contactos_view(request):
 #Creador de horario para mostrar en el restaurante
 def horario_restaurante(dias):
 
-	i=0
+	# Agrupa los dias consecutivos repetidos.
+	i = 0
+	j = 0
 	horario = ''
-	dia_ini = ''
-	dia_fin = ''
+	# Arreglo de grupo de dias, maximo 7 que es el caso en que todos los dias son diferentes
+	agrupados = [[],[],[],[],[],[],[]]
 
-	#Algoritmo para la creacion del string del horario
-	for dia in dias:
-		#Caso inicial del primer dia
-		if dia[0] == "Lunes":
-			dia_ini = dia
-			dia_fin = dia
+	# Verifica que dias son consecutivamente iguales y los coloca en el arreglo de agrupados.
+	while i < len(dias):
+		# Inicializa el comparador y agrega el lunes a agrupados.
+		if i == 0:
+			comparador = dias[i]
+			agrupados[j].append(comparador)
+			i += 1
+			continue
+
+		# Si el dia es igual al comparador, se agrega el dia a agrupados,
+		# en caso contrario se actualiza el comparador al dia actual y
+		# se agrega a agrupados en una nueva pocision.
+		if comparador[1] == dias[i][1]:
+			agrupados[j].append(dias[i])
+			i += 1
 		else:
-			#Si el dia que estoy revisando, es igual al inicial, entonces sigo y mantengo los dias
-			if dia_ini[1] == dia[1]:
-				dia_fin = dia
+			comparador = dias[i]
+			j += 1
+			agrupados[j].append(dias[i])
+			i += 1
 
-				#Caso en el que es el mismo horario todos los dias
-				if i==6:
-					horario = dia_ini[0] + ' a ' + dia_fin[0] + ' de ' + dia_ini[1] + '.'	
-			else:
-				#Caso que no es el ultimo dia a revisar
-				if i != 6:
+	# Construye el resultado final depende de cuantos dias haya en un determinado grupo.
+	for grupo in agrupados:
+		aux = len(grupo)
+		# Si hay 3 dias o mas en un grupo.
+		if aux >= 3:
+			horario += grupo[0][0] + " a " + grupo[aux-1][0] + " de " + grupo[0][1] + ".<br/>"
+		# Si hay exactamente 2 es otro tipo de horario.
+		elif aux == 2:
+			horario += grupo[0][0] + " y " + grupo[1][0] + " de " + grupo[0][1] + ".<br/>"
+		else:
+			for g in grupo:
+				horario += g[0] + " " + g[1] + ".<br/>"
 
-					#Caso para los cuales dos dias consecutivos tienen horarios distintos
-					if dia_ini == dia_fin:
-						horario = horario + dia_ini[0] + ' de ' + dia_ini[1] + ', '
-						dia_ini = dia
-						dia_fin = dia
-
-					#Caso para el cual los dias consecutivos son distintos
-					else:
-						horario = horario + dia_ini[0] + ' a ' + dia_fin[0] + ' de ' + dia_ini[1] + ', '
-						dia_ini = dia
-						dia_fin = dia
-				else:
-					#Caso que llego al Domingo y comparara
-					if dia_ini == dia_fin:
-						horario = horario + dia_ini[0] + ' de ' + dia_ini[1]
-						horario = horario + dia_fin[0] + ' de ' + dia_ini[1] + '.'
-					else:
-						horario = horario + dia_ini[0] + ' a ' + dia_fin[0] + ' de ' + dia_ini[1] + '.'	
-
-		i+=1
 	return horario
 
 

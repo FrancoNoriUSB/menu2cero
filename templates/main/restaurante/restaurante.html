@@ -184,7 +184,7 @@ jQuery(document).ready(function($) {
 				{%endfor%}
 			</div>
 			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 horario">
-				<p id="horario">{{horario}}</p>
+				<p id="horario">{%autoescape off%} {{horario}} {%endautoescape%}</p>
 				
 				<p id="cuadro">
 					<img class="img-responsive" src="{{STATIC_URL}}files/img/hora.png" alt="">
