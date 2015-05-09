@@ -333,7 +333,6 @@ def admin_editar_restaurante_view(request, id_rest, form):
 			telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, TelefonoRestauranteForm, can_delete=True, extra=1, max_num=2)
 			telefonoF = telefonoFormSet(request.POST, instance=restaurante)
 
-			print (telefonoF.errors)
 			#Verificacion de que los campos de los formularios se llenaron correctamente
 			if principalF.is_valid() and horariosF.is_valid() and direccionF.is_valid():
 				if telefonoF.is_valid():
@@ -386,7 +385,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				logosF = LogosForm()
 			else:
 				logoRestF = logoRestForm(instance=restaurante)
-
+			print logosF
 			#Caso en el que se agregaron imagenes al rest
 			if imagenesF.is_valid():
 				imagenesF.save()

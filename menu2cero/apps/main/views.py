@@ -562,13 +562,13 @@ def horario_restaurante(dias):
 		aux = len(grupo)
 		# Si hay 3 dias o mas en un grupo.
 		if aux >= 3:
-			horario += grupo[0][0] + " a " + grupo[aux-1][0] + " de " + grupo[0][1] + ".<br/>"
+			horario += grupo[0][0] + " a " + grupo[aux-1][0] + " de " + grupo[0][1] + ". "
 		# Si hay exactamente 2 es otro tipo de horario.
 		elif aux == 2:
-			horario += grupo[0][0] + " y " + grupo[1][0] + " de " + grupo[0][1] + ".<br/>"
+			horario += grupo[0][0] + " y " + grupo[1][0] + " de " + grupo[0][1] + ". "
 		else:
 			for g in grupo:
-				horario += g[0] + " " + g[1] + ".<br/>"
+				horario += g[0] + " " + g[1] + ". "
 
 	return horario
 
