@@ -349,7 +349,6 @@ def restaurante_view(request, restaurante):
 
 	#Preparacion del horario para mostrar
 	horarios = Horario.objects.filter(restaurante=restaurante).order_by('id')
-	print (horarios)
 	# Fecha actual con hora y todo.
 	fechaActual = datetime.now()
 	# Enumera el dia actual, de 0 para lunes hasta 6 para domingo.
@@ -361,6 +360,7 @@ def restaurante_view(request, restaurante):
 				4:"Viernes",
 				5:"Sábado",
 				6:"Domingo"}
+	disponible = False
 
 	for horario in horarios:
 		# Verifica si el restaurante esta en el horario de abierto.
@@ -371,10 +371,9 @@ def restaurante_view(request, restaurante):
 			horaActual = fechaActual.time()
 			# Si esta dentro del horario estara abierto.
 			if horaActual >= desde and horaActual <= hasta:
-				restaurante.abierto = True
+				disponible = True
 			else:
-				restaurante.abierto = False
-			restaurante.save()
+				disponible = False
 
 		dias.append((horario.dia, horario.desde + ' a ' + horario.hasta))
 
@@ -478,7 +477,7 @@ def restaurante_view(request, restaurante):
 		'metodos_rest': restaurante.metodos_pago.all, 
 		'metodos': metodos, 
 		'telefonos': telefonos,
-		'disponible': restaurante.abierto, 
+		'disponible': disponible, 
 		'platos': platos, 
 		'arreglo': arreglo,
 		'login':login,
