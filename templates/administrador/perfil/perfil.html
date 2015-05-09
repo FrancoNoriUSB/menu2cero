@@ -81,15 +81,16 @@
 					</div>
 					<div class="info col-lg-8 col-md-8 col-sm-10">
 						<div class="row">
-							<p class="col-md-12 nombre">Nombre del Restaurante:
+							<p class="col-lg-6 col-md-6 nombre">Nombre del Restaurante:
 								<a href="/administrador/editar/{{restaurante.0.id}}"><strong>{{restaurante.0.nombre}}</strong></a>
+								{%if restaurante.0.plan.nombre != 'Plata'%}
+									<p class="col-lg-2 col-md-2">Visitas:<strong> 0</strong></p>
+									<p class="col-lg-2 col-md-2 ">Votos:<strong> {{restaurante.0.votos.all|length}}</strong></p>
+									<p class="col-lg-2 col-md-2 ">Puntuaci&oacute;n:<strong> {{restaurante.1}}</strong></p>
+								{%endif%}
 							</p>
 						</div>
-						<div class="row">
-							<p class="col-md-3">Visitas:<strong> 0</strong></p>
-							<p class="col-md-3 ">Votos:<strong> {{restaurante.0.votos.all|length}}</strong></p>
-							<p class="col-md-3 ">Puntuaci&oacute;n:<strong> {{restaurante.1}}</strong></p>
-						</div>
+						
 						<div class="row">
 							<p class="col-md-12 estatus">Estatus pagos: <strong></strong></p>
 						</div>
