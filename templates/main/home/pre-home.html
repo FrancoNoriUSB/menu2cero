@@ -1,0 +1,40 @@
+<!-- Contenido del home -->
+{% block contenido %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="">
+        <title>Menu2.0</title>
+
+        <!--Bootstrap Local-->
+        <!--CSS -->
+        <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css">
+
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/pre-home.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap-theme.min.css">
+
+        <!-- jQuery -->
+        <script src="http://code.jquery.com/jquery.js"></script>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-lg-2 col-md-2 col-sm-2 centering">
+                    <img class="img-responsive" src="{{STATIC_URL}}files/img/proximamente.png" alt="">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+{% endblock contenido %}
+
+{% block js %}
+
+{% endblock js %}

@@ -82,8 +82,6 @@ def admin_perfil_view(request):
 		clienteF = ClienteForm(request.POST, instance=cliente)
 		euserF = EditUserForm(request.POST, instance=cliente.user)
 
-		print euserF, clienteF
-
 		if buscadorF.is_valid():
 			filtro = FiltroForm(request.POST)
 			palabra = "buscar_"+buscador.cleaned_data['palabra']
@@ -200,7 +198,7 @@ def admin_agregar_restaurante_view(request):
 
 #View de la edicion del restaurante (simplemente inicializa la vista)
 @login_required
-def admin_editar_restaurante_view(request, id_rest, form):
+def admin_editar_restaurante_view(request, id_rest, formulario):
 
 	#Declaracion de variables
 	buscadorF = BuscadorForm()
@@ -216,6 +214,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 	horarios = []
 	dataHorarios = []
 	formulario_activo = ''
+	forms_platos = []
 
 	#Verificacion de que el restaurante pertenece al usuario
 	restaurante = get_object_or_404(Restaurante, cliente__user_id=request.user.id, id=id_rest)
@@ -312,7 +311,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 	imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
 
 	#Inicializacion de los formularios del menu
-	platos = Plato.objects.filter(menu__restaurante=restaurante)
+	platos = Plato.objects.filter(menu__restaurante=restaurante).order_by('tipo__nombre')
 	platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, extra=1, can_delete=False)
 
 	try:
@@ -320,13 +319,27 @@ def admin_editar_restaurante_view(request, id_rest, form):
 	except:
 		menu = Menu()
 
-	platosF = platosFormSet(instance=menu, queryset=Plato.objects.filter(menu__restaurante=restaurante))
+	platosF = platosFormSet(instance=menu, queryset=Plato.objects.filter(menu__restaurante=restaurante).order_by('tipo'))
+
+	#Revision si el plan actual del restaurante es Diamante
+	if restaurante.plan.nombre != 'Diamante':
+		for plato in platosF:
+			plato.fields['imagen'] = forms.ImageField(widget=forms.HiddenInput())
+
+	#Platos mas uno
+	platos_list = []
+	for plato in platos:
+		platos_list.append(plato.tipo.nombre)
+	platos_list.append('')
+
+	#Arreglo de platos y form de platos
+	forms_platos = zip(platosF.forms, platos_list)
 
 	#Verificacion de envio de formularios de restaurante
 	if request.POST:
 
 		#Verificacion de cual formulario se envio
-		if form == 'basico':
+		if formulario == 'basico':
 			principalF = PrincipalForm(request.POST, instance=restaurante)
 			horariosF = HorariosForm(request.POST)
 			direccionF = DireccionForm(request.POST, instance=restaurante.direccion)
@@ -347,7 +360,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				telefonoFormSet = inlineformset_factory(Restaurante, TelefonoRestaurante, TelefonoRestauranteForm, can_delete=True, extra=1, max_num=2)
 				telefonoF = telefonoFormSet(instance=restaurante)
 
-		elif form == 'otra':
+		elif formulario == 'otra':
 			descripcionF = DescripcionForm(request.POST)
 			try:
 				redes = Red_social.objects.get(restaurante=restaurante)
@@ -368,7 +381,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				descripcionF = DescripcionForm(initial={'descripcion_rest': restaurante.descripcion, 'servicios': servicios_rest, 'metodos_de_pago': metodos_rest})
 				redesF = RedesForm(instance=red_social)
 
-		elif form == 'imagenes':
+		elif formulario == 'imagenes':
 			#Verificacion de los formularis de imagenes
 			logoRestF = logoRestForm(request.POST, request.FILES, instance=restaurante)
 			logosF = LogosForm(request.POST)
@@ -385,7 +398,7 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				logosF = LogosForm()
 			else:
 				logoRestF = logoRestForm(instance=restaurante)
-			print logosF
+
 			#Caso en el que se agregaron imagenes al rest
 			if imagenesF.is_valid():
 				imagenesF.save()
@@ -394,23 +407,23 @@ def admin_editar_restaurante_view(request, id_rest, form):
 				imagenFormSet = inlineformset_factory(Restaurante, Imagen, form=ImagenForm, extra=1, max_num=restaurante.plan.max_imagenes, can_delete=True)
 				imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
 
-		elif form == 'menu':
+		elif formulario == 'menu':
 			platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, can_delete=False)
 			platosF = platosFormSet(request.POST, request.FILES, instance=menu)
 
 			if platosF.is_valid():
-				platos = platosF.save(commit=False)
 				# Se crea el menu si no existe
 				if not menu.id:
 					menu.restaurante = restaurante
 					menu.nombre = restaurante.nombre
 					menu.save()
-				for p in platos:
-					p.menu = menu
-					p.save()
+				for plato in platosF:
+					platos = plato.save(commit=False)
+					platos.menu = menu
+					platos.save()
+
 				return HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/menu')
 				
-
 	ctx = {
 		'buscador':buscadorF,
 		'PrincipalForm':principalF, 
@@ -432,7 +445,8 @@ def admin_editar_restaurante_view(request, id_rest, form):
 		'categorias':categorias_rest,
 		'metodos':metodos_rest,
 		'servicios':servicios_rest,
-		'formulario_activo':form,
+		'formulario_activo':formulario,
+		'forms_platos':forms_platos,
 	}
 
 	return render_to_response('administrador/editar/editar.html', ctx, context_instance=RequestContext(request))

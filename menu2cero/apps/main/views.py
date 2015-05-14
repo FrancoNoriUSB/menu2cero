@@ -21,7 +21,19 @@ from itertools import chain
 from ipware.ip import get_real_ip
 
 
+#Vista de pre-home y proximamente
+def pre_home(request):
+
+
+	ctx = {
+		
+	}
+
+	return render_to_response('main/home/pre-home.html', ctx, context_instance=RequestContext(request))
+
+
 #Vista del Home
+@login_required
 def index(request):
 	userF = UserCreationForm()
 	clienteF = ClienteForm()
@@ -110,6 +122,7 @@ def index(request):
 
 
 #Vista de los restaurantes y el filtrador
+@login_required
 def restaurantes_view(request, palabra):
 
 	i=0
@@ -285,6 +298,7 @@ def restaurantes_view(request, palabra):
 
 
 #Vista del restaurante de cada restaurante
+@login_required
 def restaurante_view(request, restaurante):
 
 	#Query para obtener los datos del restaurante.
@@ -491,6 +505,7 @@ def restaurante_view(request, restaurante):
 
 
 #Vista para contactar a la compania
+@login_required
 def contactos_view(request):
 
 	#Formularios basicos

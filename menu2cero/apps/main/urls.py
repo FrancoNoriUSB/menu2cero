@@ -3,6 +3,7 @@ from django.conf.urls import *
 #Urls para los views de los clientes
 urlpatterns = patterns('menu2cero.apps.main.views',
 	url(r'^$', 'index', name='index'),
+	url(r'^pre-home/$', 'pre_home', name='pre_home'),
 	url(r'^restaurante/(?P<restaurante>[-_\w]+)*/$', 'restaurante_view', name='restaurante'), #Cambiar url por algo del tipo menu2cero.com/restaurante/nombre
 	url(r'^restaurantes/(?P<palabra>.*)$', 'restaurantes_view', name='restaurantes'),
 	url(r'^contactos/$', 'contactos_view', name='contactos'),

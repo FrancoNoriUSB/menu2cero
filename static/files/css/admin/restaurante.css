@@ -9,13 +9,11 @@ Colores a utilizar:
 */
 
 /*Estilos de bootstrap modificados*/
-
 .table>tbody>tr>td{
 	padding: 6px;
 }
 
 /*Estilos propios del restaurante del admin de usuario*/
-
 .container .datos_basicos{
 	font-size: 16px;
 }
@@ -109,6 +107,21 @@ Colores a utilizar:
 	border-style: solid;
 	border-width: 12px;
 }
+
+#collapse_menu > div > form > div > div > div.agregar-mas{
+	float: left;
+}
+
+#mas{
+	text-decoration: none;
+	color: #1BA488;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#accordion > div > div > div.row > div
+
+
 
 /*Estilos del panel de imagenes*/
 .imagenes .panel-collapse .panel-body .form-group .row .logo-actual{

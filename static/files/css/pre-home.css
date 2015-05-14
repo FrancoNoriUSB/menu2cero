@@ -1,0 +1,39 @@
+/*Documento de Estilos para el pre-home de Menu 2.0
+Elaborado por: Franco Nori G.
+Colores a utilizar:
+    Aguamarina: #1BA488
+    Blanco: #F2F7F6
+    Azul: #3099DD
+    Gris: #4D4843
+    Rojo: #DB4646
+*/
+
+body{
+	background-color: #1BA488;
+}
+
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0 0;
+}
+
+.container-fluid {
+    height: 100%;
+    display: table;
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.row-fluid {
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.centering {
+    float: none;
+    margin: 0 auto;
+}

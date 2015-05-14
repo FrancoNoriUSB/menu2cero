@@ -2,6 +2,7 @@
 {% extends "administrador/base.html" %}
 {% block contenido %}
 {% load widget_tweaks %}
+{% load main_extras %}
 
 <!--Estilos-->
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}files/css/admin/restaurante.css">
@@ -437,43 +438,84 @@
         <div id="collapse_menu" class="panel-collapse collapse {%if formulario_activo == 'menu'%}in{%endif%}">
             <div class="panel-body">
                 <form role="form" action="/administrador/editar/{{restaurante.id}}/menu" method="POST" enctype="multipart/form-data">
-                    <div class="container-fluid">
-                        {%csrf_token%}
-                        {{platosForm.management_form}}
-                        {%for form in platosForm%}
-                            {{form.id}}
-                            {%ifchanged form.tipo.value%}
-                                
-                            {%endifchanged%}
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    Tipo de plato:
-                                    {{form.tipo}}
+                    <!-- Panel de platos agregados -->
+                    <div class="panel-group platos-agregados" id="accordionPlatos" role="tablist" aria-multiselectable="true">
+                        <div class="panel-body">
+                            <div class="container-fluid">
+                                {%csrf_token%}
+                                {{platosForm.management_form}}
+                                {%for  form, plato in forms_platos%}
+                                    {%if plato != ''%}
+                                        <!-- Creacion del panel -->
+                                        {%ifchanged form.tipo.value%}
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="heading_{{form.tipo.value}}">
+                                                <a data-toggle="collapse" data-parent="#accordionPlatos" href="#collapse_{{form.tipo.value}}">
+                                                    <p class="text-center">
+                                                        {{plato}}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div id="collapse_{{form.tipo.value}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{form.tipo.value}}">
+                                                <div class="panel-body">
+                                        {%endifchanged%}
+                                    {%endif%}
+                                        <!-- Formulario de cada plato -->
+                                        <div class="plato">
+                                            {{form.id}}
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    Tipo de plato:
+                                                    {{form.tipo}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    T&iacute;tulo:
+                                                    {{form.nombre}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    Descripci&oacute;n:
+                                                    {{form.descripcion}}
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    Precio:
+                                                    {{form.precio}}
+                                                </div>
+                                                {%if form.imagen%}
+                                                    <div class="col-lg-6">
+                                                        {{form.imagen}}
+                                                    </div>
+                                                {%endif%}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <!-- Fin plato -->
+                                    {%with forms_platos|next:forloop.counter0 as next%}
+                                        {%if plato != '' and plato != next.1%}
+                                            {%ifchanged form.tipo.value%}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {%endifchanged%}
+                                        {%endif%}
+                                    {%endwith%}
+                                {%endfor%}
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 agregar-mas">
+                                        <a id="mas">
+                                            Insertar otro <span class="glyphicon glyphicon-plus mas text-right"></span>
+                                        </a>
+                                    </div>
                                 </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    T&iacute;tulo:
-                                    {{form.nombre}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    Descripci&oacute;n:
-                                    {{form.descripcion}}
-                                </div>
-                                <div class="col-lg-2">
-                                    Precio:
-                                    {{form.precio}}
-                                </div>
-                                <div class="col-lg-6">
-                                    Im&aacute;gen: (S&oacute;lo para usuarios con cuentas Diamante)
-                                    {{form.imagen}}
-                                </div>
-                            </div>
-                            <br>
-                        {%endfor%}
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -616,5 +658,29 @@ $(document).ready(function(){
     });
   });
 });
+</script>
+
+<!-- Codigo de agregar formularios -->
+<script>
+$('#mas').click(function() {
+    cloneMore('div.plato:last', 'plato_set');
+});
+
+function cloneMore(selector, type) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + type + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-','-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var newFor = $(this).attr('for').replace('-' + (total-1) + '-','-' + total + '-');
+        $(this).attr('for', newFor);
+    });
+    total++;
+    $('#id_' + type + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement).slideDown( "slow" );
+}
 </script>
 {% endblock js %}
