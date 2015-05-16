@@ -71,7 +71,7 @@ class HorariosForm(forms.Form):
 
 	horas = (
 		('','- hora -'),
-		('Cerrado','Cerrado')
+		('Cerrado','Cerrado'),
 		('1:00 am', '1:00 am'),
 		('2:00 am', '2:00 am'),
 		('3:00 am', '3:00 am'),
