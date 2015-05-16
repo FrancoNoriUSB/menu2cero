@@ -380,6 +380,8 @@ def restaurante_view(request, restaurante):
 	disponible = False
 
 	for horario in horarios:
+		if horario.desde == 'Cerrado' and horario.hasta == 'Cerrado':
+			continue
 		# Verifica si el restaurante esta en el horario de abierto.
 		if diasSemana[numeroDiaActual] == horario.dia:
 			# Horas desde y hasta y la hora actual
