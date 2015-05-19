@@ -5,6 +5,7 @@ from models import *
 from menu2cero.apps.main.models import *
 from django.forms.extras.widgets import *
 from django.contrib.auth.forms import UserCreationForm
+from django.forms.models import BaseInlineFormSet
 
 #Formulario para el login de usuario 				
 class LoginForm(forms.ModelForm):
@@ -233,6 +234,28 @@ class PlatosForm(forms.ModelForm):
 			'imagen': forms.FileInput(attrs={})
 		}
 		
+
+#Formset para los platos
+class PlatosCustomInlineFormSet(BaseInlineFormSet):
+    def clean(self):
+        super(PlatosCustomInlineFormSet, self).clean()
+        for form in self.forms:
+        	nombre = form.cleaned_data['nombre']
+        	descripcion = form.cleaned_data['descripcion']
+        	tipo = form.cleaned_data['tipo']
+        	precio = form.cleaned_data['precio']
+        	imagen = form.cleaned_data['imagen']
+        	print nombre, descripcion, tipo, precio, imagen
+        	if nombre == '':
+        		print 'AKLJSlk'
+        		raise forms.ValidationError(u"Este campo es requerido.")
+        		return form.nombre
+        	elif precio == '':
+        		print 'AKLJSlk'
+        		raise forms.ValidationError(u"Este campo es requerido.")
+        		return form.precio
+           
+
 
 #Formulario para los tipos de platos
 class TipoPlatoForm(forms.Form):

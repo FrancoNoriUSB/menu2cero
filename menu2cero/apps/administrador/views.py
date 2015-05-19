@@ -312,7 +312,7 @@ def admin_editar_restaurante_view(request, id_rest, formulario):
 
 	#Inicializacion de los formularios del menu
 	platos = Plato.objects.filter(menu__restaurante=restaurante).order_by('tipo__nombre')
-	platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, extra=1, can_delete=False)
+	platosFormSet = inlineformset_factory(Menu, Plato, formset=PlatosCustomInlineFormSet, extra=1, can_delete=False,fields=('nombre','descripcion','tipo','precio','imagen'))
 
 	try:
 		menu = Menu.objects.get(restaurante=restaurante)
@@ -408,21 +408,23 @@ def admin_editar_restaurante_view(request, id_rest, formulario):
 				imagenF = imagenFormSet(instance=restaurante, queryset=Imagen.objects.filter(restaurante=restaurante))
 
 		elif formulario == 'menu':
-			platosFormSet = inlineformset_factory(Menu, Plato, form = PlatosForm, can_delete=False)
+			platosFormSet = inlineformset_factory(Menu, Plato, formset=PlatosCustomInlineFormSet, can_delete=False, fields=('nombre','descripcion','tipo','precio','imagen'))
 			platosF = platosFormSet(request.POST, request.FILES, instance=menu)
 
-			if platosF.is_valid():
-				# Se crea el menu si no existe
-				if not menu.id:
-					menu.restaurante = restaurante
-					menu.nombre = restaurante.nombre
-					menu.save()
-				for plato in platosF:
+			# Se crea el menu si no existe
+			if not menu.id:
+				menu.restaurante = restaurante
+				menu.nombre = restaurante.nombre
+				menu.save()
+
+			#Se verifica cada formulario
+			for plato in platosF:
+				if plato.is_valid():
 					platos = plato.save(commit=False)
 					platos.menu = menu
 					platos.save()
 
-				return HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/menu')
+			return HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/menu')
 				
 	ctx = {
 		'buscador':buscadorF,
