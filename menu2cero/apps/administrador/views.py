@@ -312,7 +312,7 @@ def admin_editar_restaurante_view(request, id_rest, formulario):
 
 	#Inicializacion de los formularios del menu
 	platos = Plato.objects.filter(menu__restaurante=restaurante).order_by('tipo__nombre')
-	platosFormSet = inlineformset_factory(Menu, Plato, formset=PlatosCustomInlineFormSet, extra=1, can_delete=False,fields=('nombre','descripcion','tipo','precio','imagen'))
+	platosFormSet = inlineformset_factory(Menu, Plato, formset=PlatosCustomInlineFormSet, extra=1, can_delete=False, fields=('nombre','descripcion','tipo','precio','imagen'))
 
 	try:
 		menu = Menu.objects.get(restaurante=restaurante)
@@ -353,6 +353,7 @@ def admin_editar_restaurante_view(request, id_rest, formulario):
 				else:
 					id_rest = restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF, '')
 				return  HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/basico')
+
 			elif not(principalF.is_valid() or horariosF.is_valid() or direccionF.is_valid() or telefonoF.is_valid()):
 				principalF = PrincipalForm(instance=restaurante)
 				horariosF = HorariosForm(initial=horarios)
@@ -377,6 +378,7 @@ def admin_editar_restaurante_view(request, id_rest, formulario):
 			if descripcionF.is_valid() and redesF.is_valid():
 				restaurante_otra_info(request, id_rest, descripcionF, redesF)
 				return  HttpResponseRedirect('/administrador/editar/'+str(id_rest)+'/otra')
+
 			elif not(descripcionF.is_valid() or redesF.is_valid()):
 				descripcionF = DescripcionForm(initial={'descripcion_rest': restaurante.descripcion, 'servicios': servicios_rest, 'metodos_de_pago': metodos_rest})
 				redesF = RedesForm(instance=red_social)
@@ -538,7 +540,7 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 				telefono.save()
 
 		#Manejo del formulario de horarios
-		dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
+		dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['<lunes_h></lunes_h>asta']))
 		dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
 		dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
 		dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))

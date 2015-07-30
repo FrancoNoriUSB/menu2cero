@@ -100,16 +100,13 @@ class FiltroForm(forms.Form):
 		('Delivery', 'Delivery'), 
 		('Reservacion','Reservar'), 
 		('Musica', 'Musica en vivo'), 
-		('Local_Nocturno', 'Sitio Nocturno'), )
+		('Local_Nocturno', 'Sitio Nocturno'), 
+	)
 
 	Categorias = forms.ModelChoiceField(queryset=Categoria.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Categorías -', required=False, to_field_name="nombre")
-
 	Ciudad = forms.ModelChoiceField(queryset=Ciudad.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Ciudad -', required=False, to_field_name="nombre")
-
 	Zona = forms.ModelChoiceField(queryset=Zona.objects.all().values_list('nombre', flat=True).distinct().order_by('nombre'), empty_label='- Zona -', required=False, to_field_name="nombre")
-
 	# Tipo = forms.ChoiceField(choices=choices_tipo, required=False)
-
 	Servicios = forms.MultipleChoiceField(choices=choices_servicios, widget=forms.CheckboxSelectMultiple, required=False)
 
 

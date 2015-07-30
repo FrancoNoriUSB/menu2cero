@@ -247,11 +247,9 @@ class PlatosCustomInlineFormSet(BaseInlineFormSet):
         	imagen = form.cleaned_data['imagen']
         	print nombre, descripcion, tipo, precio, imagen
         	if nombre == '':
-        		print 'AKLJSlk'
         		raise forms.ValidationError(u"Este campo es requerido.")
         		return form.nombre
         	elif precio == '':
-        		print 'AKLJSlk'
         		raise forms.ValidationError(u"Este campo es requerido.")
         		return form.precio
            
