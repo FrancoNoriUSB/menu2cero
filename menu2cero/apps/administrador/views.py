@@ -540,7 +540,7 @@ def restaurante_info_basica(request, id_rest, principalF, horariosF, direccionF,
 				telefono.save()
 
 		#Manejo del formulario de horarios
-		dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['<lunes_h></lunes_h>asta']))
+		dias.append(('Lunes', horariosF.cleaned_data['lunes_desde'], horariosF.cleaned_data['lunes_hasta']))
 		dias.append(('Martes', horariosF.cleaned_data['martes_desde'], horariosF.cleaned_data['martes_hasta']))
 		dias.append((u'Miércoles', horariosF.cleaned_data['miercoles_desde'], horariosF.cleaned_data['miercoles_hasta']))
 		dias.append(('Jueves', horariosF.cleaned_data['jueves_desde'], horariosF.cleaned_data['jueves_hasta']))
